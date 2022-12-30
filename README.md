@@ -1,6 +1,6 @@
-# FMCL
+# SSCL
 
-## First Minecraft Launcher
+## Sharll's Craft Launcher
 
 ### About
 A simple Java Edition minecraft launcher wriiten by Python(3.10).
@@ -13,7 +13,7 @@ Multi-platform support is nearly done!
 If everything goes well, it will be able to run on any x86 cpu
 
 ### Making Minecraft launcher, you can do it too!
-The FMCL core does not completely rely on the GUI module, so you can write your own GUI!
+The SSCL core does not completely rely on the GUI module, so you can write your own GUI!
 
 Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
 
@@ -22,7 +22,7 @@ Because we chose the MIT open source license, you are nearly free to distribute 
 1. Install Python 3.6 or above on [https://www.python.org/](https://www.python.org/). **Please notice that you need to ADD PYTHON TO PATH**
 2. Remember that if you continue, that means that some packages will be installed on your computer.
 3. Make sure that all the packages are installed, then run **build.bat**.
-4. Find main.exe, it is FMCL launcher executeable file.
+4. Find main.exe, it is SSCL launcher.
 
 
 #### Coding targets

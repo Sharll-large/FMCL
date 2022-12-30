@@ -9,6 +9,7 @@ import Core.System.CoreSystemInformation
 import requests
 
 import Core.System.CoreMakeFolderTask
+from Core.Launch.CoreLaunchTaskSub import system, arch
 
 paths = []
 urls = []
@@ -74,8 +75,8 @@ def get_task(version_name: str, version: str, mcpath: str):
         #     print(i)
 
     # assets
-    Core.System.CoreMakeFolderTask.make_dir(os.path.join(mcpath, "assets", "indexes"))
-    Core.System.CoreMakeFolderTask.make_dir(os.path.join(mcpath, "assets", "objects"))
+    Core.System.CoreMakeFolderTask.make_long_dir(os.path.join(mcpath, "assets", "indexes"))
+    Core.System.CoreMakeFolderTask.make_long_dir(os.path.join(mcpath, "assets", "objects"))
     open(f"{mcpath}/assets/indexes/{ver_json['assetIndex']['id']}.json", "wb").write(requests.get(ver_json['assetIndex']['url']).content)
 
     index_json = json.load(open(f"{mcpath}/assets/indexes/{ver_json['assetIndex']['id']}.json"))
@@ -130,9 +131,9 @@ def download(ver_name: str, version: str, mcpath: str, threads: int):
     for i in nativesjar:
         print(i)
         jar = os.path.realpath(i)
-        Core.System.CoreMakeFolderTask.make_long_dir(os.path.realpath(
-            f'{os.path.realpath(mcpath)}/versions/{ver_name}/natives-windows-x86_64'))
+        Core.System.CoreMakeFolderTask.make_long_dir(os.path.join(
+            os.path.realpath(mcpath), "versions", ver_name, "natives-" + system() + "-" + arch()))
         zip_file = zipfile.ZipFile(jar)
         for names in zip_file.namelist():
-            zip_file.extract(names, os.path.realpath(
-                f'{os.path.realpath(mcpath)}/versions/{ver_name}/natives-windows-x86_64'))
+            zip_file.extract(names, os.path.join(
+                os.path.realpath(mcpath), "versions", ver_name, "natives-" + system() + "-" + arch()))

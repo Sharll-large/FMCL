@@ -29,7 +29,7 @@ def main():
         jpath = tk.filedialog.askopenfilenames(filetypes=[('java/javaw程序', '.exe')])
         if jpath:
             setting_java.delete(0, "end")
-            setting_java.insert(0, '"' + jpath[0] + '"')
+            setting_java.insert(0, jpath[0])
 
     def choosefolder():
         dpath = tk.filedialog.askdirectory()

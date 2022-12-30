@@ -1,20 +1,30 @@
 import json
 import os
+import platform
 import re
 import uuid
-import sys
-import platform
+
+import Const
 
 
-def _system():
-    _support = {"win32": 'windows', "linux": "linux", "darwin": "osx"}
-    if sys.platform in _support:
-        return _support[sys.platform]
-    return sys.platform
+#import View.ToCoreGui.LaunchGui
+
+
+def arch():
+    _support = {"AMD64": "x86_64"}
+    if platform.machine() in _support:
+        return _support[platform.machine()]
+    return platform.machine()
+
+def system():
+    _support = {"Windows": 'windows', "Linux": "linux", "Darwin": "osx"}
+    if platform.system() in _support:
+        return _support[platform.system()]
+    return platform.system()
 
 
 def _checkRules(rules: dict):
-    localos = _system()
+    localos = system()
     for i in rules:
         if i["action"] == "allow":
             if ("os" not in i) or ("name" in i["os"] and localos == i["os"]["name"]):
@@ -40,6 +50,9 @@ def _checkRules(rules: dict):
 
 def launch(game_directory: str = ".minecraft", version_name: str = None, java: str = "java",
            auth_player_name: str = "player"):
+
+    cmdlist = []
+
     basic_jvm = [{'rules': [{'action': 'allow', 'os': {'name': 'osx'}}], 'value': ['-XstartOnFirstThread']},
                  {'rules': [{'action': 'allow', 'os': {'name': 'windows'}}], 'value': [
                      '-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump']},
@@ -49,16 +62,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
                  '-Djava.library.path=${natives_directory}', '-Dminecraft.launcher.brand=${launcher_name}',
                  '-Dminecraft.launcher.version=${launcher_version}', '-cp', '${classpath}']
 
-    print(basic_jvm)
-
-    os.system("chcp 65001")
-
-    os.system(java)
-
     game_directory = os.path.realpath(game_directory)
 
     verpath = os.path.join(game_directory, "versions", version_name)
-    libpath = os.path.join(verpath, "natives-" + _system())
+    libpath = os.path.join(verpath, "natives-" + system() + "-" + arch())
     jsonpath = os.path.join(verpath, version_name + ".json")
     jarpath = os.path.join(verpath, version_name + ".jar")
 
@@ -73,60 +80,38 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
         args = ver_json["minecraftArguments"].split(" ")
 
     elif "arguments" in ver_json and "game" in ver_json["arguments"]:
-        args = ver_json["arguments"]["game"]
+        args=[]
+        for i in ver_json["arguments"]["game"]:
+            if type(i) == str:
+                args.append(i)
     else:
         args = ""
 
-    atemp = ""
-    for i in args:
-        if type(i) == str:
-            if " " in i:
-                atemp += "\"" + i + "\" "
-            else:
-                atemp += i + " "
-    args = atemp
-
-    if " " in java:
-        basic_command = "\"" + java + "\" "
-    else:
-        basic_command = java
+    cmdlist.append(java)
 
     if "arguments" in ver_json:
         for i in ver_json["arguments"]["jvm"]:
             if type(i) != str:
                 if _checkRules(i["rules"]):
                     if type(i["value"]) == str:
-                        basic_command += i["value"] + " "
+                        cmdlist.append(i["value"])
                     else:
                         for j in i["value"]:
-                            if " " in j:
-                                basic_command += "\"" + j + "\" "
-                            else:
-                                basic_command += j + " "
+                            cmdlist.append(j)
 
             else:
-                if " " in i:
-                    basic_command += "\"" + i + "\" "
-                else:
-                    basic_command += i + " "
-
-        basic_command += "${mainclass} " + args
-
+                cmdlist.append(i)
     else:
         for i in basic_jvm:
             if type(i) != str:
                 if _checkRules(i["rules"]):
                     for j in i["value"]:
-                        if " " in j:
-                            basic_command += "\"" + j + "\" "
-                        else:
-                            basic_command += j + " "
+                        cmdlist.append(j)
             else:
-                if " " in i:
-                    basic_command += "\"" + i + "\" "
-                else:
-                    basic_command += i + " "
-        basic_command += "${mainclass} " + args
+                cmdlist.append(i)
+
+    cmdlist.append("${mainClass}")
+    cmdlist += args
 
     cp = ""
 
@@ -144,21 +129,23 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
                         cp += os.path.realpath(rpath) + os.pathsep
                     else:
                         print(f"it seems that {rpath} do not exist.")
+            else:
+                print(i)
 
     cp += jarpath
 
     arg = {
-        "${mainclass}": ver_json["mainClass"],
+        "${mainClass}": ver_json["mainClass"],
         "${natives_directory}": libpath,
         "${launcher_name}": "FMCL",
-        "${launcher_version}": "k",
+        "${launcher_version}": "Rebuild",
         "${classpath}": cp,
         "${assets_root}": os.path.realpath(os.path.join(game_directory, "assets")),
         "${assets_index_name}": ver_json["assetIndex"]["id"],
         "${auth_uuid}": uuid.uuid4().hex,
         "${auth_access_token}": "0",
         "${user_type}": "Legacy",
-        "${version_type}": "\"FMCL Preview 3\"",
+        "${version_type}": "FMCL " + Const.software_version,
         "${user_properties}": "{}",
         "${auth_session}": "{}",
         "${clientid}": "0",
@@ -168,8 +155,16 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
         "${version_name}": version_name,
         "${game_directory}": game_directory
     }
+    for i in range(len(cmdlist)):
+        for j in arg:
+            if j in cmdlist[i]:
+                cmdlist[i] = cmdlist[i].replace(j, arg[j])
 
-    for i in arg:
-        basic_command = basic_command.replace(i, arg[i])
+    return cmdlist
+'''
+subprocess.run(launch("C:/Users/Sharll/Desktop/HMCL/.minecraft",
+                      "1.16.5S",
+                      "java",
+                      "sharll"))
 
-    return basic_command
+input()'''
