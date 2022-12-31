@@ -1,6 +1,6 @@
 # FMCL
 
-## Sharll's Craft Launcher
+## First Minecraft Launcher
 
 ### About
 A simple Java Edition minecraft launcher wriiten by Python(3.10).
@@ -22,7 +22,7 @@ Because we chose the MIT open source license, you are nearly free to distribute 
 1. Install Python 3.6 or above on [https://www.python.org/](https://www.python.org/). **Please notice that you need to ADD PYTHON TO PATH**
 2. Remember that if you continue, that means that some packages will be installed on your computer.
 3. Make sure that all the packages are installed, then run **build.bat**.
-4. Find main.exe, it is FMCL launcher executeable file.
+4. Find main.exe, it is FMCL launcher executeable file, you can use it now.
 
 
 #### Coding targets
