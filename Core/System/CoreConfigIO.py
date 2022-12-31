@@ -2,6 +2,7 @@ import json
 import os
 from multiprocessing import cpu_count
 import Core.System.Logging
+import Core.System.CoreMakeFolderTask
 
 config = os.path.abspath("config.json")
 
@@ -31,6 +32,7 @@ def fixdepend():
         except json.decoder.JSONDecodeError:
             print(Core.System.Logging.showwarning("config.json is broken, fixing."))
             write()
+            print(Core.System.Logging.showsuccess("Successfully fixed config.json."))
 
         finally:
             fixed = False

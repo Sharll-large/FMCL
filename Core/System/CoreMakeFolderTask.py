@@ -7,7 +7,7 @@ def make_dir(path_):
 
 
 def make_long_dir(path_: str):
-    path_ = os.path.split(path_)
+    path_ = path_.split(os.sep)
     path__ = path_[0]
     make_dir(path__)
     for d in path_[1:]:
