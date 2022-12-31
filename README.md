@@ -1,6 +1,7 @@
 # FMCL
 
 ## First Minecraft Launcher
+## Note: I stop updating Gui, I will make Console ui from now on.
 
 ### About
 A simple Java Edition minecraft launcher wriiten by Python(3.10).
