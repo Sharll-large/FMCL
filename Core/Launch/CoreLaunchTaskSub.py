@@ -4,16 +4,16 @@ import platform
 import re
 import subprocess
 import uuid
-import Core.System.SystemAndArch
-import Core.System.CoreMakeFolderTask
-import Core.System.UnzipTask
+import FMCLCore.System.SystemAndArch
+import FMCLCore.System.CoreMakeFolderTask
+import FMCLCore.System.UnzipTask
 import urllib.request
 
 def download(path: str, url: str) -> None:
     print(url)
     open(path, "wb+").write(urllib.request.urlopen(url).read())
 def _checkRules(rules: dict):
-    localos = Core.System.SystemAndArch.system()
+    localos = FMCLCore.System.SystemAndArch.system()
     for i in rules:
         if i["action"] == "allow":
             if ("os" not in i) or ("name" in i["os"] and localos == i["os"]["name"]):
@@ -54,7 +54,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
     game_directory = os.path.realpath(game_directory)
 
     verpath = os.path.join(game_directory, "versions", version_name)
-    libpath = os.path.join(verpath, "natives-" + Core.System.SystemAndArch.system() + "-" + Core.System.SystemAndArch.arch())
+    libpath = os.path.join(verpath, "natives-" + FMCLCore.System.SystemAndArch.system() + "-" + FMCLCore.System.SystemAndArch.arch())
     jsonpath = os.path.join(verpath, version_name + ".json")
     jarpath = os.path.join(verpath, version_name + ".jar")
 
@@ -116,7 +116,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
                     rpath = os.path.join(game_directory, "libraries", p, n, v, n + "-" + v + ".jar")
                     if not os.path.exists(rpath):
                         print("Trying to fix depency:", rpath)
-                        Core.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(rpath))
+                        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(rpath))
                         if "downloads" in i:
                             if "artifact" in i["downloads"]:
                                 download(os.path.join(game_directory, "libraries", i["downloads"]["artifact"]["path"]),i["downloads"]["artifact"]["url"])
@@ -129,12 +129,13 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
                     cp += os.path.realpath(rpath) + os.pathsep
 
                 else:
-                    if "natives-" + Core.System.SystemAndArch.system() in i["downloads"]["classifiers"]:
-                        url = i["downloads"]["classifiers"]["natives-" + Core.System.SystemAndArch.system()]["url"]
-                        path = os.path.join(game_directory, "libraries", i["downloads"]["classifiers"]["natives-" + Core.System.SystemAndArch.system()]["path"])
-                        print("Fix library:", path)
-                        download(path, url)
-                        Core.System.UnzipTask.unzip(path, libpath)
+                    if "natives-" + FMCLCore.System.SystemAndArch.system() in i["downloads"]["classifiers"]:
+                        url = i["downloads"]["classifiers"]["natives-" + FMCLCore.System.SystemAndArch.system()]["url"]
+                        path = os.path.join(game_directory, "libraries", i["downloads"]["classifiers"]["natives-" + FMCLCore.System.SystemAndArch.system()]["path"])
+                        if not os.path.exists(path):
+                            print("Fix library:", path)
+                            download(path, url)
+                            FMCLCore.System.UnzipTask.unzip(path, libpath)
 
 
     cp += jarpath
