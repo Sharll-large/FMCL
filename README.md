@@ -1,7 +1,6 @@
 # FMCL
 
 ## First Minecraft Launcher
-## Note: I stop updating Gui, I will make Console ui from now on.
 
 ### About
 A simple Java Edition minecraft launcher wriiten by Python(3.10).
@@ -28,7 +27,7 @@ Because we chose the MIT open source license, you are nearly free to distribute 
 
 #### Coding targets
 1. Make stable launching core(Done)
-2. Make stable downloading core
+2. Make stable downloading core(Done)
 3. Make Forge/ Fabric/ Optifine/ Quilt auto-install
 4. Microsoft account auth
 5. Logging
