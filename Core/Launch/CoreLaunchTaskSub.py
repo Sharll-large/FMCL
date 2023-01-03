@@ -4,9 +4,9 @@ import platform
 import re
 import subprocess
 import uuid
-import FMCLCore.System.SystemAndArch
-import FMCLCore.System.CoreMakeFolderTask
-import FMCLCore.System.UnzipTask
+import Core.System.SystemAndArch
+import Core.System.CoreMakeFolderTask
+import Core.System.UnzipTask
 import urllib.request
 
 def download(path: str, url: str) -> None:
