@@ -31,7 +31,7 @@ def Split(string: str):
                     ed.append(ed.pop() + char)
     return ed
 
-def main():
+if __name__ == "__main__":
     co.init()
     print(co.Fore.MAGENTA + " #" + co.Fore.GREEN + "##### " + co.Style.RESET_ALL + "\t" + "Welcome to FMCL " + "Preview 5")
     print(co.Fore.MAGENTA + "##" + co.Fore.GREEN + "######" + co.Style.RESET_ALL + "\t" + "Running on Python " + platform.python_version())
