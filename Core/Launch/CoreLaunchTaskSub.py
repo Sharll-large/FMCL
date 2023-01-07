@@ -219,10 +219,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
 
     return cmdlist
 
-a = (launch(r"C:\Users\Sharll\Desktop\HMCL\.minecraft",
-                      "1.8.9",
-                      "java.exe",
-                      "sharll"))
-print(a)
-subprocess.run(a)
+#a = (launch(r"C:\Users\Sharll\Desktop\HMCL\.minecraft",
+#                      "1.8.9",
+#                      "java.exe",
+#                      "sharll"))
+#print(a)
+#subprocess.run(a)
 #input()
