@@ -1,6 +1,6 @@
-# FMCL
+# FMCL —— Open Source, Lite, Cross Platform.
 
-## First Minecraft Launcher
+### Full name: First Minecraft Launcher
 
 ### About
 A simple Java Edition minecraft launcher wriiten by Python(3.10).
@@ -18,12 +18,7 @@ The FMCL core does not completely rely on the GUI module, so you can write your 
 Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
 
 ### How to build the program
-##### For example, on Windows:
-1. Install Python 3.6 or above on [https://www.python.org/](https://www.python.org/). **Please notice that you need to ADD PYTHON TO PATH**
-2. Remember that if you continue, that means that some packages will be installed on your computer.
-3. Make sure that all the packages are installed, then run **build.bat**.
-4. Find main.exe, it is FMCL launcher executeable file, you can use it now.
-
+just pack it into a .pyzw file, nothing else.
 
 #### Coding targets
 1. Make stable launching core(Done)
