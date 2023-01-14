@@ -22,6 +22,7 @@ def main():
             tk.messagebox.showinfo("FMCL", FMCLView.Const.get("Account.Success") + temp["username"])
         except urllib.error.URLError or urllib.error.HTTPError or urllib.error.ContentTooShortError as e:
             tk.messagebox.showerror("FMCL", FMCLView.Const.get("Account.Fail") + "\n" + repr(e))
+        callbacklink.delete(0, "end")
 
     def showhelp():
         tk.messagebox.showinfo("FMCL", FMCLView.Const.get("Account.HelpText"))
