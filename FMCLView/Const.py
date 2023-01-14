@@ -27,7 +27,9 @@ def get(thing: str):
             "Launch.Ask": "Are you sure to launch the game?",
             "Launch.Error": "Game exited unexpectedly，Error code",
             "Launch.ErrorText": "Game exited unexpectedly，Please send FMCL.log to others who can help you.",
-            "Launch.Wait": "Please wait for the game window to appear，Then enjoy Minecraft！"
+            "Launch.Wait": "Already launched $0. Please wait for the game window to appear patiently，Then enjoy Minecraft！",
+            "Launch.NativeError": "Can't pass version check. Please rechoose minecraft version.",
+            "Launch.NullError": "Please choose game version and gaming account"
         },
         "简体中文": {
             "Main.Notebook.Launch": "启动游戏",
@@ -55,7 +57,9 @@ def get(thing: str):
             "Launch.Ask": "确定启动游戏吗？",
             "Launch.Error": "游戏意外退出，错误码",
             "Launch.ErrorText": "游戏意外退出，请将FMCL.log发给他人寻求帮助",
-            "Launch.Wait": "请耐心等待游戏窗口出现，然后畅玩Minecraft吧！"
+            "Launch.Wait": "已经尝试启动$0，请耐心等待游戏窗口出现，然后畅玩Minecraft吧！",
+            "Launch.NativeError": "无法通过版本校验，请重新选择版本。",
+            "Launch.NullError": "请选择游戏版本和账号"
         }
     }
     return objects[lang][thing]
