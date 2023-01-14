@@ -25,5 +25,5 @@ just pack it into a .pyzw file, nothing else.
 2. Make stable downloading core(Done)
 3. Make Forge/ Fabric/ Optifine/ Quilt auto-install
 4. Microsoft account auth(Done)
-5. Logging(80%)
-6. Rebuild UI(33%)
+5. Logging(90%)
+6. Rebuild UI(50%)
