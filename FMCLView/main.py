@@ -1,23 +1,29 @@
 import tkinter as tk
 import tkinter.ttk
+
 import FMCLView.Const
+import FMCLView.Pages.AccountPage
 import FMCLView.Pages.UnderDevelop
+import FMCLView.Pages.LaunchPage
+
+
+
 def main():
-    lang = "English"
     root = tk.Tk()
     root.title("First Minecraft Launcher")
-    root.geometry("640x360")
-    maintab = tk.ttk.Notebook(root, width=600, height=300)
+    root.geometry("500x375")
+    root.resizable(False, False)
 
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Launch"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Download"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Option"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Mods"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Accounts"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.Gaming"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get(lang, "Main.Notebook.About"))
+    maintab = tk.ttk.Notebook(root, width=480, height=330)
+
+    maintab.add(FMCLView.Pages.LaunchPage.main(), text=FMCLView.Const.get("Main.Notebook.Launch"))
+    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.Download"))
+    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.Option"))
+    maintab.add(FMCLView.Pages.AccountPage.main(), text=FMCLView.Const.get("Main.Notebook.Accounts"))
+    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.Gaming"))
+    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.About"))
 
 
-    maintab.place(x=20, y=10)
+    maintab.place(x=10, y=10)
 
     root.mainloop()
