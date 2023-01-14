@@ -8,9 +8,19 @@ A simple Java Edition minecraft launcher wriiten by Python(3.10).
 My dream is to create a new minecraft launcher developing period for python developers.
 
 ### Platform support
-Multi-platform support is nearly done!
+|CPU Arch|Windows|Linux|MacOS(X)|
+|-|-|-|-|
+|x64|✔|❔|❔|
+|x86|❔|❔|❔|
+|ARM64|📌|📌|📌|
+|ARM32|📌|📌|📌|
 
-If everything goes well, it will be able to run on any x86 cpu
+✔ - Active protect
+
+❔ - Done but no test
+
+📌 - Plan to do
+
 
 ### Making Minecraft launcher, you can do it too!
 The FMCL core does not completely rely on the GUI module, so you can write your own GUI!
