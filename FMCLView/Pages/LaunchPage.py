@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.ttk
+import tkinter.messagebox
 import FMCLCore.System.CoreVersionGet
 import FMCLCore.System.CoreConfigIO
 import FMCLCore.Launch.CoreLaunchTaskSub
@@ -12,23 +13,11 @@ def main():
     def refresh2():
         accounts["values"] = FMCLCore.System.CoreConfigIO.get_account()
     def launch():
-        account = FMCLCore.System.CoreConfigIO.read()["Accounts"][accounts.current()]
-        if account["type"] == "microsoft":
-            FMCLView.Low.Launch.launch(FMCLCore.Launch.CoreLaunchTaskSub.launch(
-                game_directory=FMCLCore.System.CoreConfigIO.read()[".mc"],
-                version_name=versions.get(),
-                playername=account["name"],
-                java=FMCLCore.System.CoreConfigIO.read()["java"],
-                UUID=account["uuid"],
-                TOKEN=account["token"]
-            ))
+        if accounts.get() and versions.get():
+            account = FMCLCore.System.CoreConfigIO.read()["Accounts"][accounts.current()]
+            FMCLView.Low.Launch.launch(account, versions.get())
         else:
-            FMCLView.Low.Launch.launch(FMCLCore.Launch.CoreLaunchTaskSub.launch(
-                game_directory=FMCLCore.System.CoreConfigIO.read()[".mc"],
-                version_name=versions.get(),
-                playername=account["name"],
-                java=FMCLCore.System.CoreConfigIO.read()["java"]
-            ))
+            tk.messagebox.showerror("FMCL", FMCLView.Const.get("Launch.NullError"))
 
 
     f = tk.ttk.Frame()
