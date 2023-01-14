@@ -8,7 +8,7 @@ def post(url, data, headers):
     tmp = urllib.request.Request(url=url, data=urllib.parse.urlencode(data).encode(), headers=headers)
     return urllib.request.urlopen(tmp).read().decode()
 
-def Auth(refresh_token: str=None):
+def Auth(usecallback: bool, Code: str=None):
     defaultheaders = {"Accept": "*/*",
                       "Accept-Encoding": "gzip, deflate, br",
                       "Accept-Language": "zh-CN,zh;q=0.9",
@@ -17,15 +17,13 @@ def Auth(refresh_token: str=None):
                       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
                       }
     informations = {}
-    if refresh_token is None:
-        webbrowser.open("https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf")
-        authcode = input("请输入回调链接：")
-        authcode = authcode[authcode.find("?code=")+6:authcode.find("&lc=2052")]
+    if usecallback:
+        authcode = Code[Code.find("?code=")+6:Code.find("&lc=2052")]
         MSdata = urllib.parse.urlencode({"client_id": "00000000402b5328", "code": authcode, "grant_type": "authorization_code",
                                          "redirect_uri": "https://login.live.com/oauth20_desktop.srf", "scope": "service::user.auth.xboxlive.com::MBI_SSL"
                                          }).encode()
     else:
-        authcode = refresh_token
+        authcode = Code
         MSdata = urllib.parse.urlencode({"client_id": "00000000402b5328", "refresh_token": authcode, "grant_type": "refresh_token",
                                          "redirect_uri": "https://login.live.com/oauth20_desktop.srf", "scope": "service::user.auth.xboxlive.com::MBI_SSL"
                                          }).encode()
@@ -76,6 +74,3 @@ def Auth(refresh_token: str=None):
     informations["uuid"] = mcinfo["id"]
 
     return informations
-
-print(Auth())
-input()

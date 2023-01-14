@@ -3,6 +3,7 @@ import json
 import os
 import platform
 import re
+import subprocess
 import threading
 import urllib.request
 import uuid
@@ -22,7 +23,7 @@ def download_native(arg: dict):
                 (("size" not in arg) or (os.path.getsize(arg["path"]) == arg["size"])) and \
                 (("sha1" not in arg) or (hashlib.sha1(open(arg["path"], "rb").read()).hexdigest() == arg["sha1"])):
             if "unzip" in arg:
-                FMCLCore.System.Logging.showinfo("unzip" + arg)
+                FMCLCore.System.Logging.showinfo("unzip" + str(arg))
                 FMCLCore.System.UnzipTask.unzip(arg["path"], arg["unzip"])
             back_msg += f"Download successfully in {i} try(s) and {e} exception(s): {emsg}"
             break
@@ -185,7 +186,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
         "${assets_index_name}": ver_json["assetIndex"]["id"],
         "${auth_uuid}": UUID,
         "${auth_access_token}": TOKEN,
-        "${user_type}": "Legacy",
+        "${user_type}": "Mojang",
         "${version_type}": "FMCL",
         "${user_properties}": "{}",
         "${auth_session}": "{}",
@@ -204,9 +205,11 @@ def launch(game_directory: str = ".minecraft", version_name: str = None, java: s
     return cmdlist
 
 # a = (launch(input(".minecraft路径："),
-#             input("要启动的游戏版本："),
-#             input("java路径(可只填写\"java\")："),
-#             input("玩家名称：")))
+#              input("要启动的游戏版本："),
+#              input("java路径(可只填写\"java\")："),
+#              input("玩家名称："),
+#             UUID='c8189b09aebf49838b65bad10e905ba6',
+#             TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQwNzExMjg1Njg4OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNDg1ZjI2ODUtOGJkZi00ZmNlLTkwZmUtMTcyMjZlNzYwZDc5IiwibmJmIjoxNjczNjA3MzU1LCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NzM2OTM3NTUsImlhdCI6MTY3MzYwNzM1NSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjAxYTYxYWMyYTNiZTI5YjVmMjc2MTM2ZjIwNGZmMmM0In0.OdD4LGd9BE3aw9QjH0-iWhfuIT9PGg1EmJ5ZMP76oBs'))
 # print(a)
 # subprocess.run(a)
-# #input()
+# input()

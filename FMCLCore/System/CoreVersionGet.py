@@ -20,7 +20,7 @@ def get_version_list(version_type: list):
 def local_version(mcpath):
     versions = []
     for i in os.listdir(os.path.join(mcpath, "versions")):
-        if os.path.exists(os.path.join(mcpath, "versions", i, f"{i}.jar")) and os.path.exists(os.path.join(mcpath, "versions", i, f"{i}.json")):
+        if os.path.exists(os.path.join(mcpath, "versions", i, f"{i}.json")):
             versions.append(i)
     return versions
 
