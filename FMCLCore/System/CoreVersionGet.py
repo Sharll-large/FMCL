@@ -1,7 +1,6 @@
 import os
-
-import requests
-
+import urllib.request
+import json
 
 def add(o):
     if " " in o:
@@ -11,7 +10,7 @@ def add(o):
 
 def get_version_list(version_type: list):
     versions = []
-    for i in requests.get("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").json()['versions']:
+    for i in json.loads(urllib.request.urlopen("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").read())['versions']:
         if i["type"] in version_type:
             versions.append(i["id"])
     return versions
