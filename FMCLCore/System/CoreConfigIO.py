@@ -13,6 +13,12 @@ def read():
 def writejson(conf: dict):
     open(config, "w+", encoding="utf-8").write(json.dumps(conf))
 
+def overridejson(conf: dict):
+    temp = read()
+    for i in conf:
+        temp[i] = conf[i]
+    writejson(temp)
+
 def add_account(account: dict):
     tmp = read()
     tmp["Accounts"].append(account)
@@ -30,7 +36,7 @@ def get_account():
     return accountlist
 
 def fixdepend():
-    std = {"About": "This file is very important! DO NOT EDIT OR SHARE!", ".mc": ".minecraft", "java": "java", "ram": "1024M", "threads": 64, "Language": "English", "Accounts": []}
+    std = {"About": "This file is very important! DO NOT EDIT OR SHARE!", ".mc": ".minecraft", "java": "java", "ram": 1024, "threads": 64, "Language": "English", "Accounts": []}
     if not os.path.exists(config):
         writejson(std)
         print(FMCLCore.System.Logging.showinfo("Config-Checker:\t" + config + " not found. Create " + config + "."))
