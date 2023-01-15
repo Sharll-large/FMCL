@@ -36,7 +36,8 @@ def get_account():
     return accountlist
 
 def fixdepend():
-    std = {"About": "This file is very important! DO NOT EDIT OR SHARE!", ".mc": ".minecraft", "java": "java", "ram": 1024, "threads": 64, "Language": "English", "Accounts": []}
+    std = {"About": "This file is very important! DO NOT EDIT OR SHARE!", ".mc": ".minecraft", "java": "java", "ram": 1024, "threads": 64, "Language": "English", "Source": "Default", "Alone": False, "Boost": False, "Accounts": []}
+
     if not os.path.exists(config):
         writejson(std)
         print(FMCLCore.System.Logging.showinfo("Config-Checker:\t" + config + " not found. Create " + config + "."))

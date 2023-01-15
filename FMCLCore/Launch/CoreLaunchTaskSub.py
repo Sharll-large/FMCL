@@ -14,6 +14,7 @@ import FMCLCore.System.UnzipTask
 
 
 def download_native(arg: dict):
+    print(arg)
     back_msg = threading.current_thread().name + " done with message: "
     e = 0
     emsg = ""
@@ -65,7 +66,12 @@ def _checkRules(rules: dict):
 
 def launch(game_directory: str = ".minecraft", version_name: str = "", java: str = "java", playername: str = "player",
            UUID: str = uuid.uuid4().hex, TOKEN: str = "0", JvmMaxMemory: int = 1024, FixMaxThread: int = 64,
-           UseJvmForPerformance: bool = False, standalone: bool = False):
+           UseJvmForPerformance: bool = False, standalone: bool = False, download_source: str = "Default"):
+    def converturl(url: str): # 若切换了下载源调用此方法转换链接
+        for link in down:
+            url = url.replace(link, down[link])
+        return url
+
     cmdlist = []
 
     basic_jvm = [{'rules': [{'action': 'allow', 'os': {'name': 'osx'}}], 'value': ['-XstartOnFirstThread']},
@@ -78,6 +84,23 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
 
     game_directory = os.path.realpath(game_directory)
 
+    if download_source == "Default":
+        down = {}
+    elif download_source == "MCBBS":
+        down = {
+            "https://resources.download.minecraft.net/": "https://download.mcbbs.net/assets/",
+            "https://libraries.minecraft.net/": "https://download.mcbbs.net/maven/",
+            "https://files.minecraftforge.net/maven/": "https://download.mcbbs.net/maven/",
+            "https://maven.fabricmc.net/": "https://download.mcbbs.net/maven/"
+        }
+    elif download_source == "BMCLAPI":
+        down = {
+            "https://resources.download.minecraft.net/": "https://bmclapi2.bangbang93.com/assets/",
+            "https://libraries.minecraft.net/": "https://bmclapi2.bangbang93.com/maven/",
+            "https://files.minecraftforge.net/maven/": "https://bmclapi2.bangbang93.com/maven/",
+            "https://maven.fabricmc.net/": "https://bmclapi2.bangbang93.com/maven/"
+        }
+
     verpath = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
     nativepath = os.path.join(verpath, "natives-" + FMCLCore.System.SystemAndArch.system())
@@ -85,6 +108,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
     jarpath = os.path.join(verpath, version_name + ".jar")
     assetspath = os.path.join(game_directory, "assets")
 
+    if standalone: game_directory = verpath
 
     if not (os.path.exists(game_directory) and os.path.exists(jsonpath) and version_name != ""): return False
 
@@ -131,7 +155,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
     if not os.path.exists(jarpath):
         need_to_be_fixed.append({
             "path": jarpath,
-            "url": ver_json["downloads"]["client"]["url"],
+            "url": converturl(ver_json["downloads"]["client"]["url"]),
             "size": ver_json["downloads"]["client"]["size"],
             "sha1": ver_json["downloads"]["client"]["sha1"]})
 
@@ -139,7 +163,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
         FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(assets_index_path))
         download_native({
             "path": assets_index_path,
-            "url": ver_json["assetIndex"]["url"],
+            "url": converturl(ver_json["assetIndex"]["url"]),
             "size": ver_json["assetIndex"]["size"],
             "sha1": ver_json["assetIndex"]["sha1"]
         })
@@ -155,7 +179,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                     if "downloads" in i and "artifact" in i["downloads"]:
                         package = {
                             "path": os.path.join(libpath, i["downloads"]["artifact"]["path"]),
-                            "url": i["downloads"]["artifact"]["url"],
+                            "url": converturl(i["downloads"]["artifact"]["url"]),
                             "size": i["downloads"]["artifact"]["size"],
                             "sha1": i["downloads"]["artifact"]["sha1"]
                         }
@@ -176,7 +200,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                     rname = i["natives"][FMCLCore.System.SystemAndArch.system()].replace("${arch}", platform.architecture()[0].replace("bit", ""))
                     package = {
                             "path": os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"]),
-                            "url": i["downloads"]["classifiers"][rname]["url"],
+                            "url": converturl(i["downloads"]["classifiers"][rname]["url"]),
                             "unzip": nativepath,
                             "size": i["downloads"]["classifiers"][rname]["size"],
                             "sha1": i["downloads"]["classifiers"][rname]["sha1"]
@@ -191,7 +215,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
         FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(path))
         need_to_be_fixed.append({
             "path": path,
-            "url": "https://resources.download.minecraft.net/" + assets_json[i]["hash"][0:2] + "/" + assets_json[i]["hash"],
+            "url": converturl("https://resources.download.minecraft.net/" + assets_json[i]["hash"][0:2] + "/" + assets_json[i]["hash"]),
             "sha1": assets_json[i]["hash"],
             "size": assets_json[i]["size"]
         })
@@ -205,7 +229,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
         "${launcher_name}": "FMCL",
         "${launcher_version}": "Rebuild",
         "${classpath}": cp,
-        "${assets_root}": os.path.realpath(os.path.join(game_directory, "assets")),
+        "${assets_root}": assetspath,
         "${assets_index_name}": ver_json["assetIndex"]["id"],
         "${auth_uuid}": UUID,
         "${auth_access_token}": TOKEN,
@@ -227,12 +251,16 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
 
     return cmdlist
 
-# a = (launch(input(".minecraft路径："),
-#              input("要启动的游戏版本："),
-#              input("java路径(可只填写\"java\")："),
-#              input("玩家名称："),
+# a = (launch(game_directory="C:\\Users\\Sharll\\Desktop\\HMCL\\.minecraft",
+#             version_name=input("要启动的游戏版本："),
+#             java="java",
+#             playername="sharll",
 #             UUID='c8189b09aebf49838b65bad10e905ba6',
-#             TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQwNzExMjg1Njg4OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNDg1ZjI2ODUtOGJkZi00ZmNlLTkwZmUtMTcyMjZlNzYwZDc5IiwibmJmIjoxNjczNjA3MzU1LCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NzM2OTM3NTUsImlhdCI6MTY3MzYwNzM1NSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjAxYTYxYWMyYTNiZTI5YjVmMjc2MTM2ZjIwNGZmMmM0In0.OdD4LGd9BE3aw9QjH0-iWhfuIT9PGg1EmJ5ZMP76oBs'))
+#             TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQwNzExMjg1Njg4OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNDg1ZjI2ODUtOGJkZi00ZmNlLTkwZmUtMTcyMjZlNzYwZDc5IiwibmJmIjoxNjczNjA3MzU1LCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NzM2OTM3NTUsImlhdCI6MTY3MzYwNzM1NSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjAxYTYxYWMyYTNiZTI5YjVmMjc2MTM2ZjIwNGZmMmM0In0.OdD4LGd9BE3aw9QjH0-iWhfuIT9PGg1EmJ5ZMP76oBs',
+#             standalone=False,
+#             download_source="MCBBS"))
 # print(a)
+# import subprocess
 # subprocess.run(a)
 # input()
+# print(bool("True"))
