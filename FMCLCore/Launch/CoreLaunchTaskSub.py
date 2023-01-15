@@ -14,7 +14,6 @@ import FMCLCore.System.UnzipTask
 
 
 def download_native(arg: dict):
-    print(arg)
     back_msg = threading.current_thread().name + " done with message: "
     e = 0
     emsg = ""
@@ -177,8 +176,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
             if ("rules" not in i) or _checkRules(i["rules"]): #如果未指定规则或者符合规则，就执行操作
                 if ("downloads" not in i) or ("classifiers" not in i["downloads"]):
                     if "downloads" in i and "artifact" in i["downloads"]:
+                        if "path" in i["downloads"]["artifact"]: path = os.path.join(libpath, i["downloads"]["artifact"]["path"])
+                        else: path = rpath
                         package = {
-                            "path": os.path.join(libpath, i["downloads"]["artifact"]["path"]),
+                            "path": path,
                             "url": converturl(i["downloads"]["artifact"]["url"]),
                             "size": i["downloads"]["artifact"]["size"],
                             "sha1": i["downloads"]["artifact"]["sha1"]
@@ -198,8 +199,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
 
                 else: #若不是只有artifact键，则认为这是natives，下载并解压
                     rname = i["natives"][FMCLCore.System.SystemAndArch.system()].replace("${arch}", platform.architecture()[0].replace("bit", ""))
+                    if "path" in i["downloads"]["classifiers"][rname]: path = os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"])
+                    else: path = rpath
                     package = {
-                            "path": os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"]),
+                            "path": path,
                             "url": converturl(i["downloads"]["classifiers"][rname]["url"]),
                             "unzip": nativepath,
                             "size": i["downloads"]["classifiers"][rname]["size"],
@@ -251,16 +254,3 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
 
     return cmdlist
 
-# a = (launch(game_directory="C:\\Users\\Sharll\\Desktop\\HMCL\\.minecraft",
-#             version_name=input("要启动的游戏版本："),
-#             java="java",
-#             playername="sharll",
-#             UUID='c8189b09aebf49838b65bad10e905ba6',
-#             TOKEN='eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQwNzExMjg1Njg4OCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNDg1ZjI2ODUtOGJkZi00ZmNlLTkwZmUtMTcyMjZlNzYwZDc5IiwibmJmIjoxNjczNjA3MzU1LCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NzM2OTM3NTUsImlhdCI6MTY3MzYwNzM1NSwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjAxYTYxYWMyYTNiZTI5YjVmMjc2MTM2ZjIwNGZmMmM0In0.OdD4LGd9BE3aw9QjH0-iWhfuIT9PGg1EmJ5ZMP76oBs',
-#             standalone=False,
-#             download_source="MCBBS"))
-# print(a)
-# import subprocess
-# subprocess.run(a)
-# input()
-# print(bool("True"))
