@@ -11,15 +11,17 @@ My dream is to create a new minecraft launcher developing period for python deve
 |CPU Arch|Windows|Linux|MacOS(X)|
 |-|-|-|-|
 |x64|✔|❔|❔|
-|x86|❔|❔|❔|
+|x86|❔|❔|❌|
 |ARM64|📌|📌|📌|
-|ARM32|📌|📌|📌|
+|ARM32|❌|❌|❌|
 
 ✔ - Active protect
 
 ❔ - Done but no test
 
 📌 - Plan to do
+
+❌ - Won't support
 
 
 ### Making Minecraft launcher, you can do it too!
