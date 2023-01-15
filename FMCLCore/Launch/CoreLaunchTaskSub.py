@@ -3,15 +3,14 @@ import json
 import os
 import platform
 import re
-import subprocess
 import threading
 import urllib.request
 import uuid
 
 import FMCLCore.System.CoreMakeFolderTask
+import FMCLCore.System.Logging
 import FMCLCore.System.SystemAndArch
 import FMCLCore.System.UnzipTask
-import FMCLCore.System.Logging
 
 
 def download_native(arg: dict):
@@ -66,7 +65,7 @@ def _checkRules(rules: dict):
 
 def launch(game_directory: str = ".minecraft", version_name: str = "", java: str = "java", playername: str = "player",
            UUID: str = uuid.uuid4().hex, TOKEN: str = "0", JvmMaxMemory: int = 1024, FixMaxThread: int = 64,
-           UseJvmForPerformance: bool = False):
+           UseJvmForPerformance: bool = False, standalone: bool = False):
     cmdlist = []
 
     basic_jvm = [{'rules': [{'action': 'allow', 'os': {'name': 'osx'}}], 'value': ['-XstartOnFirstThread']},
@@ -80,13 +79,19 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
     game_directory = os.path.realpath(game_directory)
 
     verpath = os.path.join(game_directory, "versions", version_name)
-    libpath = os.path.join(verpath, "natives-" + FMCLCore.System.SystemAndArch.system())
+    libpath = os.path.join(game_directory, "libraries")
+    nativepath = os.path.join(verpath, "natives-" + FMCLCore.System.SystemAndArch.system())
     jsonpath = os.path.join(verpath, version_name + ".json")
     jarpath = os.path.join(verpath, version_name + ".jar")
+    assetspath = os.path.join(game_directory, "assets")
+
 
     if not (os.path.exists(game_directory) and os.path.exists(jsonpath) and version_name != ""): return False
 
     ver_json = json.load(open(jsonpath))
+
+    assets_index_path = os.path.join(assetspath, "indexes", ver_json["assetIndex"]["id"] + ".json")
+    assets_object_path = os.path.join(assetspath, "objects")
 
     cmdlist.append(java)
 
@@ -130,17 +135,26 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
             "size": ver_json["downloads"]["client"]["size"],
             "sha1": ver_json["downloads"]["client"]["sha1"]})
 
+    if not os.path.exists(assets_index_path):
+        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(assets_index_path))
+        download_native({
+            "path": assets_index_path,
+            "url": ver_json["assetIndex"]["url"],
+            "size": ver_json["assetIndex"]["size"],
+            "sha1": ver_json["assetIndex"]["sha1"]
+        })
+
     for i in ver_json['libraries']: #遍历libraries数组
         if "name" in i:
             name = i["name"].split(":")  #<package>:<name>:<version>
             name[0] = name[0].replace(".", os.sep)
             p, n, v = name[0], name[1], name[2] #分配package, name, version
-            rpath = os.path.join(game_directory, "libraries", p, n, v, n + "-" + v + ".jar") #获取jar path
+            rpath = os.path.join(libpath, p, n, v, n + "-" + v + ".jar") #获取jar path
             if ("rules" not in i) or _checkRules(i["rules"]): #如果未指定规则或者符合规则，就执行操作
                 if ("downloads" not in i) or ("classifiers" not in i["downloads"]):
                     if "downloads" in i and "artifact" in i["downloads"]:
                         package = {
-                            "path": os.path.join(game_directory, "libraries", i["downloads"]["artifact"]["path"]),
+                            "path": os.path.join(libpath, i["downloads"]["artifact"]["path"]),
                             "url": i["downloads"]["artifact"]["url"],
                             "size": i["downloads"]["artifact"]["size"],
                             "sha1": i["downloads"]["artifact"]["sha1"]
@@ -161,9 +175,9 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                 else: #若不是只有artifact键，则认为这是natives，下载并解压
                     rname = i["natives"][FMCLCore.System.SystemAndArch.system()].replace("${arch}", platform.architecture()[0].replace("bit", ""))
                     package = {
-                            "path": os.path.join(game_directory, "libraries", i["downloads"]["classifiers"][rname]["path"]),
+                            "path": os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"]),
                             "url": i["downloads"]["classifiers"][rname]["url"],
-                            "unzip": libpath,
+                            "unzip": nativepath,
                             "size": i["downloads"]["classifiers"][rname]["size"],
                             "sha1": i["downloads"]["classifiers"][rname]["sha1"]
                         }
@@ -171,12 +185,23 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                     FMCLCore.System.Logging.showinfo("Fix library:" + rpath)
                     need_to_be_fixed.append(package)
 
+    assets_json = json.load(open(assets_index_path))["objects"]
+    for i in assets_json:
+        path = os.path.join(assets_object_path, assets_json[i]["hash"][0:2], assets_json[i]["hash"])
+        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(path))
+        need_to_be_fixed.append({
+            "path": path,
+            "url": "https://resources.download.minecraft.net/" + assets_json[i]["hash"][0:2] + "/" + assets_json[i]["hash"],
+            "sha1": assets_json[i]["hash"],
+            "size": assets_json[i]["size"]
+        })
+
     multprocessing_task(need_to_be_fixed, download_native, FixMaxThread) #多线程下载依赖
     cp += jarpath #最终将Minecraft核心传入classpath
 
     arg = {
         "${mainClass}": ver_json["mainClass"],
-        "${natives_directory}": libpath,
+        "${natives_directory}": nativepath,
         "${launcher_name}": "FMCL",
         "${launcher_version}": "Rebuild",
         "${classpath}": cp,
