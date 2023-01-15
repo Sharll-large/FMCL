@@ -7,7 +7,6 @@ import threading
 import urllib.request
 import uuid
 
-import FMCLCore.System.CoreMakeFolderTask
 import FMCLCore.System.Logging
 import FMCLCore.System.SystemAndArch
 import FMCLCore.System.UnzipTask
@@ -32,7 +31,7 @@ def download_native(arg: dict):
             except Exception as exc:
                 e += 1
                 emsg += repr(exc)
-    FMCLCore.System.Logging.showsuccess(back_msg)
+    print(back_msg)
 
 def multprocessing_task(tasks: list, function, cores: int):
     threads = []
@@ -184,10 +183,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                             "size": i["downloads"]["artifact"]["size"],
                             "sha1": i["downloads"]["artifact"]["sha1"]
                         }
-                        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(package["path"]))
+                        os.makedirs(os.path.dirname(path), exist_ok=True)
                         need_to_be_fixed.append(package)
                     elif "url" in i:
-                        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(rpath))
+                        os.makedirs(os.path.dirname(rpath), exist_ok=True)
                         need_to_be_fixed.append({
                             "path": rpath,
                             "url": i["url"] + p.replace("\\", "/") + "/" + n + "/" + v + "/" + n + "-" + v + ".jar"})
@@ -208,14 +207,14 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
                             "size": i["downloads"]["classifiers"][rname]["size"],
                             "sha1": i["downloads"]["classifiers"][rname]["sha1"]
                         }
-                    FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(package["path"]))
+                    os.makedirs(os.path.dirname(path), exist_ok=True)
                     FMCLCore.System.Logging.showinfo("Fix library:" + rpath)
                     need_to_be_fixed.append(package)
 
     assets_json = json.load(open(assets_index_path))["objects"]
     for i in assets_json:
         path = os.path.join(assets_object_path, assets_json[i]["hash"][0:2], assets_json[i]["hash"])
-        FMCLCore.System.CoreMakeFolderTask.make_long_dir(os.path.dirname(path))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         need_to_be_fixed.append({
             "path": path,
             "url": converturl("https://resources.download.minecraft.net/" + assets_json[i]["hash"][0:2] + "/" + assets_json[i]["hash"]),
