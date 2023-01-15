@@ -16,14 +16,20 @@ def launch(account: dict, version: str):
                 playername=account["name"],
                 java=FMCLCore.System.CoreConfigIO.read()["java"],
                 UUID=account["uuid"],
-                TOKEN=account["token"]
+                TOKEN=account["token"],
+                standalone=FMCLCore.System.CoreConfigIO.read()["Alone"],
+                UseJvmForPerformance=FMCLCore.System.CoreConfigIO.read()["Boost"],
+                download_source=FMCLCore.System.CoreConfigIO.read()["Source"]
         )
         else:
             command = FMCLCore.Launch.CoreLaunchTaskSub.launch(
                 game_directory=FMCLCore.System.CoreConfigIO.read()[".mc"],
                 version_name=version,
                 playername=account["name"],
-                java=FMCLCore.System.CoreConfigIO.read()["java"]
+                java=FMCLCore.System.CoreConfigIO.read()["java"],
+                standalone=FMCLCore.System.CoreConfigIO.read()["Alone"],
+                UseJvmForPerformance=FMCLCore.System.CoreConfigIO.read()["Boost"],
+                download_source=FMCLCore.System.CoreConfigIO.read()["Source"]
             )
         if command:
             print(command)

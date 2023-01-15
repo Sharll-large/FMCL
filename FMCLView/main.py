@@ -6,6 +6,7 @@ import FMCLView.Pages.AccountPage
 import FMCLView.Pages.UnderDevelop
 import FMCLView.Pages.LaunchPage
 import FMCLView.Pages.OptionPage
+import FMCLView.Pages.AboutPage
 
 
 
@@ -22,7 +23,7 @@ def main():
     maintab.add(FMCLView.Pages.OptionPage.main(), text=FMCLView.Const.get("Main.Notebook.Option"))
     maintab.add(FMCLView.Pages.AccountPage.main(), text=FMCLView.Const.get("Main.Notebook.Accounts"))
     maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.Gaming"))
-    maintab.add(FMCLView.Pages.UnderDevelop.main(), text=FMCLView.Const.get("Main.Notebook.About"))
+    maintab.add(FMCLView.Pages.AboutPage.main(), text=FMCLView.Const.get("Main.Notebook.About"))
 
 
     maintab.place(x=10, y=10)

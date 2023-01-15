@@ -37,7 +37,10 @@ def get(thing: str):
             "Option.Language": "Language",
             "Option.Memory": "Ram for game",
             "Option.Save": "Save",
-            "Option.Refresh": "Refresh"
+            "Option.Refresh": "Refresh",
+            "Option.Source": "Download source",
+            "Option.Alone": "Use versions standalone",
+            "Option.Boost": "Optimize game performance"
         },
         "简体中文": {
             "Main.Notebook.Launch": "启动游戏",
@@ -75,7 +78,10 @@ def get(thing: str):
             "Option.Language": "启动器语言",
             "Option.Memory": "Jvm内存分配(M)",
             "Option.Save": "保存",
-            "Option.Refresh": "刷新"
+            "Option.Refresh": "刷新",
+            "Option.Source": "下载源",
+            "Option.Alone": "启用版本隔离",
+            "Option.Boost": "优化游戏性能",
         }
     }
     return objects[lang][thing]
