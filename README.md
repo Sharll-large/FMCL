@@ -2,8 +2,8 @@
 
 ### Full name: First Minecraft Launcher
 
-### About
-A simple Java Edition minecraft launcher wriiten by Python(3.10).
+### About:
+A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
 
 My dream is to create a new minecraft launcher developing period for python developers.
 
@@ -15,9 +15,9 @@ My dream is to create a new minecraft launcher developing period for python deve
 |ARM64|📌|📌|📌|
 |ARM32|❌|❌|❌|
 
-✔ - Active protect
+✔ - Full support (verified)
 
-❔ - Done but no test
+❔ - Done but unverified
 
 📌 - Plan to do
 
