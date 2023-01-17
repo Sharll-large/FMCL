@@ -8,7 +8,7 @@ A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
 My dream is to create a new minecraft launcher developing period for python developers.
 
 ### Platform support
-|CPU Arch|Windows|Linux|MacOS(X)|
+|CPU Arch\OS|Windows|Linux|MacOS(X)|
 |-|-|-|-|
 |x64|✔|❔|❔|
 |x86|❔|❔|❌|
@@ -17,7 +17,7 @@ My dream is to create a new minecraft launcher developing period for python deve
 
 ✔ - Full support (verified)
 
-❔ - Done but unverified
+❔ - Done but unverified (Some functions may not be available)
 
 📌 - Plan to do
 
