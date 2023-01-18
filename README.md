@@ -41,7 +41,7 @@ just pack it into a .pyzw file, nothing else.
 
 4. Microsoft account auth(Done)
 
-5. Logging(90%)
+5. Logging(Done)
 
 6. Rebuild UI(50%)
 
