@@ -18,7 +18,7 @@ def Auth(usecallback: bool, Code: str=None):
                       }
     informations = {}
     if usecallback:
-        authcode = Code[Code.find("?code=")+6:Code.find("&lc=2052")]
+        authcode = Code[Code.find("?code=")+6:Code.find("&lc=")]
         MSdata = urllib.parse.urlencode({"client_id": "00000000402b5328", "code": authcode, "grant_type": "authorization_code",
                                          "redirect_uri": "https://login.live.com/oauth20_desktop.srf", "scope": "service::user.auth.xboxlive.com::MBI_SSL"
                                          }).encode()
