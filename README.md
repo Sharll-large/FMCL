@@ -8,7 +8,7 @@ A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
 Our dream is to create a new minecraft launcher developing period for python developers.
 
 ### Platform support
-|CPU Arch\OS|Windows|Linux|MacOS(X)|
+|CPU Arch\OS|Windows|Linux|MacOS|
 |-|-|-|-|
 |x64|✔|❔|❔|
 |x86|❔|❔|❌|
@@ -29,10 +29,12 @@ The FMCL core does not completely rely on the GUI module, so you can write your 
 
 Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
 
-### How to build the program
-just pack it into a .pyzw file, nothing else.
+### Download this programme
+You can download packed .pyzw files in Releases.
 
-#### Coding plans
+If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
+
+### Coding plans
 1. Make stable launching core(Done)
 
 2. Make stable downloading core(Done)
