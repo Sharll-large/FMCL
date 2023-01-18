@@ -30,17 +30,19 @@ def get(thing: str):
             "Launch.Wait": "Already launched $0. Please wait for the game window to appear patiently，Then enjoy Minecraft！",
             "Launch.NativeError": "Can't pass version check. Please rechoose minecraft version.",
             "Launch.NullError": "Please choose game version and gaming account",
-            "Option.JRE": "Java path",
+            "Option.JRE": "Jre path",
             "Option.Browse": "Browse...",
             "Option.MINECRAFT": ".minecraft path",
             "Option.Threads": "Download max threads",
             "Option.Language": "Language",
-            "Option.Memory": "Ram for game (M)",
+            "Option.Memory": "Ram for game",
             "Option.Save": "Save",
             "Option.Refresh": "Refresh",
             "Option.Source": "Download source",
-            "Option.Alone": "Standalone versions",
-            "Option.Boost": "Optimize game performance"
+            "Option.Alone": "Use versions standalone",
+            "Option.Boost": "Optimize game performance",
+            "Download.Refresh": "Refresh",
+            "Download.Download": "Download"
         },
         "简体中文": {
             "Main.Notebook.Launch": "启动游戏",
@@ -71,17 +73,19 @@ def get(thing: str):
             "Launch.Wait": "已经尝试启动$0，请耐心等待游戏窗口出现，然后畅玩Minecraft吧！",
             "Launch.NativeError": "无法通过版本校验，请重新选择版本。",
             "Launch.NullError": "请选择游戏版本和账号",
-            "Option.JRE": "Java 运行时路径",
+            "Option.JRE": "java运行时路径",
             "Option.Browse": "浏览...",
             "Option.MINECRAFT": ".minecraft路径",
             "Option.Threads": "文件下载并发数",
             "Option.Language": "启动器语言",
-            "Option.Memory": "Jvm 内存分配(M)",
+            "Option.Memory": "Jvm内存分配(M)",
             "Option.Save": "保存",
             "Option.Refresh": "刷新",
             "Option.Source": "下载源",
             "Option.Alone": "启用版本隔离",
             "Option.Boost": "优化游戏性能",
+            "Download.Refresh": "刷新",
+            "Download.Download": "下载"
         }
     }
     return objects[lang][thing]

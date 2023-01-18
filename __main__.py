@@ -1,20 +1,15 @@
-# FMCL Boot Entry.
-import sys
-import FMCLCore.System.CoreConfigIO
-import FMCLCore.System.Logging
-import FMCLView.main
 import tkinter.messagebox
-import traceback
+
+import FMCLCore.Download.MinecraftVanillaDownload
+import FMCLCore.System.CoreConfigIO
+import FMCLView.Const
+import FMCLView.main
 
 if __name__ == "__main__":
     try:
-        sys.stdout = open("FMCL.log", "w")
-        sys.stderr = open("FMCL.log", "w")
-        FMCLCore.System.CoreConfigIO.fix_depend()
+        FMCLCore.System.CoreConfigIO.fixdepend() # 修复配置文件
+        FMCLCore.Download.MinecraftVanillaDownload.get([], FMCLCore.System.CoreConfigIO.read()["Source"], True) # 缓存版本信息
+        FMCLView.Const.lang = FMCLCore.System.CoreConfigIO.read()["Language"] # 加载语言配置
         FMCLView.main.main()
-    except:
-        error_msg=traceback.format_exc()
-        print(FMCLCore.System.Logging.showerror("Error happend! Error message:"))
-        print(error_msg)
-        tkinter.messagebox.showerror("FMCL Error","Error message:\n"+error_msg)
-
+    except Exception as e:
+        tkinter.messagebox.showerror("FMCL Exception", repr(e))

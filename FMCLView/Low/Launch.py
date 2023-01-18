@@ -37,7 +37,7 @@ def launch(account: dict, version: str):
             result = subprocess.getstatusoutput(command)
             if result[0] != 0:
                 tkinter.messagebox.showerror(FMCLView.Const.get("Launch.Error") + str(result[0]),
-                                             FMCLView.Const.get("Launch.ErrorText"))
+                                             FMCLView.Const.get("Launch.ErrorText") + " Logs:\n" + result[1])
         else:
             tkinter.messagebox.showerror("FMCL", FMCLView.Const.get("Launch.NativeError"))
 

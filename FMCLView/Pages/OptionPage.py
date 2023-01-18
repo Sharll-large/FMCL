@@ -1,14 +1,16 @@
 import tkinter as tk
-import tkinter.ttk
 import tkinter.filedialog
+import tkinter.ttk
 
-import FMCLView.Const
-import FMCLCore.System.CoreVersionGet
 import FMCLCore.System.CoreConfigIO
+import FMCLCore.System.CoreVersionGet
+import FMCLView.Const
+
 
 def main():
     def browseJRE():
-        JRE.set(tk.filedialog.askopenfilename())
+        filename = tk.filedialog.askopenfilename()
+        JRE.set()
 
     def browseMINECRAFT():
         MINECRAFT.delete(0, "end")
@@ -21,11 +23,9 @@ def main():
         LANG.set(FMCLCore.System.CoreConfigIO.read()["Language"])
         SOURCE.set(FMCLCore.System.CoreConfigIO.read()["Source"])
         MINECRAFT.delete(0, "end")
-        THREADS.delete(0, "end")
-        MEMORY.delete(0, "end")
         MINECRAFT.insert(0, FMCLCore.System.CoreConfigIO.read()[".mc"])
-        THREADS.insert(0, str(FMCLCore.System.CoreConfigIO.read()["threads"]))
-        MEMORY.insert(0, str(FMCLCore.System.CoreConfigIO.read()["ram"]))
+        THREADS.set(str(FMCLCore.System.CoreConfigIO.read()["threads"]))
+        MEMORY.set(str(FMCLCore.System.CoreConfigIO.read()["ram"]))
         IFBOOST.set(FMCLCore.System.CoreConfigIO.read()["Boost"])
         IFALONE.set(FMCLCore.System.CoreConfigIO.read()["Alone"])
 
@@ -40,6 +40,7 @@ def main():
             "Alone": IFALONE.get(),
             "Boost": IFBOOST.get()
         })
+        print(THREADS.get())
 
     f = tk.ttk.Frame()
 
@@ -54,11 +55,11 @@ def main():
     tk.ttk.Button(f, text=FMCLView.Const.get("Option.Browse"), command=browseMINECRAFT).grid(row=1, column=2)
 
     tk.ttk.Label(f, text=FMCLView.Const.get("Option.Threads")).grid(row=2, column=0)
-    THREADS = tk.ttk.Entry(f)
+    THREADS = tk.ttk.Spinbox(f, from_=0, to=131072)
     THREADS.grid(row=2, column=1)
 
     tk.ttk.Label(f, text=FMCLView.Const.get("Option.Memory")).grid(row=3, column=0)
-    MEMORY = tk.ttk.Entry(f,)
+    MEMORY = tk.ttk.Spinbox(f, from_=0, to=131072)
     MEMORY.grid(row=3, column=1)
 
     tk.ttk.Label(f, text=FMCLView.Const.get("Option.Language")).grid(row=4, column=0)

@@ -1,4 +1,5 @@
 import platform
+import subprocess
 
 
 def arch():
