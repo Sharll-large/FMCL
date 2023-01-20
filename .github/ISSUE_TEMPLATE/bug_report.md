@@ -10,6 +10,8 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+*Notice: Please provide the Minecraft version, mods and mods loader (if installed), Java version and other information so that we can fix issues faster and easier.*
+
 **FMCL logs**
 the important part of launcher log
 
