@@ -63,8 +63,8 @@ def page(root: GUI) -> tk.Frame:
                 args["TOKEN"] = account["token"]
             command = launcher.launch(**args)
             if command:
-                if messagebox.askokcancel("First Minecraft Launcher", i["Launch.Tips.Ask"].format(version)):
-                    messagebox.showinfo("First Minecraft Launcher", i["Launch.Tips.Wait"])
+                if messagebox.askokcancel("First Minecraft Launcher", i["Launch.Ask"].format(version)):
+                    messagebox.showinfo("First Minecraft Launcher", i["Launch.Wait"])
                     logging.info("Launch game by command: {}".format(command))
 
                     def _game():
@@ -72,13 +72,13 @@ def page(root: GUI) -> tk.Frame:
                         print(res[0], type(res[0]))
                         if res[0]:
                             messagebox.showerror("First Minecraft Launcher",
-                                                 i["Launch.Tips.Error"].format(res[0], res[1]))
+                                                 i["Launch.Error"].format(res[0], res[1]))
 
                     Thread(target=_game).start()
             else:
-                messagebox.showerror("First Minecraft Launcher", i["Launch.Tips.NativeError"])
+                messagebox.showerror("First Minecraft Launcher", i["Launch.NativeError"])
         else:
-            messagebox.showerror("First Minecraft Launcher", i["Launch.Tips.NullError"])
+            messagebox.showerror("First Minecraft Launcher", i["Launch.NullError"])
 
     choose_account_comb = ttk.Combobox(content_part, width=20, values=[i["Launch.GUI.Choose_Account_Comb.Default"]],
                                        foreground="#595959", font=("微软雅黑 Light", 10), state="readonly",
