@@ -43,7 +43,7 @@ If you want to build the programme by yourself or do something you like to do, y
 
 4. Make Mods search & install
 
-5. version json download
+5. version json download 
 
 6. find resource of LWJGL arm
 
@@ -51,4 +51,4 @@ If you want to build the programme by yourself or do something you like to do, y
 
 8. Logging(Done)
 
-9. Rebuild NewUI(by pxinz)
+9. Rebuild New UI(by pxinz)
