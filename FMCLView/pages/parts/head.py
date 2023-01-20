@@ -1,5 +1,5 @@
 import tkinter as tk
-from tk_extend import GUI
+from FMCLView.tk_extend.framework import GUI
 
 
 def get_head_part(base: tk.Frame, root: GUI, now_choice: int) -> tk.Frame:

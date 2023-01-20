@@ -1,4 +1,5 @@
-from tk_extend import GUI, ButtonBox
+from FMCLView.tk_extend.framework import GUI
+from FMCLView.tk_extend.button_box import ButtonBox
 
 
 def main():

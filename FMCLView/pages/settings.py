@@ -1,12 +1,12 @@
 # coding:utf-8
 import tkinter as tk
-import tkinter.ttk as ttk
 import tkinter.messagebox as messagebox
-import tk_extend
-from tk_extend.framework import GUI
+import tkinter.ttk as ttk
+
 import FMCLCore.System.CoreConfigIO as config
-import FMCLView.pages.parts.head as head_part
 import FMCLView.i18n
+import FMCLView.pages.parts.head as head_part
+from FMCLView.tk_extend.framework import GUI
 
 i = FMCLView.i18n.langs
 # image=pixel, compound="center" <- 用像素为单位设置label大小的方法(不能用在button上!!!)
