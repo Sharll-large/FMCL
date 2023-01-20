@@ -1,6 +1,9 @@
-# FMCL新UI预览!  
-新UI由[pxinz](https://github.com/pxinz)开发! 希望可以让FMCL的UI变得更好看  
-## 如何使用?  
-下载FMCLView文件夹, 用它替换main分支里的FMCLView文件夹  
-## 这个UI不完整?  
-当然, 这个UI还正在开发, 希望能多多给我提建议!
+# FMCL new GUI indev!  
+The new GUI is developed by [pxinz](https://github.com/pxinz).  
+The perpose of the new GUI is to make codes more normative and make GUI more pretty.
+## How to use it?  
+Download gui-indev branch and run __main__.py  
+## Why doew this GUI is incomplete?  
+Of course. This GUI is still developing, you can tell pxinz to make develop faster.  
+***
+At the end, wish you can have a great day!
