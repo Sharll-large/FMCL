@@ -181,7 +181,7 @@ def page(root: GUI) -> tk.Frame:
                             activestyle="none", selectforeground="#595959", selectbackground="#BCE2D6", bd=0,
                             highlightthickness=0, selectborderwidth=0, exportselection=False, font=("微软雅黑", 10),
                             justify="right")
-    first_menu.insert(tk.END, "启动  ")
+    first_menu.insert(tk.END, i["Settings.Menu.Launch"]+"  ")
     first_menu.insert(tk.END, i["Settings.Menu.Lang"] + "  ")
     first_menu.insert(tk.END, i["Settings.Menu.Account"] + "  ")
     first_menu.select_set(0)
