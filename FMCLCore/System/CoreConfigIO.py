@@ -1,7 +1,7 @@
 import json
 import pathlib
+import logging
 from multiprocessing import cpu_count
-import FMCLCore.System.Logging
 import FMCLCore.System.CoreMakeFolderTask
 
 
@@ -17,6 +17,7 @@ class Config(object):
         return configs
 
     def change_config(self, name, value):
+        logging.info("Change config {} from {} to {}.".format(name, self.configs[name], value))
         self.configs[name] = value
 
     def init_configs(self):
@@ -31,6 +32,7 @@ class Config(object):
         self.change_config("accounts", [])  # 账号
 
     def write(self, **kwargs):
+        logging.info("Save config to file {}.".format(self.config_path))
         for key in kwargs.keys():
             self.change_config(key, kwargs[key])
         self.write_json(self.configs)
@@ -50,15 +52,15 @@ class Config(object):
         if not pathlib.Path(self.config_path).is_file():
             self.init_configs()
             self.write()
-            print(FMCLCore.System.Logging.showinfo("Config-Checker:\tConfig file not found. Create config.json."))
+            logging.info("Config file not found. Create {}.".format(self.config_path))
         else:
             try:
                 self.read()
             except json.decoder.JSONDecodeError:
-                print(FMCLCore.System.Logging.showwarning("Config-Checker:\tConfig file is broken, fixing."))
+                logging.info("Config file is broken, fixing.")
                 self.init_configs()
                 self.write()
-                print(FMCLCore.System.Logging.showsuccess("Config-Checker:\tSuccessfully fixed config.json."))
+                logging.info("Successfully fixed config.json.")
 
             finally:
                 config_json = self.read()
@@ -66,10 +68,10 @@ class Config(object):
                        "language": "English(US)", "source": "Default", "alone": False, "boost": False, "accounts": []}
                 for i in std:
                     if i not in config_json:
-                        print(FMCLCore.System.Logging.showwarning("Config-Checker:\tMissing object: " + i))
+                        logging.info("Missing object: {}".format(i))
                         self.change_config(i, std[i])
                 self.write()
-                print(FMCLCore.System.Logging.showsuccess("Config-Checker:\tSuccessfully fixed config file"))
+                logging.info("Successfully fixed config file.")
 
         FMCLCore.System.CoreMakeFolderTask.make_mc_dir(self.get(".mc"))
 

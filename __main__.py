@@ -30,5 +30,4 @@ if __name__ == "__main__":
         logging.error(f"Error happened! Error message:\n {error_msg}")
         tkinter.messagebox.showerror("FMCL Error", "Error message:\n" + error_msg)
     except KeyboardInterrupt:
-        "#01"
         logging.info("FMCL stopped.")
