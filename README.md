@@ -3,9 +3,9 @@
 ### Full name: First Minecraft Launcher
 
 ### About:
-A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
+  A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
 
-Our dream is to create a new minecraft launcher developing period for python developers.
+  Our dream is to create a new minecraft launcher developing period for python developers.
 
 ### Platform support
 |CPU Arch\OS|Windows|Linux|MacOS|
@@ -25,14 +25,14 @@ Our dream is to create a new minecraft launcher developing period for python dev
 
 
 ### Making Minecraft launcher, you can do it too!
-The FMCL core does not completely rely on the GUI module, so you can write your own GUI!
+  The FMCL core does not completely rely on the GUI module, so you can write your own GUI!
 
-Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
+  Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
 
 ### Download this programme
-You can download packed .pyzw files in Releases.
+  You can download packed .pyzw files in Releases.
 
-If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
+  If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
 
 ### Coding plans
 1. Make stable launching core(Done)
