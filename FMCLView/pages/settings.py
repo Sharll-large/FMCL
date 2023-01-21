@@ -24,7 +24,7 @@ def launch_settings(_base: tk.Frame) -> tk.Frame:
     def browse_mc_dir():
         dir = filedialog.askdirectory()
         if dir:
-            config.change_config_and_safe(dir)
+            config.change_config_and_safe(".mc", dir)
             path_entry.delete(0, tk.END)
             path_entry.insert(0, dir)
             messagebox.showinfo("First Minecraft Launcher", i["Settings.Launch.Tips.ChangeSuccess"])
@@ -34,7 +34,7 @@ def launch_settings(_base: tk.Frame) -> tk.Frame:
     def save():
         dir = path_entry.get()
         if dir:
-            config.change_config_and_safe(dir)
+            config.change_config_and_safe(".mc", dir)
             path_entry.delete(0, tk.END)
             path_entry.insert(0, dir)
             messagebox.showinfo("First Minecraft Launcher", i["Settings.Launch.Tips.ChangeSuccess"])
@@ -181,7 +181,7 @@ def page(root: GUI) -> tk.Frame:
                             activestyle="none", selectforeground="#595959", selectbackground="#BCE2D6", bd=0,
                             highlightthickness=0, selectborderwidth=0, exportselection=False, font=("微软雅黑", 10),
                             justify="right")
-    first_menu.insert(tk.END, i["Settings.Menu.Launch"]+"  ")
+    first_menu.insert(tk.END, "启动  ")
     first_menu.insert(tk.END, i["Settings.Menu.Lang"] + "  ")
     first_menu.insert(tk.END, i["Settings.Menu.Account"] + "  ")
     first_menu.select_set(0)

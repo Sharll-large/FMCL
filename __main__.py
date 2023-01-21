@@ -4,6 +4,7 @@ import logging
 import FMCLView.main
 import tkinter.messagebox
 import traceback
+import FMCLCore.System.CoreConfigIO
 
 
 def main(*args):
@@ -31,3 +32,5 @@ if __name__ == "__main__":
         tkinter.messagebox.showerror("FMCL Error", "Error message:\n" + error_msg)
     except KeyboardInterrupt:
         logging.info("FMCL stopped.")
+
+    FMCLCore.System.CoreConfigIO.write_json(FMCLCore.System.CoreConfigIO.config.configs)

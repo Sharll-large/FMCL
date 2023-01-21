@@ -8,13 +8,11 @@ import FMCLCore.System.CoreMakeFolderTask
 class Config(object):
     def __init__(self, config_path=".first.mcl.json"):
         self.config_path = str(pathlib.Path(config_path).resolve())
-        self.configs = {}
+        self.configs = json.loads(open(self.config_path, "r", encoding="utf-8").read())
+
 
     def read(self):
-        with open(self.config_path, "r", encoding="utf-8") as f:
-            configs = json.loads(f.read())
-        self.configs = configs
-        return configs
+        return self.configs
 
     def change_config(self, name, value):
         logging.info("Change config {} from {} to {}.".format(name, (
@@ -33,16 +31,15 @@ class Config(object):
         self.change_config("accounts", [])  # 账号
 
     def write(self, **kwargs):
-        logging.info("Save config to file {}.".format(self.config_path))
         for key in kwargs.keys():
             self.change_config(key, kwargs[key])
-        self.write_json(self.configs)
 
     def write_json(self, configs: dict):
         with open(self.config_path, "w+") as f:
             f.write(json.dumps(configs))
+        logging.info("Save config to file {}.".format(self.config_path))
 
-    def change_config_and_safe(self, name, value):
+    def change_config_and_save(self, name, value):
         self.change_config(name, value)
         self.write()
 
@@ -84,6 +81,6 @@ read = config.read
 change_config = config.change_config
 write = config.write
 write_json = config.write_json
-change_config_and_safe = config.change_config_and_safe
+change_config_and_safe = config.change_config_and_save
 get = config.get
 fix_depend = config.fix_depend
