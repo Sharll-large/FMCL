@@ -1,5 +1,4 @@
 import tkinter as tk
-import tkinter.dialog as dialog
 
 
 class DefaultStyle(object):
@@ -67,7 +66,7 @@ def button_box(message: str = "Please choose:", title: str = "Button box",
     return ButtonBox(message, title, choices, arrange, root_args, label_args, button_args).main()
 
 
-class EntryBox(tk.Toplevel):
+class EntryBox(tk.Tk):
     def __init__(self, message: str = "Please input:", title: str = "Entry box",
                  entries: str | list[str] | tuple[str,] = None,
                  defaults: str | list[str] | tuple[str,] = None,
@@ -85,17 +84,17 @@ class EntryBox(tk.Toplevel):
         elif isinstance(entries, str):
             entries = (entries,)
         if defaults is None:
-            defaults = ["" for i in range(len(entries))]
+            defaults = ["" for _ in range(len(entries))]
         elif isinstance(defaults, str):
-            defaults = (defaults,) + tuple("" for i in range(len(entries) - 1))
+            defaults = (defaults,) + tuple("" for _ in range(len(entries) - 1))
         elif len(defaults) < len(entries):
-            defaults = tuple(defaults) + tuple("" for i in range(len(entries) - len(defaults)))
+            defaults = tuple(defaults) + tuple("" for _ in range(len(entries) - len(defaults)))
         self.entries_count = 0
         self.entries = []
         # 回调
         self.r = None
         # 布局
-        #self.attributes("-toolwindow", 2)
+        self.attributes("-toolwindow", 2)
         self.root = tk.Frame(self, **root_args)
         self.root.pack(fill="both", expand=True)
         self.title(title)

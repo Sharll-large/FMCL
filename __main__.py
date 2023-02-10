@@ -1,13 +1,36 @@
-# FMCL Boot Entry.
+# coding:utf-8
+# FMCL Boot Entry
+"""
+    启动FMCL
+"""
+# ----------
+# Authors:
+# 底层: sharll, AGJ
+# GUI: pxinz
+# i18n: AGJ, pxinz
+# ----------
+# Libraries:
+# 框架: tkinter
+# ----------
+# Thank for using FMCL!
+# ----------
 import sys
 import logging
 import FMCLView.main
 import tkinter.messagebox
 import traceback
-import FMCLCore.System.CoreConfigIO
+from os import chdir, path
+
+__author__ = ["sharll", "AGJ", "pxinz"]
 
 
-def main(*args):
+def main(*args) -> None:
+    """
+        启动程序
+        :param args: 启动参数
+        :return: 无
+    """
+    chdir(path.join(*path.split(args[0])[:-1]))
     # 配置logger
     logging.basicConfig(
         level=(args[args.index("-log-level") + 1] if "-log-level" in args else logging.DEBUG),
@@ -25,26 +48,11 @@ def main(*args):
 if __name__ == "__main__":
     print(sys.argv)
     try:
-        main(sys.argv)
+        main(*sys.argv)
     except Exception as e:
         error_msg = traceback.format_exc()
+        sys.stderr.write(error_msg)
         logging.error(f"Error happened! Error message:\n {error_msg}")
         tkinter.messagebox.showerror("FMCL Error", "Error message:\n" + error_msg)
     except KeyboardInterrupt:
         logging.info("FMCL stopped.")
-
-    FMCLCore.System.CoreConfigIO.write_json(FMCLCore.System.CoreConfigIO.config.configs)
-    
-# ⠀⠀⠀⠀⠀⠀⠀⠀⣠⡶⠶⠲⠖⠶⠶⢦⣀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⣰⡏⠀⢀⣀⣀⣀⠀⠀⠙⣷⡀⠀
-# ⠀⠀⠀⠀⠀⠀⢀⡿⠀⣾⣏⠉⠉⠉⠉⣷⠀⠘⣷⠀
-# ⠀⠀⠀⠀⠀⠀⣼⠇⠀⠘⠻⠿⠿⠿⠛⠋⠀⠀⢹⡇
-# ⠀⠀⠀⠀⠀⠀⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢸⡇
-# ⠀⠀⠀⠀⠀⢸⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀ ⣿
-# ⠀⠀⠀⠀⠀⣼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⣿
-# ⠀⠀⠀⠀⢀⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⣿
-# ⠀⠀⠀⠀⢸⡇⠀⠀⣴⠖⠛⠛⠛⠳⡆⠀⠀⠀⠀⣿
-# ⢀⡴⠶⠦⣿⠀⠀⠀⢻⡀⠀⠀⠀⠀⡇⠀⠀⠀⠀⣿
-# ⢺⣄⠀⠀⠀⠀⠀⣀⣼⠇⠀⣠⣤⣼⠇⠀⠀⠀⠀⡿
-# ⠀⠙⠛⠛⠛⠛⠛⠋⠀⠀⣾⡁⠀⠀⠀⠀⠀⢀⣠⠇
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠓⠶⠶⠶⠛⠋⠁
