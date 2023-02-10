@@ -19,8 +19,8 @@ def main() -> None:
     # 初始化样式
     styles.init()
     dialogs.DefaultStyle.default_root_args = styles.frame()
-    dialogs.DefaultStyle.default_label_args = styles.label()
-    dialogs.DefaultStyle.default_button_args = styles.button()
+    dialogs.DefaultStyle.default_label_args = styles.label("image", "compound")
+    dialogs.DefaultStyle.default_button_args = styles.button("image", "compound")
     dialogs.DefaultStyle.default_entry_args = styles.entry()
 
     # 窗口设定

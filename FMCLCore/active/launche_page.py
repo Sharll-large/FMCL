@@ -4,6 +4,7 @@
 """
 import FMCLCore.system.CoreConfigIO as config
 import FMCLCore.launch.launcher as launcher
+import FMCLCore.download.minecraft_patcher as patcher
 from FMCLView.i18n import langs
 from tkinter import messagebox
 import logging
@@ -21,18 +22,23 @@ def launch_game(account_id: int, version: str) -> None:
     """
     if account_id and version and version != langs["Launch.GUI.Choose_Version_Comb.Default"]:
         account = config.get("accounts")[account_id - 1]
-        args = {
+        args_1 = {
             "game_directory": config.get(".mc"),
             "version_name": version,
             "java_path": config.get("java"),
             "account": account,
             "java_ram": config.get("ram"),
-            "threads": config.get("threads"),
             "use_jvm_for_performance": config.get("boost"),
             "standalone": config.get("alone"),
+        }
+        args_2 = {
+            "game_directory": config.get(".mc"),
+            "version_name": version,
+            "threads": config.get("threads"),
             "download_source": config.get("source")
         }
-        command = launcher.launch(**args)
+        patcher.patch(**args_2)
+        command = launcher.launch(**args_1)
         if command:
             if messagebox.askokcancel("First Minecraft Launcher", langs["Launch.Ask.Launch_Game"].format(version)):
                 messagebox.showinfo("First Minecraft Launcher", langs["Launch.Tips.Wait"])

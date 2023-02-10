@@ -66,7 +66,7 @@ def button_box(message: str = "Please choose:", title: str = "Button box",
     return ButtonBox(message, title, choices, arrange, root_args, label_args, button_args).main()
 
 
-class EntryBox(tk.Tk):
+class EntryBox(tk.Toplevel):
     def __init__(self, message: str = "Please input:", title: str = "Entry box",
                  entries: str | list[str] | tuple[str,] = None,
                  defaults: str | list[str] | tuple[str,] = None,
@@ -95,6 +95,7 @@ class EntryBox(tk.Tk):
         self.r = None
         # 布局
         self.attributes("-toolwindow", 2)
+        self.attributes("-topmost", True)
         self.root = tk.Frame(self, **root_args)
         self.root.pack(fill="both", expand=True)
         self.title(title)
