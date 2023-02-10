@@ -41,7 +41,7 @@ def auth(use_callback: bool, code: str = None):
     account = {}
     # authcode
     if use_callback:
-        authcode = code[code.find("?code=") + 6:code.find("&lc=")]
+        authcode = urllib.parse.parse_qs(urllib.parse.urlparse(code).query)["code"][0]
         ms_data = urllib.parse.urlencode(
             {"client_id": "00000000402b5328", "code": authcode, "grant_type": "authorization_code",
              "redirect_uri": "https://login.live.com/oauth20_desktop.srf",
