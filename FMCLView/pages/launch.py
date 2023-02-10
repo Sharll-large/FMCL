@@ -46,9 +46,7 @@ def page(root: GUI) -> tk.Frame:
         accounts = [langs["Launch.GUI.Choose_Account_Comb.Default"]]
         choose_account_comb["values"] = []
         for account in config.get("accounts"):
-            accounts.append("[{}] {}".format(
-                ("Microsoft" if account.get("MS_refresh_token") else "Offline"),
-                account["username"]))
+            accounts.append("[{}] {}".format(account["type"], account["username"]))
         choose_account_comb["values"] = accounts
 
     def refresh_version_list():
