@@ -3,11 +3,12 @@ import json
 import os
 import platform
 import re
+import subprocess
 import threading
-import urllib.request
 import urllib.parse
-import uuid
+import urllib.request
 
+import FMCLCore.Auth.MicrosoftAuth
 import FMCLCore.System.Logging
 import FMCLCore.System.SystemAndArch
 import FMCLCore.System.UnzipTask
@@ -63,9 +64,10 @@ def _checkRules(rules: dict):
                 elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()): return False
     return True
 
-def launch(game_directory: str = ".minecraft", version_name: str = "", java: str = "java", playername: str = "player",
-           UUID: str = uuid.uuid4().hex, TOKEN: str = "0", JvmMaxMemory: int = 1024, FixMaxThread: int = 64,
-           UseJvmForPerformance: bool = False, standalone: bool = False, download_source: str = "Default"):
+def launch(game_directory: str, version_name: str, account: dict,
+           java_path: str = "java", java_ram: int = 1024, threads: int = 64,
+           use_jvm_for_performance: bool = False, standalone: bool = False, download_source: str = "Default"):
+
     def converturl(url: str): # 若切换了下载源调用此方法转换链接
         for link in down:
             url = url.replace(link, down[link])
@@ -100,6 +102,9 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
             "https://maven.fabricmc.net/": "https://bmclapi2.bangbang93.com/maven/"
         }
 
+    if "MS_refresh_token" in account:
+        account = FMCLCore.Auth.MicrosoftAuth.Auth(False, account["MS_refresh_token"])
+
     verpath = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
     nativepath = os.path.join(verpath, "natives-" + FMCLCore.System.SystemAndArch.system())
@@ -116,10 +121,10 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
     assets_index_path = os.path.join(assetspath, "indexes", ver_json["assetIndex"]["id"] + ".json")
     assets_object_path = os.path.join(assetspath, "objects")
 
-    cmdlist.append(java)
+    cmdlist.append(java_path)
 
-    cmdlist.append("-Xmx" + str(JvmMaxMemory) + "m")
-    if UseJvmForPerformance:
+    cmdlist.append("-Xmx" + str(java_ram) + "m")
+    if use_jvm_for_performance:
         cmdlist.append("-XX:+UnlockExperimentalVMOptions")
         cmdlist.append("-XX:+UseParallelGC")
         cmdlist.append("-XX:-OmitStackTraceInFastThrow")
@@ -223,19 +228,19 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
             "size": assets_json[i]["size"]
         })
 
-    multprocessing_task(need_to_be_fixed, download_native, FixMaxThread) #多线程下载依赖
+    multprocessing_task(need_to_be_fixed, download_native, threads) #多线程下载依赖
     cp += jarpath #最终将Minecraft核心传入classpath
 
     arg = {
         "${mainClass}": ver_json["mainClass"],
         "${natives_directory}": nativepath,
         "${launcher_name}": "FMCL",
-        "${launcher_version}": "Rebuild",
+        "${launcher_version}": "Preview",
         "${classpath}": cp,
         "${assets_root}": assetspath,
         "${assets_index_name}": ver_json["assetIndex"]["id"],
-        "${auth_uuid}": UUID,
-        "${auth_access_token}": TOKEN,
+        "${auth_uuid}": account["uuid"],
+        "${auth_access_token}": account["access_token"],
         "${user_type}": "Mojang",
         "${version_type}": "FMCL",
         "${user_properties}": "{}",
@@ -243,7 +248,7 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
         "${clientid}": "0",
         "${auth_xuid}": "0",
         "${game_assets}": "resources",
-        "${auth_player_name}": playername,
+        "${auth_player_name}": account["username"],
         "${version_name}": version_name,
         "${game_directory}": game_directory
     } #这一串东西是字符串替换模板，用于设置正确的jvm/game参数
@@ -252,5 +257,5 @@ def launch(game_directory: str = ".minecraft", version_name: str = "", java: str
         for j in arg:
             cmdlist[i] = cmdlist[i].replace(j, arg[j])
 
-    return cmdlist
+    return subprocess.list2cmdline(cmdlist), account
 
