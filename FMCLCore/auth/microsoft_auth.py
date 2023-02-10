@@ -38,7 +38,7 @@ def auth(use_callback: bool, code: str = None):
         :param code: 注册的回调url
         :return:
     """
-    account = {}
+    account = {"type": "Microsoft"}
     # authcode
     if use_callback:
         authcode = urllib.parse.parse_qs(urllib.parse.urlparse(code).query)["code"][0]

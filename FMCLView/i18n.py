@@ -84,6 +84,7 @@ lang0 = Lang(
         "Settings.Launch.GUI.Standalone": "版本隔离",
         "Settings.Launch.Tips.ChangeSuccess": "修改成功!",
         "Settings.Launch.Tips.PathError": "请输入正确的目录!",
+        "Settings.Launch.Tips.RefreshAvatar": "单击刷新头像, 离线账号没有头像",
         "Settings.Menu.Account": "账号",
         "Settings.Menu.Lang": "语言",
         "Settings.Menu.Launch": "启动",
@@ -99,12 +100,10 @@ lang1 = Lang(
         "Launch.GUI.New_Account_Btn": "New Account",
         "Launch.GUI.Version_List_Btn": "Versions List",
         "Launch.GUI.Version_Settings_Btn": "Version Settings",
-        "Launch.Tips.Error": "Game exited unexpectedly. Error code: {}\nPlease send FMCL.log but not this window to "
-                             "other who can help you.",
+        "Launch.Tips.Error": "Game exited unexpectedly. Error code: {}\nPlease send FMCL.log but not this window to other who can help you.",
         "Launch.Tips.NativeError": "Can't pass version check. Please re-choose or manual check minecraft version.",
         "Launch.Tips.NullError": "Version or account doesn't exist!",
-        "Launch.Tips.Wait": "We'll launch game after you click the OK button. Please wait for the game window to "
-                            "appear patiently, Then enjoy Minecraft!",
+        "Launch.Tips.Wait": "We'll launch game after you click the OK button. Please wait for the game window to appear patiently, Then enjoy Minecraft!",
         "Settings.Account.Ask.AccountName": "Please entry the name of account:",
         "Settings.Account.Ask.DeleteAccount": "Are you sure to delete the account names \"{}\"?",
         "Settings.Account.Ask.Url": "Please enter the url what redirct from the page.",
@@ -113,25 +112,22 @@ lang1 = Lang(
         "Settings.Account.GUI.New_Offline_Account_Btn": "New Offline Account",
         "Settings.Account.Name.AccountName": "Account Name",
         "Settings.Account.Tips.AddAccountSuccess": "Account appended successfully!",
-        "Settings.Account.Tips.AddMicrosoftAccount": "To add a Microsoft Account:\n"
-                                                     "1. Open login link;\n"
-                                                     "2. Copy the redircted link to FMCL;\n"
-                                                     "Click \"OK\" to open login link.",
+        "Settings.Account.Tips.AddMicrosoftAccount": "To add a Microsoft Account:\n1. Open login link;\n2. Copy the redircted link to FMCL;\nClick \"OK\" to open login link.",
         "Settings.Account.Tips.NetworkError": "Access Error, Please check the URL you entered and the network.",
         "Settings.Account.Tips.UnknownError": "An unknown error has occurred. Below are error messages:\n{}",
         "Settings.Account.Tips.URLError": "Please enter correct url.",
-        "Settings.Account.Tips.Wait": "We'll login after you close this window, please wait us for login patiently, "
-                                      "don't close the launcher window!",
+        "Settings.Account.Tips.Wait": "We'll login after you close this window, please wait us for login patiently, don't close the launcher window!",
         "Settings.Lang.Tips.Restart": "Lang changed successfully! Please restart the program.",
         "Settings.Launch.GUI.Boost": "Enable Boost Args",
         "Settings.Launch.GUI.Browse_Btn": "Browse",
         "Settings.Launch.GUI.McPath": ".minecraft Path",
         "Settings.Launch.GUI.Save_Btn": "Save",
-        "Settings.Launch.GUI.Standalone": "Version Standalone",
+        "Settings.Launch.GUI.Standalone": "Versions Standalone",
         "Settings.Launch.Tips.ChangeSuccess": "Change successfully!",
         "Settings.Launch.Tips.PathError": "Please enter correct path!",
+        "Settings.Launch.Tips.RefreshAvatar": "Click to refresh avatar, offline accounts haven't avatar.",
         "Settings.Menu.Account": "Account",
-        "Settings.Menu.Lang": "Lang",
+        "Settings.Menu.Lang": "Languages",
         "Settings.Menu.Launch": "Launch",
     }
 )

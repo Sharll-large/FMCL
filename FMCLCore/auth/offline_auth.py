@@ -14,6 +14,7 @@ def auth(player_name: str) -> dict:
         :return: 玩家信息
     """
     return {
+        "type": "Offline",
         "username": player_name,
         "uuid": uuid.uuid4().hex,
         "access_token": base64.b64encode(("{\"name\": \"" + player_name + "\"}").encode()).decode()

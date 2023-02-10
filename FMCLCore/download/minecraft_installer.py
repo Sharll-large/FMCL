@@ -65,3 +65,5 @@ class MinecraftInstaller(object):
 
 
 installer = MinecraftInstaller()
+refresh = installer.refresh
+get = installer.get
