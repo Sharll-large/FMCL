@@ -148,9 +148,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
     base = tk.Frame(_base, width=360, background="#E3F3EE")
     account_list = tk.Listbox(base, width=20, height=9, font=("微软雅黑 Light", 10), bd=0)
     for account in config.get("accounts"):
-        account_list.insert(tk.END, "[{}] {}".format(
-            ("Microsoft" if account.get("MS_refresh_token") else "Offline"),
-            account["username"]))
+        account_list.insert(tk.END, "[{}] {}".format(account["type"], account["username"]))
     account_list.grid(column=0, row=0, rowspan=3, padx=(0, 10))
     tk.Button(base, width=30, height=1, text=langs["Settings.Account.GUI.New_Microsoft_Account_Btn"],
               foreground="#595959", background="#BCE2D6", activebackground="#7FC7B1",
