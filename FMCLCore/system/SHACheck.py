@@ -29,6 +29,6 @@ with open(sus, 'rb') as f:
 print(omg)
 # 判断
 if omg != response:
-    print("您所运行的FMCL并非最新版或已被篡改，我们建议您从官网下载最新版。")
+    print("您所运行的FMCL并非最新版或已被篡改，我们建议您从官网下载最新版")
 else:
-    print("您所使用的FMCL为最新版且未被篡改。")
+    print("您所使用的FMCL为最新版且未被篡改")
