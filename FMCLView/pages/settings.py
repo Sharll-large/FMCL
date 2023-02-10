@@ -138,7 +138,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
         if select is not None:
             if messagebox.askokcancel("First Minecraft Launcher",
                                       langs["Settings.Account.Ask.DeleteAccount"].format(
-                                          config.get("accounts")[select]["name"]
+                                          config.get("accounts")[select]["username"]
                                       )):
                 accounts = config.get("accounts")
                 accounts.pop(select)
