@@ -47,7 +47,7 @@ def check(file_path: os.PathLike) -> None:
         except TimeoutError:
             return
         sha_object = hashlib.sha256()
-        sha_object.update(open(file_path, "rb").read())
+        sha_object.update(open(os.path.join("/", *main_file[:-1]), "rb").read())
 
         if sha_object.hexdigest() != version["sha256"]:
             if tkinter.messagebox.askokcancel("First Minecraft Launcher", langs["Update.Ask.Update"].format(
