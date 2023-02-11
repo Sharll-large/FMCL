@@ -8,21 +8,21 @@ import urllib.parse
 import hashlib
 import ssl
 
-# 计算好的SHA256
+# 计算好的SHA256的URL
 sha_url = "https://raw.githubusercontent.com/AGJ-smart/MyTestRepo/main/verification.txt"
-# 请求头
+# 设立请求头
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
                          "Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
 # 改铸币SSL规则
 ssl._create_default_https_context = ssl._create_unverified_context
-# 请求
+# 进行请求
 req = urllib.request.Request(url=sha_url, headers=headers)
-# 解码
+# 进行解码
 response = urllib.request.urlopen(sha_url).read().decode("utf-8").rstrip()
 print(response)
 
 # 计算本地FMCL
-sus = "FMCL(1).pyzw"
+sus = "FMCL(1).pyzw" #
 with open(sus, 'rb') as f:
     omg = hashlib.new("sha256", f.read()).hexdigest()
 
