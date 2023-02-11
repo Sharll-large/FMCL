@@ -34,6 +34,7 @@ def get_skin_of(name: str, uuid: str, refresh: bool = False) -> bytes | None:
             if i["name"] == "textures":
                 skin_url = json.loads(base64.b64decode(i["value"]).decode())["textures"]["SKIN"]["url"]
                 content = urllib.request.urlopen(skin_url).read()
+                os.makedirs(os.path.dirname(file_path), exist_ok=True)
                 with open(file_path, "wb") as f:
                     f.write(content)
                 return content
@@ -42,6 +43,3 @@ def get_skin_of(name: str, uuid: str, refresh: bool = False) -> bytes | None:
         with open(file_path, "rb") as f:
             content = f.read()
         return content
-
-
-get_skin_of("pxinz", "843ae017379a45a4a1f56a25aff31563", True)
