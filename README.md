@@ -51,4 +51,4 @@
 
 8. Logging(Done)
 
-9. Rebuild New UI(by pxinz)
+9. Rebuild New UI(by pxinz) (Done)
