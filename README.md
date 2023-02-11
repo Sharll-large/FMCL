@@ -1,5 +1,5 @@
 # FMCL —— An Open Source, Lite, Cross Platform Minecraft Launcher.
-[中文版(Chinese Version)](https://github.com/Sharll-large/FMCL/edit/main/README.zh.md)
+[中文版(Chinese Version)](https://github.com/Sharll-large/FMCL/blob/main/README.zh.md)
 
 ### Full name: First Minecraft Launcher
 
