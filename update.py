@@ -10,40 +10,61 @@ import hashlib
 import FMCLCore.system.CoreConfigIO as config
 import os
 import tkinter.messagebox
+import sys
+import time
+from FMCLView.i18n import langs
+
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                         "Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
+
 
 def _get_version():
-    update_url = "https://sharll-large.github.io/FMCL/version.json" if config.get("source") == "Default" else "https://gitee.com/AGJCreate/test-repo/raw/master/verification.json"
+    """
+        获取最新版本
+        :return:
+    """
+    update_url = "https://sharll-large.github.io/FMCL/version.json" if config.get(
+        "source") == "Default" else "https://gitee.com/AGJCreate/test-repo/raw/master/verification.json"
 
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                                 "Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
-
-    req = urllib.request.Request(url=update_url, headers=headers, )
-    response = urllib.request.urlopen(req, timeout=5).read()
+    request = urllib.request.Request(url=update_url, headers=headers)
+    response = urllib.request.urlopen(request, timeout=5).read()
     version = json.loads(response)
     return version
 
 
-def check():
-
-    filepath = os.path.dirname(__file__)
-
-    if os.path.isfile(filepath):
-        sha_object = hashlib.sha256()
-        sha_object.update(open(filepath, "rb").read())
+def check(file_path: os.PathLike) -> None:
+    """
+        热更新
+        :return: 无
+    """
+    if __file__ == file_path:
+        # 检查sha256与版本
         try:
             version = _get_version()
         except TimeoutError:
-
-            tkinter.messagebox.showwarning("First Minecraft Launcher", "连接到更新服务器超时")
             return
+        sha_object = hashlib.sha256()
+        sha_object.update(open(file_path, "rb").read())
 
         if sha_object.hexdigest() != version["sha256"]:
-            buf = "检测到新的FMCL版本"+version["version"]+"\n"
-            for i in version["log"]:
-                buf += i + "\n"
-            buf += "是否进行更新?"
-
-            tkinter.messagebox.askokcancel("First Minecraft Launcher", buf)
+            if tkinter.messagebox.askokcancel("First Minecraft Launcher", langs["Update.Ask.Update"].format(
+                    version["version"], "\n".join(["· " + log for log in version["log"]]))):
+                with open("_update_FMCL.py", "w") as f:
+                    f.write(
+                        'import urllib.request,os,sys,time;print("*Updating FMCL*");req=urllib.request.Request('
+                        'url=sys.argv[1],headers={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) '
+                        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU '
+                        '360SE"});print("Downloading FMCL...");response=urllib.request.urlopen(req,timeout=5);'
+                        'print("Writing FMCL to file...");content=response.read(128);f=open("FMCL.pyzw","wb");\n'
+                        'while content:f.write(content);content=response.read(128)\nf.close();'
+                        'print("*Download successfully, opening FMCL*");os.system("start /B python FMCL.pyzw");'
+                        'time.sleep(0.2)'
+                    )
+                    os.system("start python _update_FMCL.py " + version["url"])
+                    time.sleep(0.2)
+                    sys.exit(0)
 
     else:
-        tkinter.messagebox.showwarning("First Minecraft Launcher", "您似乎解压了FMCL, 如果你不是开发者，这种做法不被推荐。自动更新已停用！")
+        config.change_config_and_safe("auto_update", False)
+        tkinter.messagebox.showwarning("First Minecraft Launcher",
+                                       langs["Update.Tips.UnZipWarning"])
