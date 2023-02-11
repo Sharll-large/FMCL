@@ -20,7 +20,7 @@ import sys
 import tkinter.messagebox
 import traceback
 from os import chdir, path
-
+import threading
 import update
 import FMCLView.main
 
@@ -52,7 +52,6 @@ if __name__ == "__main__":
     print(sys.argv)
     print(os.path.dirname(__file__))
     try:
-        update.check()
         main(*sys.argv)
     except Exception as e:
         error_msg = traceback.format_exc()
