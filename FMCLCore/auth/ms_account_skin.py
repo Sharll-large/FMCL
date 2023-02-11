@@ -4,7 +4,7 @@
 """
 import base64
 import json
-import os.path
+import os
 import urllib.parse
 import urllib.request
 import FMCLCore.system.CoreConfigIO as config
