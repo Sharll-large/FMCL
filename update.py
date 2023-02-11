@@ -37,7 +37,10 @@ def check(file_path: os.PathLike) -> None:
         热更新
         :return: 无
     """
-    if __file__ == file_path:
+    main_file = os.path.split(file_path)
+    update_file = os.path.split(__file__)
+    if __file__ == file_path or main_file[:-1] == update_file[:-1] and \
+            main_file[-2].split(".")[-1] in ["pyz", "pyzw"] and main_file[-1].split(".")[-1] in ["py", "pyw"]:
         # 检查sha256与版本
         try:
             version = _get_version()
