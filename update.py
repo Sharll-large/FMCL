@@ -47,5 +47,3 @@ def check():
 
     else:
         tkinter.messagebox.showwarning("First Minecraft Launcher", "您似乎解压了FMCL, 如果你不是开发者，这种做法不被推荐。自动更新已停用！")
-
-_get_version()
