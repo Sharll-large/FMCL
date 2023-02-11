@@ -12,7 +12,7 @@ import os
 import tkinter.messagebox
 
 def _get_version():
-    update_url = "https://sharll-large.github.io/FMCL/version.json" if config.get("source") == "Default" else None
+    update_url = "https://sharll-large.github.io/FMCL/version.json" if config.get("source") == "Default" else "https://gitee.com/AGJCreate/test-repo/raw/master/verification.json"
 
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
                                  "Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
