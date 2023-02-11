@@ -1,7 +1,7 @@
 import json
 import pathlib
 import logging
-from multiprocessing import cpu_count
+import os
 import FMCLCore.system.CoreMakeFolderTask
 
 
@@ -22,10 +22,10 @@ class Config(object):
         self.configs[name] = value
 
     def init_configs(self):
-        self.change_config(".mc", ".minecraft")  # mc文件夹
+        self.change_config(".mc", os.path.abspath(".minecraft"))  # mc文件夹
         self.change_config("java", "java")  # java路径
         self.change_config("ram", 1024)  # 内存(mb)
-        self.change_config("threads", cpu_count() * 8)  # 下载核数
+        self.change_config("threads", 80)  # 下载并发数
         self.change_config("language", "English(US)")  # 语言
         self.change_config("source", "Default")  # 下载源
         self.change_config("alone", False)  # 版本隔离
@@ -65,7 +65,7 @@ class Config(object):
 
             finally:
                 config_json = self.read()
-                std = {".mc": ".minecraft", "java": "java", "ram": 1024, "threads": cpu_count() * 8,
+                std = {".mc": os.path.abspath(".minecraft"), "java": "java", "ram": 1024, "threads": 80,
                        "language": "English(US)", "source": "Default", "alone": False, "boost": False, "accounts": [],
                        "current_account": None}
                 for i in std:
