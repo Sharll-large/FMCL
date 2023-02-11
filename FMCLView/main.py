@@ -6,7 +6,8 @@ from FMCLView.tk_extend.frame import GUI
 import FMCLView.styles as styles
 from FMCLView.pages import launch, settings
 from FMCLView.tk_extend import dialogs
-
+import threading
+import update
 
 def main() -> None:
     """
@@ -15,6 +16,7 @@ def main() -> None:
     """
     # 创建窗口
     gui = GUI()
+    threading.Thread(target=update.check).start()
 
     # 初始化样式
     styles.init()
