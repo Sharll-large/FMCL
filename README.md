@@ -17,7 +17,7 @@
 > 
 > 
 > ✔ - Full support (verified)  
-> ❔ - Done but unverified (Some functions may not be available)  
+> ❔ - Done but unverified (Some functions may not be available, There may be more bugs)  
 > 📌 - Plan to do  
 > ❌ - Won't support  
 
