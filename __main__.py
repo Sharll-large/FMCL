@@ -3,6 +3,8 @@
 """
     启动FMCL
 """
+import logging
+import os.path
 # ----------
 # Authors:
 # 底层: sharll, AGJ
@@ -15,11 +17,12 @@
 # Thank for using FMCL!
 # ----------
 import sys
-import logging
-import FMCLView.main
 import tkinter.messagebox
 import traceback
 from os import chdir, path
+
+import update
+import FMCLView.main
 
 __author__ = ["sharll", "AGJ", "pxinz"]
 
@@ -47,7 +50,9 @@ def main(*args) -> None:
 
 if __name__ == "__main__":
     print(sys.argv)
+    print(os.path.dirname(__file__))
     try:
+        update.check()
         main(*sys.argv)
     except Exception as e:
         error_msg = traceback.format_exc()
