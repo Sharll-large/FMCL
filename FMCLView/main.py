@@ -16,7 +16,6 @@ def main() -> None:
     """
     # 创建窗口
     gui = GUI()
-    threading.Thread(target=update.check).start()
 
     # 初始化样式
     styles.init()

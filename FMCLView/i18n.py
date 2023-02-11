@@ -1,5 +1,5 @@
 # coding:utf-8
-# Generate by xlsx2i18n by pxinz
+# Translate by xlsx2py by pxinz.
 import FMCLCore.system.CoreConfigIO as config
 
 
@@ -76,6 +76,7 @@ lang0 = Lang(
         "Settings.Account.Tips.UnknownError": "发生未知错误, 报错信息如下:\n{}",
         "Settings.Account.Tips.URLError": "请输入正确的url",
         "Settings.Account.Tips.Wait": "关闭该窗口后进行登陆, 请耐心等待不要关闭启动器窗口",
+        "Settings.Download.GUI.Threads": "下载线程数\n(0表示单线程)",
         "Settings.Lang.Tips.Restart": "语言更改成功! 请重启程序以显示",
         "Settings.Launch.GUI.Boost": "启用优化参数",
         "Settings.Launch.GUI.Browse_Btn": "浏览",
@@ -85,9 +86,14 @@ lang0 = Lang(
         "Settings.Launch.Tips.ChangeSuccess": "修改成功!",
         "Settings.Launch.Tips.PathError": "请输入正确的目录!",
         "Settings.Launch.Tips.RefreshAvatar": "单击刷新头像, 离线账号没有头像",
+        "Settings.Launcher.GUI.AutoUpdate": "自动更新",
         "Settings.Menu.Account": "账号",
+        "Settings.Menu.Download": "下载",
         "Settings.Menu.Lang": "语言",
         "Settings.Menu.Launch": "启动",
+        "Settings.Menu.Launcher": "FMCL设置",
+        "Update.Ask.Update": "检测到新的FMCL版本: {}\n{}\n是否需要更新?",
+        "Update.Tips.UnZipWarning": "您似乎解压了FMCL, 如果你不是开发者, 并不推荐这种做法。自动更新已停用!",
     }
 )
 lang1 = Lang(
@@ -117,6 +123,7 @@ lang1 = Lang(
         "Settings.Account.Tips.UnknownError": "An unknown error has occurred. Below are error messages:\n{}",
         "Settings.Account.Tips.URLError": "Please enter correct url.",
         "Settings.Account.Tips.Wait": "We'll login after you close this window, please wait us for login patiently, don't close the launcher window!",
+        "Settings.Download.GUI.Threads": "Download\nThreads\n(o=Single)",
         "Settings.Lang.Tips.Restart": "Lang changed successfully! Please restart the program.",
         "Settings.Launch.GUI.Boost": "Enable Boost Args",
         "Settings.Launch.GUI.Browse_Btn": "Browse",
@@ -126,9 +133,14 @@ lang1 = Lang(
         "Settings.Launch.Tips.ChangeSuccess": "Change successfully!",
         "Settings.Launch.Tips.PathError": "Please enter correct path!",
         "Settings.Launch.Tips.RefreshAvatar": "Click to refresh avatar, offline accounts haven't avatar.",
+        "Settings.Launcher.GUI.AutoUpdate": "Auto-Update",
         "Settings.Menu.Account": "Account",
+        "Settings.Menu.Download": "Download",
         "Settings.Menu.Lang": "Languages",
         "Settings.Menu.Launch": "Launch",
+        "Settings.Menu.Launcher": "FMCL Settings",
+        "Update.Ask.Update": "Detected update of FMCL: {}\n{}\nDo you wang to update?",
+        "Update.Tips.UnZipWarning": "It looks like you unzipped FMCL, if you aren’t a  developer, we don't recommand this. Auto-Update hase been deactivated!",
     }
 )
 langs = Langs(config.get("language"), "English(US)", lang0, lang1)

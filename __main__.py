@@ -19,9 +19,8 @@ import os.path
 import sys
 import tkinter.messagebox
 import traceback
-from os import chdir, path
-import threading
-import update
+from os import chdir, path, remove
+import FMCLCore.system.CoreConfigIO as config
 import FMCLView.main
 
 __author__ = ["sharll", "AGJ", "pxinz"]
@@ -33,7 +32,7 @@ def main(*args) -> None:
         :param args: 启动参数
         :return: 无
     """
-    chdir(path.join(*path.split(args[0])[:-1]))
+    chdir(path.join("/", *path.split(args[0])[:-1]))
     # 配置logger
     logging.basicConfig(
         level=(args[args.index("-log-level") + 1] if "-log-level" in args else logging.DEBUG),
@@ -44,13 +43,18 @@ def main(*args) -> None:
     )
     # 运行
     logging.info("FMCL started.")
+    if os.path.isfile("_update_FMCL.py"):
+        remove("_update_FMCL.py")
+    if config.get("auto_update"):
+        # 热更新
+        from threading import Thread
+        from update import check
+        Thread(target=check,args=[__file__]).start()
     FMCLView.main.main()
     logging.info("FMCL stopped.")
 
 
 if __name__ == "__main__":
-    print(sys.argv)
-    print(os.path.dirname(__file__))
     try:
         main(*sys.argv)
     except Exception as e:

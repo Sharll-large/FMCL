@@ -39,21 +39,21 @@ def page(root: GUI) -> tk.Frame:
     # 鼠标放的头像上的提示语
     ToolTip(avatar, langs["Settings.Launch.Tips.RefreshAvatar"])
 
-    def callback():
+    def callback(*_):
         print("Under develop")
 
-    def refresh_account_list():
+    def refresh_account_list(*_):
         accounts = [langs["Launch.GUI.Choose_Account_Comb.Default"]]
         choose_account_comb["values"] = []
         for account in config.get("accounts"):
             accounts.append("[{}] {}".format(account["type"], account["username"]))
         choose_account_comb["values"] = accounts
 
-    def refresh_version_list():
+    def refresh_version_list(*_):
         choose_version_comb["values"] = [langs["Launch.GUI.Choose_Version_Comb.Default"]] + versions.local_version(
             config.get(".mc"))
 
-    def launch_game():
+    def launch_game(*_):
         _launch_game(choose_account_comb.current(), choose_version_comb.get())
 
     def save_choosing_account():
@@ -61,7 +61,13 @@ def page(root: GUI) -> tk.Frame:
         if account_id:
             config.change_config_and_safe("current_account", account_id)
 
-    def show_skin():
+    def save_choosing_version(*_):
+        version_id=choose_version_comb.current()
+        if version_id:
+            config.change_config_and_safe("current_version", version_id)
+
+
+    def show_skin(*_):
         account_id = choose_account_comb.current()
         if account_id == 0:
             # 未选择
@@ -77,7 +83,7 @@ def page(root: GUI) -> tk.Frame:
         # 已选择且不是微软账户
         avatar_img.blank()
 
-    def refresh_skin(_=None):
+    def refresh_skin(*_):
         account_id = choose_account_comb.current()
         if account_id == 0:
             # 未选择
@@ -108,7 +114,9 @@ def page(root: GUI) -> tk.Frame:
     # 版本部分
     choose_version_comb = ttk.Combobox(content_part, width=20, values=[langs["Launch.GUI.Choose_Version_Comb.Default"]],
                                        postcommand=refresh_version_list, **s.combobox())
-    choose_version_comb.current(0)
+    choose_version_comb.bind("<<ComboboxSelected>>", save_choosing_version)
+    refresh_version_list()
+    choose_version_comb.current(config.get("current_version") or 0)
     version_list_btn = tk.Button(content_part, width=160, height=20, text=langs["Launch.GUI.Version_List_Btn"],
                                  command=callback, **s.button())
     version_settings_btn = tk.Button(content_part, width=160, height=20, text=langs["Launch.GUI.Version_Settings_Btn"],

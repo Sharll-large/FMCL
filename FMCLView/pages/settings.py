@@ -78,36 +78,10 @@ def launch_settings(_base: tk.Frame) -> tk.Frame:
     return base
 
 
-def lang_settings(_base: tk.Frame) -> tk.Frame:
-    """
-        语言设置页面
-        :param _base: 父框架
-        :return: 语言设置Frame
-    """
-
-    def set_lang(_=None) -> None:
-        """
-            设置语言
-            :param _: 无
-            :return: 无
-        """
-        config.change_config_and_safe("language", langs_comb.get())
-        langs.lang = langs_comb.get()
-        messagebox.showinfo("First Minecraft Launcher", langs["Settings.Lang.Tips.Restart"])
-
-    base = tk.Frame(_base, width=340, background="#E3F3EE")
-    langs_comb = ttk.Combobox(base, width=40, values=langs.get_langs(), foreground="#595959", font=("微软雅黑 Light", 10),
-                              state="readonly")
-    langs_comb.bind("<<ComboboxSelected>>", set_lang)
-    langs_comb.current(langs.get_langs().index(config.get("language")))
-    langs_comb.pack()
-    return base
-
-
 def account_settings(_base: tk.Frame) -> tk.Frame:
     """
         账号设置页面
-        :param _base: 父框架
+        :param: _base: 父框架
         :return: 账号设置Frame
     """
 
@@ -165,6 +139,75 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
     return base
 
 
+def download_settings(_base: tk.Frame) -> tk.Frame:
+    """
+        下载设置页面
+        :param _base: 父框架
+        :return: 下载设置Frame
+    """
+
+    def save_threads(_=None):
+        print(threads_entry.get())
+        config.change_config_and_safe("threads", threads_entry.get())
+
+    base = tk.Frame(_base, width=340, background="#E3F3EE")
+    # 设置项目的名称
+    tk.Label(base, text=langs["Settings.Download.GUI.Threads"], font=("微软雅黑 Light", 10),
+             **s.label()).grid(column=0, row=0, padx=(0, 10), pady=(0, 5))
+    # 线程数滚动条
+    threads_entry = tk.Scale(base, from_=0, to=256, tickinterval=32, length=256, orient=tk.HORIZONTAL,
+                             background="#E3F3EE", bd=1, foreground="#595959", font=("微软雅黑", 6),
+                             activebackground="#BCE2D6", sliderrelief="flat")
+    threads_entry.set(config.get("threads"))
+    threads_entry.bind("<ButtonRelease-1>", save_threads)
+    threads_entry.grid(column=1, row=0, padx=(0, 10), pady=(0, 5))
+    return base
+
+
+def lang_settings(_base: tk.Frame) -> tk.Frame:
+    """
+        语言设置页面
+        :param _base: 父框架
+        :return: 语言设置Frame
+    """
+
+    def set_lang(_=None) -> None:
+        """
+            设置语言
+            :param _: 无
+            :return: 无
+        """
+        config.change_config_and_safe("language", langs_comb.get())
+        langs.lang = langs_comb.get()
+        messagebox.showinfo("First Minecraft Launcher", langs["Settings.Lang.Tips.Restart"])
+
+    base = tk.Frame(_base, width=340, background="#E3F3EE")
+    langs_comb = ttk.Combobox(base, width=40, values=langs.get_langs(), foreground="#595959",
+                              font=("微软雅黑 Light", 10),
+                              state="readonly")
+    langs_comb.bind("<<ComboboxSelected>>", set_lang)
+    langs_comb.current(langs.get_langs().index(config.get("language")))
+    langs_comb.pack()
+    return base
+
+
+def FMCL_settings(_base: tk.Frame) -> tk.Frame:
+    """
+        启动器设置页面
+        :param _base: 父框架
+        :return: 启动器设置Frame
+    """
+    base = tk.Frame(_base, width=340, background="#E3F3EE")
+    # 设置项目的名称
+    tk.Label(base, text=langs["Settings.Launcher.GUI.AutoUpdate"], font=("微软雅黑 Light", 10),
+             **s.label()).grid(column=0, row=0, padx=(0, 10), pady=(0, 5))
+    # 切换自动更新
+    SlideButton(base, width=50, state=(tk.ACTIVE if config.get("auto_update") else tk.NORMAL),
+                onclick=lambda b: config.change_config_and_safe("auto_update", b.state == tk.ACTIVE)).grid(
+        column=1, row=0, pady=(0, 5), sticky="w")
+    return base
+
+
 def page(root: GUI) -> tk.Frame:
     base = tk.Frame(root, width=640, height=360, background="#E3F3EE")
     # 上部
@@ -172,7 +215,8 @@ def page(root: GUI) -> tk.Frame:
 
     # 内容
     content_part = tk.Frame(base, width=640, height=200, background="#E3F3EE")
-    pages = [launch_settings(content_part), lang_settings(content_part), account_settings(content_part)]
+    pages = [launch_settings(content_part), account_settings(content_part), download_settings(content_part),
+             lang_settings(content_part), FMCL_settings(content_part)]
     # 换页
     now_page_id = tk.IntVar(value=-1)
 
@@ -191,8 +235,11 @@ def page(root: GUI) -> tk.Frame:
                             highlightthickness=0, selectborderwidth=0, exportselection=False, font=("微软雅黑", 10),
                             justify="right")
     first_menu.insert(tk.END, langs["Settings.Menu.Launch"] + "  ")
-    first_menu.insert(tk.END, langs["Settings.Menu.Lang"] + "  ")
     first_menu.insert(tk.END, langs["Settings.Menu.Account"] + "  ")
+    first_menu.insert(tk.END, langs["Settings.Menu.Download"] + "  ")
+    first_menu.insert(tk.END, langs["Settings.Menu.Lang"] + "  ")
+    first_menu.insert(tk.END, langs["Settings.Menu.Launcher"] + "  ")
+
     first_menu.select_set(0)
     first_menu.bind("<<ListboxSelect>>", show_page)
 

@@ -68,7 +68,7 @@ class Config(object):
                 config_json = self.read()
                 std = {".mc": os.path.abspath(".minecraft"), "java": "java", "ram": 1024, "threads": 80,
                        "language": "English(US)", "source": "Default", "alone": False, "boost": False, "accounts": [],
-                       "current_account": None}
+                       "current_account": None, "current_version": None, "auto_update": True}
                 for i in std:
                     if i not in config_json:
                         logging.info("Missing object: {}".format(i))
