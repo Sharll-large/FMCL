@@ -52,20 +52,11 @@ def check(file_path: os.PathLike) -> None:
         if sha_object.hexdigest() != version["sha256"]:
             if tkinter.messagebox.askokcancel("First Minecraft Launcher", langs["Update.Ask.Update"].format(
                     version["version"], "\n".join(["· " + log for log in version["log"]]))):
-                with open("_update_FMCL.py", "w") as f:
-                    f.write(
-                        'import urllib.request,os,sys,time;print("*Updating FMCL*");req=urllib.request.Request('
-                        'url=sys.argv[1],headers={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) '
-                        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU '
-                        '360SE"});print("Downloading FMCL...");response=urllib.request.urlopen(req,timeout=5);'
-                        'print("Writing FMCL to file...");content=response.read(128);f=open("FMCL.pyzw","wb");\n'
-                        'while content:f.write(content);content=response.read(128)\nf.close();'
-                        'print("*Download successfully, opening FMCL*");os.system("start /B python FMCL.pyzw");'
-                        'time.sleep(0.2)'
-                    )
-                    os.system("start python _update_FMCL.py " + version["url"])
-                    time.sleep(0.2)
-                    sys.exit(0)
+                try:
+                    open(os.path.dirname(__file__), "wb").write(urllib.request.urlopen(urllib.request.Request(version["url"], headers=headers)).read())
+                    exit()
+                except Exception as e:
+                    tkinter.messagebox.showerror("First Minecraft Launcher", "Update failed.")
 
     else:
         config.change_config_and_safe("auto_update", False)
