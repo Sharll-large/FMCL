@@ -33,6 +33,7 @@ class Config(object):
         self.change_config("accounts", [])  # 账号
         self.change_config("current_account", None)
         self.change_config("auto_update", True)
+        self.change_config("current_version", None)
 
     def write(self, **kwargs):
         logging.info("Save config to file {}.".format(self.config_path))
