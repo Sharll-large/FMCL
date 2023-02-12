@@ -1,3 +1,9 @@
 {
-	"latest_version": "Release 8"
+  "sha256": "",
+  "url":  "https://github.com/Sharll-large/FMCL/releases/download/v8-preview/FMCL.pyzw",
+  "version": "Preview 8 Release",
+  "log": [
+    "Use pxinz's new wondefrul Gui",
+    "Fix some tiny bugs"
+  ]
 }
