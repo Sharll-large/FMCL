@@ -32,6 +32,7 @@ class Config(object):
         self.change_config("boost", False)  # 是否使用jvm优化参数
         self.change_config("accounts", [])  # 账号
         self.change_config("current_account", None)
+        self.change_config("auto_update", True)
 
     def write(self, **kwargs):
         logging.info("Save config to file {}.".format(self.config_path))
