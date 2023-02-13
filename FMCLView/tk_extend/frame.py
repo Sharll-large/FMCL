@@ -37,19 +37,21 @@ class GUI(tk.Tk):
                 before_show.place(x=0, y=0)
                 self.now_show.place(x=self.winfo_width(), y=0)
 
-                def animation(now_x: int, target_x: int, speed: float):
+                def animation(now_x: int, target_x: int, speed: float, side: int = None):
+                    if not side:
+                        side = (1 if target_x - now_x > 0 else -1)
                     if abs(target_x - now_x) < 1:
                         before_show.place_forget()
                         self.now_show.place_forget()
                         self.now_show.pack()
                         self.switching = False
                     else:
-                        now_x += max(target_x - now_x, 15) * speed
+                        now_x += max(abs(target_x - now_x), 15) * speed * side
                         before_show.place_configure(x=-now_x)
                         self.now_show.place_configure(x=target_x - now_x)
-                        self.after(5, lambda *_: animation(now_x, target_x, speed))
+                        self.after(5, lambda *_: animation(now_x, target_x, speed, side))
 
-                self.after(1, lambda *_: animation(0, self.winfo_width(), 0.03))
+                self.after(1, lambda *_: animation(0, self.winfo_width() * (-1 if name == "launch" else 1), 0.03))
             else:
                 self.now_show.pack()
 
