@@ -32,7 +32,7 @@ if __name__ == '__main__':
         open(os.path.join(".FMCL_Package_Time", i), "wb").write(open(i, "rb").read())
 
     print("3 生成Zip-app")
-    zipapp.create_archive(".FMCL_Package_Time", "FMCL.pyzw", "/usr/bin/python3", compressed=True)
+    zipapp.create_archive(".FMCL_Package_Time", "FMCL.pyzw", "/usr/bin/env python3", compressed=True)
 
 #
 # zipapp.create_archive(".", "FMCL.pyzw", "/usr/bin/env python3")
