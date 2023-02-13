@@ -27,7 +27,7 @@
   > Because we chose the MIT open source license, you are nearly free to distribute the software however you want.
 
 ### Download this programme
-  > You can download packed .pyzw files in Releases. You can run this on any computer installed Python3(.10).
+  > You can download packed [.pyzw](https://docs.python.org/3/library/zipapp.html) files in Releases. You can run this on any computer installed Python3(.10).
   > If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
 
 ### Coding plans
