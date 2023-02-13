@@ -2,12 +2,11 @@
 """
     启动GUI
 """
-from FMCLView.tk_extend.frame import GUI
 import FMCLView.styles as styles
 from FMCLView.pages import launch, settings
 from FMCLView.tk_extend import dialogs
-import threading
-import update
+from FMCLView.tk_extend.frame import GUI
+
 
 def main() -> None:
     """

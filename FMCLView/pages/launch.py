@@ -104,7 +104,7 @@ def page(root: GUI) -> tk.Frame:
     # 账号部分
     choose_account_comb = ttk.Combobox(content_part, width=20, values=[langs["Launch.GUI.Choose_Account_Comb.Default"]],
                                        postcommand=refresh_account_list, **s.combobox())
-    choose_account_comb.bind("<<ComboboxSelected>>", lambda _: save_choosing_account() or show_skin())  # 使用or连续调用
+    choose_account_comb.bind("<<ComboboxSelected>>", lambda _: show_skin() or save_choosing_account())
     refresh_account_list()
     choose_account_comb.current(config.get("current_account") or 0)
     show_skin()

@@ -146,14 +146,18 @@ def download_settings(_base: tk.Frame) -> tk.Frame:
         :return: 下载设置Frame
     """
 
-    def save_threads(_=None):
-        print(threads_entry.get())
+    def save_threads(*_):
         config.change_config_and_safe("threads", threads_entry.get())
+
+    def save_source(*_):
+        config.change_config_and_safe("source", source_comb.get())
 
     base = tk.Frame(_base, width=340, background="#E3F3EE")
     # 设置项目的名称
     tk.Label(base, text=langs["Settings.Download.GUI.Threads"], font=("微软雅黑 Light", 10),
              **s.label()).grid(column=0, row=0, padx=(0, 10), pady=(0, 5))
+    tk.Label(base, text=langs["Settings.Download.GUI.Source"], font=("微软雅黑 Light", 10),
+             **s.label()).grid(column=0, row=1, padx=(0, 10), pady=(0, 5))
     # 线程数滚动条
     threads_entry = tk.Scale(base, from_=0, to=256, tickinterval=32, length=256, orient=tk.HORIZONTAL,
                              background="#E3F3EE", bd=1, foreground="#595959", font=("微软雅黑", 6),
@@ -161,6 +165,11 @@ def download_settings(_base: tk.Frame) -> tk.Frame:
     threads_entry.set(config.get("threads"))
     threads_entry.bind("<ButtonRelease-1>", save_threads)
     threads_entry.grid(column=1, row=0, padx=(0, 10), pady=(0, 5))
+    # 下载源选择
+    source_comb = ttk.Combobox(base, width=20, values=["Default", "MCBBS", "BMCLAPI"],
+                               postcommand=save_source, **s.combobox())
+    source_comb.current(["Default", "MCBBS", "BMCLAPI"].index(config.get("source")))
+    source_comb.grid(column=1, row=1, padx=(0, 10), pady=(0, 5))
     return base
 
 
@@ -205,6 +214,7 @@ def FMCL_settings(_base: tk.Frame) -> tk.Frame:
     SlideButton(base, width=50, state=(tk.ACTIVE if config.get("auto_update") else tk.NORMAL),
                 onclick=lambda b: config.change_config_and_safe("auto_update", b.state == tk.ACTIVE)).grid(
         column=1, row=0, pady=(0, 5), sticky="w")
+
     return base
 
 
