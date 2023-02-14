@@ -1,7 +1,7 @@
 # FMCL —— An Open Source, Lite, Cross Platform Minecraft Launcher.
 [中文版(Chinese Version)](https://github.com/Sharll-large/FMCL/blob/main/README.zh.md)
 
-### Full name: First Minecraft Launcher
+### #Full name: First Minecraft Launcher#
 
 ### About:
   > A simple Java Edition minecraft launcher wriiten by *Python(3.10)*.
@@ -31,7 +31,7 @@
   > If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
 
 ### Coding plans
-1. Make stable launching core(Done)
+1. Make stable launching core(Done) 
 2. Make stable downloading core(Done)
 3. Make Forge/ Fabric/ Optifine/ Quilt auto-install
 4. Make Mods search & install
