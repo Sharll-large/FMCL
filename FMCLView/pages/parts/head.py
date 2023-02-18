@@ -5,6 +5,7 @@
 import tkinter as tk
 import FMCLView.styles as s
 from FMCLView.tk_extend.frame import GUI
+from FMCLView.i18n import langs
 
 
 def get_head_part(base: tk.Frame, root: GUI, now_choice: int) -> tk.Frame:
@@ -23,16 +24,16 @@ def get_head_part(base: tk.Frame, root: GUI, now_choice: int) -> tk.Frame:
     subtitle = tk.Label(head_part, width=240, height=10, text="First Minecraft Launcher", font=("微软雅黑 Light", 10),
                         **s.label())
     # 页面选择按钮
-    launch_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 0 else 85), text="Launch\n-\n启动",
+    launch_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 0 else 85), text=langs["Header.GUI.Launch"],
                            font=("微软雅黑 Light", 10), command=lambda: root.show_page("launch"),
                            **s.button("font"))
-    versions_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 1 else 85), text="Versions\n-\n版本",
+    versions_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 1 else 85), text=langs["Header.GUI.Download"],
                              font=("微软雅黑 Light", 10),
                              **s.button("font"))
-    settings_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 2 else 85), text="Settings\n-\n设置",
+    settings_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 2 else 85), text=langs["Header.GUI.Settings"],
                              font=("微软雅黑 Light", 10), command=lambda: root.show_page("settings"),
                              **s.button("font"))
-    else_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 3 else 85), text="Else\n-\n其它",
+    else_btn = tk.Button(head_part, width=60, height=(100 if now_choice == 3 else 85), text=langs["Header.GUI.Else"],
                          font=("微软雅黑 Light", 10),
                          **s.button("font"))
     # 显示控件
