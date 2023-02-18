@@ -20,10 +20,10 @@ def search_all_programs(__path = None):
 if __name__ == '__main__':
     print("FMCL 打包脚本 1.0")
     
-    print("1 转换i18n.py")
+    print("1 转换 i18n.py")
     i18n.main("i18n.xlsx", "FMCLView/i18n.py")
 
-    print("2 过滤冗余的非python文件")
+    print("2 过滤冗余的非 Python 文件")
     p = search_all_programs()
 
     print("3 复制需要的文件")
