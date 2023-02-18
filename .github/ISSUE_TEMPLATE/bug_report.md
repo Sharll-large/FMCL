@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+### Describe the bug
 A clear and concise description of what the bug is.
 
-*Notice: Please provide the Minecraft version, mods and mods loader (if installed), Java version and other information so that we can fix issues faster and easier.*
+***Notice: Please provide the Minecraft version, mods and mods loader (if installed), Java version and other information so that we can fix issues faster and easier.***
 
-**FMCL logs**
+### FMCL logs
 the important part of launcher log
 
-**Other launcher's launch script**
+### Other launcher's launch script
 If other launchers can not launch too, please close the issue.
