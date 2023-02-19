@@ -2,6 +2,7 @@
 """
     GUI的Settings部分
 """
+import threading
 import tkinter as tk
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
@@ -90,9 +91,11 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             创建Microsoft账号
             :return: 无
         """
-        result = _new_ms_account()
-        if result:
-            account_list.insert(tk.END, result)
+        def a():
+            result = _new_ms_account()
+            if result:
+                account_list.insert(tk.END, result)
+        threading.Thread(target=a).start()
 
     def new_offline_account() -> None:
         """

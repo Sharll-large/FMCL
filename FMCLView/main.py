@@ -33,6 +33,7 @@ def main() -> None:
 
     gui.show_page("launch")
 
+    gui.clipboard_append("aaa")
     # 启动GUI
     gui.mainloop()
 

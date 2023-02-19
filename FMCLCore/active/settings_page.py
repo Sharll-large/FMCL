@@ -2,16 +2,19 @@
 """
     和settings页面的交互
 """
-import FMCLCore.auth.microsoft_auth as ms_auth
+
+import traceback
+import webbrowser as wbb
+from tkinter import messagebox
+from urllib.error import URLError, HTTPError, ContentTooShortError
+
+import FMCLCore.auth.oauth as oa
 import FMCLCore.auth.offline_auth as of_auth
 import FMCLCore.system.CoreConfigIO as config
-from FMCLView.tk_extend.dialogs import entry_box
+import pyperclip
 from FMCLView.i18n import langs
-from tkinter import messagebox
-import webbrowser as wbb
-from urllib.error import URLError, HTTPError, ContentTooShortError
-import traceback
-
+from FMCLView.tk_extend.dialogs import entry_box
+import time
 
 # Create Microsoft Account
 def new_ms_account() -> str | None:
@@ -20,28 +23,33 @@ def new_ms_account() -> str | None:
         :return: 账号名(创建失败则为None)
     """
     if messagebox.askyesno("First Minecraft Launcher", langs["Settings.Account.Tips.AddMicrosoftAccount"]):
-        wbb.open("https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code"
-                 "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&redirect_uri=https%3A%2F%2Flogin.live"
-                 ".com%2Foauth20_desktop.srf")
-        url = entry_box(langs["Settings.Account.Ask.Url"], "First Minecraft Launcher", ["URL"])
-        messagebox.showinfo("First Minecraft Launcher", langs["Settings.Account.Tips.Wait"])
-        if url and url[0]:
-            url = url[0]
-            try:
-                account = ms_auth.auth(True, url)
-                accounts = config.get("accounts")
-                accounts.append(account)
-                config.change_config_and_safe("accounts", accounts)
-                messagebox.showinfo("First Minecraft Launcher", langs["Settings.Account.Tips.AddAccountSuccess"])
-                return "[Microsoft] {}".format(account["username"])
-            except (URLError, HTTPError, ContentTooShortError):
-                messagebox.showerror("First Minecraft Launcher", langs["Settings.Account.Tips.NetworkError"])
-            except Exception:
-                err_msg = traceback.format_exc()
-                messagebox.showerror("First Minecraft Launcher",
-                                     langs["Settings.Account.Tips.UnknownError"].format(err_msg))
-        else:
-            messagebox.showerror("First Minecraft Launcher", langs["Settings.Account.Tips.URLError"])
+        things = oa.user_login()
+        print(things)
+        wbb.open(things[0])
+        pyperclip.copy(things[1])
+
+        start = time.time()
+        while True:
+            a = oa.refresh()
+            if a:
+                break
+            else:
+                if time.time() - start > things[2]:
+                    messagebox.showinfo("First Minecraft Launcher", langs["Settings.Account.Timeout"])
+                    return None
+        try:
+            account = oa.auth(a)
+            accounts = config.get("accounts")
+            accounts.append(account)
+            config.change_config_and_safe("accounts", accounts)
+            messagebox.showinfo("First Minecraft Launcher", langs["Settings.Account.Tips.AddAccountSuccess"])
+            return "[Microsoft] {}".format(account["username"])
+        except (URLError, HTTPError, ContentTooShortError):
+            messagebox.showerror("First Minecraft Launcher", langs["Settings.Account.Tips.NetworkError"])
+        except Exception:
+            err_msg = traceback.format_exc()
+            messagebox.showerror("First Minecraft Launcher",
+                                langs["Settings.Account.Tips.UnknownError"].format(err_msg))
 
 
 # Create offline account

@@ -8,7 +8,7 @@ import platform
 import re
 import subprocess
 
-import FMCLCore.auth.microsoft_auth
+import FMCLCore.auth.oauth
 import FMCLCore.system.SystemAndArch
 
 
@@ -40,7 +40,7 @@ def launch(game_directory: str, version_name: str, account: dict,
     game_directory = os.path.realpath(game_directory)
 
     if "MS_refresh_token" in account:
-        account = FMCLCore.auth.microsoft_auth.auth(False, account["MS_refresh_token"])
+        account = FMCLCore.auth.oauth.refresh_token(account)
 
     verpath = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")

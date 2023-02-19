@@ -30,6 +30,7 @@ def post(url, data, headers):
     return urllib.request.urlopen(tmp).read().decode()
 
 
+
 # Microsoft Auth
 def auth(use_callback: bool, code: str = None):
     """
@@ -60,7 +61,11 @@ def auth(use_callback: bool, code: str = None):
     res = urllib.request.Request(url="https://login.live.com/oauth20_token.srf", data=ms_data, headers=headers)
     tokens = json.loads(urllib.request.urlopen(res).read().decode())
 
+    print(tokens)
+
     account["MS_refresh_token"] = tokens["refresh_token"]
+
+    print()
 
     # 刷新token
     data = json.dumps({"Properties": {"AuthMethod": "RPS", "SiteName": "user.auth.xboxlive.com",
@@ -69,7 +74,7 @@ def auth(use_callback: bool, code: str = None):
                        }).encode()
 
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
-
+    print(data)
     res = urllib.request.Request(url="https://user.auth.xboxlive.com/user/authenticate", data=data, headers=headers)
     xbox = json.loads(urllib.request.urlopen(res).read().decode())
 
@@ -96,6 +101,8 @@ def auth(use_callback: bool, code: str = None):
 
     account["access_token"] = mc_token["access_token"]
 
+    print(mc_token, xbox, tokens)
+
     # 获取账号名和uuid
     default_headers["Authorization"] = "Bearer " + account["access_token"]
     res = urllib.request.Request(url="https://api.minecraftservices.com/minecraft/profile", headers=default_headers)
@@ -105,3 +112,4 @@ def auth(use_callback: bool, code: str = None):
     account["uuid"] = mcinfo["id"]
 
     return account
+
