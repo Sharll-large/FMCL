@@ -22,7 +22,6 @@ class requests(object):
     def get(self, url, params, headers):
         if params:
             if headers:
-                #data = bytes(urllib.parse.urlencode(json.dumps(params)),encoding='utf-8')
                 url = url+"?"+urllib.parse.urlencode(params)
                 self.request = urllib.request.Request(url=url,headers=headers,method='GET')
                 self.response = urllib.request.urlopen(self.request)
@@ -76,3 +75,7 @@ def mod_search(mod_name: str):
 	
     trj = requests.json()
     return trj
+
+def about():
+    
+    return {"ver": "0.0.1", "Copyright": "LJS80","PF": "FMCL-AuthorizedUse"}
