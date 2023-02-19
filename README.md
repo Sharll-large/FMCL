@@ -30,6 +30,15 @@
   > You can download packed [.pyzw](https://docs.python.org/3/library/zipapp.html) files in Releases. You can run this on any computer installed Python3(.10).
   > If you want to build the programme by yourself or do something you like to do, you can download the repo and do what you want. **But remember the MIT License!**
 
+### Depencies
+  > pyperclip: use for copy text
+  > urllib: download and api call
+  > json: json parse
+  > threading: multi thread download
+  > os, platform, sys: system info
+  > subprocess: Shell commands run
+  > tkinter: GUI making
+
 ### Coding plans
 1. Make stable launching core(Done) 
 2. Make stable downloading core(Done)
