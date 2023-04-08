@@ -29,6 +29,15 @@
 > 您可以在Releases中下载打包好的.pyzw文件，它可以在安装有Python3(.10)的任何设备上运行。  
 > 如果您想下载源码并自行搭建或随您所愿地修改，请下载仓库， **不过请记住MIT协议！**。  
 
+### 依赖项
+> pyperclip: 用于复制文本
+> urllib: 下载和API调用
+> json: JSON解析
+> threading: 多线程下载
+> os, platform, sys: 获取系统信息
+> subprocess: 执行命令
+> tkinter: GUI
+
 ### 开发计划
 > | 目标 | 进度 |
 > | - | - |
