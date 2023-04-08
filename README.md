@@ -43,7 +43,7 @@
 1. Make stable launching core(Done) 
 2. Make stable downloading core(Done)
 3. Make Forge/ Fabric/ Optifine/ Quilt auto-install
-4. Make Mods search & install
+4. Make Mods search & install（by LJS80）
 5. version json download 
 6. find resource of LWJGL arm
 7. Microsoft account auth(Done)
