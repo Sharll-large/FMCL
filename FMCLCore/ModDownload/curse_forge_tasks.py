@@ -7,6 +7,12 @@ import hashlib
 import os
 import builtins as __builtin__
 
+
+class CoreModDownloadCurseForgeTaskCheckError(Exception):
+	def __init__(self, message):
+		super().__init__(message)
+
+
 def print(*args, **kwargs):
 	for item in args:
 		if isinstance(item, str):
@@ -33,23 +39,23 @@ class requests(object):
 		if params:
 			if headers:
 				url = url+"?"+urllib.parse.urlencode(params)
-				self.request = urllib.request.Request(url=url,headers=headers,method='GET')
+				self.request = urllib.request.Request(url=url, headers=headers, method='GET')
 				self.response = urllib.request.urlopen(self.request)
 				return self.response
 			else:
 				url = url + "?" + urllib.parse.urlencode(params)
-				self.request = urllib.request.Request(url=url,method='GET')
-				self.response = urlib.request.urlopen(self.request)
+				self.request = urllib.request.Request(url=url, method='GET')
+				self.response = urllib.request.urlopen(self.request)
 				return self.response
 		else:
-			self.response = urlib.request.urlopen(url)
+			self.response = urllib.request.urlopen(url)
 			return self.response
 
 	def post(self, url, params="", headers=""):
 		if params:
 			if headers:
 				data = bytes(urllib.parse.urlencode(params), encoding='utf-8')
-				self.request = urllib.request.Request(url=url, data=data, headers=headers,method='POST')
+				self.request = urllib.request.Request(url=url, data=data, headers=headers, method='POST')
 				self.response = urllib.request.urlopen(self.request)
 				return self.response
 			else:
@@ -88,7 +94,7 @@ def mod_search(mod_name: str):
 		'x-api-key': api_key["api_key"]
 	}
 
-	r = requests.get('https://api.curseforge.com/v1/mods/search',params={'gameId': '432', "searchFilter": "{}".format(mod_name), "sortOrder": "desc"},headers = headers)
+	r = requests.get('https://api.curseforge.com/v1/mods/search', params={'gameId': '432', "searchFilter": "{}".format(mod_name), "sortOrder": "desc"}, headers = headers)
 	
 	trj = requests.json()
 	return trj
@@ -96,5 +102,4 @@ def mod_search(mod_name: str):
 
 def about():
 
-	return {"ver": "0.0.1", "Copyright": "LJS80","PF": "FMCL-AuthorizedUse"}
-
+	return {"ver": "0.0.1", "Copyright": "LJS80", "PF": "FMCL-AuthorizedUse"}
