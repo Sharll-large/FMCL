@@ -82,22 +82,26 @@ requests = requests()
 
 def mod_search(mod_name: str):
 
-	with open(hash_file_src, mode='rb') as f:
-		hexdigest = hashlib.new('sha256', f.read()).hexdigest()
-		f.close()
-		
-	requests.post("https://api.smdc.ljsdwz.cn/api/curseforge/api_key", params={'hash': "Mp9eV0n3RQzqncq3je5W8n50Bg56iy+HANReTFcWSaEsjplOeOxYGSlR5sNT93QityTM/mC7+68vsCMD7qva9L6UrjOHp6RaDg80L6l4UFk+iL8Q+cejShwdmW4JGoTWVANmH6SPS0610Y7zy5DCBJSmpBdRZLnYgoItaYCWKJ3ilO3XrwZJFWxFcW0Iq+pVYi6aldgfI1sCdV7AUN8EW3thICLtzAURkKNSlw5QZBvfMjxhWUykPg9b4dAtBnO1jeEWTvbzg1dWjl4whUFeM4pzAsKHLoyUwP58+n3JIkoatm7S5Jrxhc88QCzjVuNFRjeDhptezQMwblI0YTPeitZWf4DOfSNb6uB7jAVQhTibJeV7jLs6NjoJGnFPFrv41TockwKsEN+oDzp3E4SyWv7KQY+IevBbQGGU1Jf2eYp1oHK79eRsDwSyJQjIa4zYtUDwQGc+YzbKU8Uz4Yf3d+Z9KGBaUgzPXhh6MJOXW9Vq+qHkbI1eBN9JecUX8njSD09qhyo0IdBtw6TDVN43hs9KzMPpWB3TeM7LkZgAU5G8JHcz1uKU1ynZ2ww6ljUsAt/982VrsK2e8VhoORAMFSJMP+wotAgJYtmj9HnjpMIGNcYom/VJ9J3iMA+BKkweg7zfZt7aT9ZT8KZUdwuhn+iB0sdepjAMN1OzI8Llyu8=", "_hash": f"{hexdigest}"})
-	api_key = requests.json()
+	try:
+		with open(hash_file_src, mode='rb') as f:
+			hexdigest = hashlib.new('sha256', f.read()).hexdigest()
+			f.close()
 
-	headers = {
-		'Accept': 'application/json',
-		'x-api-key': api_key["api_key"]
-	}
+		requests.post("https://api.smdc.ljsdwz.cn/api/curseforge/api_key", params={'hash': "Mp9eV0n3RQzqncq3je5W8n50Bg56iy+HANReTFcWSaEsjplOeOxYGSlR5sNT93QityTM/mC7+68vsCMD7qva9L6UrjOHp6RaDg80L6l4UFk+iL8Q+cejShwdmW4JGoTWVANmH6SPS0610Y7zy5DCBJSmpBdRZLnYgoItaYCWKJ3ilO3XrwZJFWxFcW0Iq+pVYi6aldgfI1sCdV7AUN8EW3thICLtzAURkKNSlw5QZBvfMjxhWUykPg9b4dAtBnO1jeEWTvbzg1dWjl4whUFeM4pzAsKHLoyUwP58+n3JIkoatm7S5Jrxhc88QCzjVuNFRjeDhptezQMwblI0YTPeitZWf4DOfSNb6uB7jAVQhTibJeV7jLs6NjoJGnFPFrv41TockwKsEN+oDzp3E4SyWv7KQY+IevBbQGGU1Jf2eYp1oHK79eRsDwSyJQjIa4zYtUDwQGc+YzbKU8Uz4Yf3d+Z9KGBaUgzPXhh6MJOXW9Vq+qHkbI1eBN9JecUX8njSD09qhyo0IdBtw6TDVN43hs9KzMPpWB3TeM7LkZgAU5G8JHcz1uKU1ynZ2ww6ljUsAt/982VrsK2e8VhoORAMFSJMP+wotAgJYtmj9HnjpMIGNcYom/VJ9J3iMA+BKkweg7zfZt7aT9ZT8KZUdwuhn+iB0sdepjAMN1OzI8Llyu8=", "_hash": f"{hexdigest}"})
+		api_key = requests.json()
 
-	r = requests.get('https://api.curseforge.com/v1/mods/search', params={'gameId': '432', "searchFilter": "{}".format(mod_name), "sortOrder": "desc"}, headers = headers)
+		headers = {
+			'Accept': 'application/json',
+			'x-api-key': api_key["api_key"]
+		}
+
+		r = requests.get('https://api.curseforge.com/v1/mods/search', params={'gameId': '432', "searchFilter": "{}".format(mod_name), "sortOrder": "desc"}, headers = headers)
 	
-	trj = requests.json()
-	return trj
+		trj = requests.json()
+		return trj
+
+	except Exception as e:
+		return f'{e}'
 
 
 def about():
