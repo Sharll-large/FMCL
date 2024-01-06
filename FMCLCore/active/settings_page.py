@@ -25,8 +25,13 @@ def new_ms_account() -> str | None:
     if messagebox.askyesno("First Minecraft Launcher", langs["Settings.Account.Tips.AddMicrosoftAccount"]):
         things = oa.user_login()
         print(things)
-        wbb.open(things[0])
-        pyperclip.copy(things[1])
+
+        if things[0] == "https://www.microsoft.com/link":
+            # 若返回link为https://www.microsoft.com/link，则可以简化登录过程
+            wbb.open(things[0] + "?otc=" + things[1])
+        else:
+            wbb.open(things[0])
+            pyperclip.copy(things[1])
 
         start = time.time()
         while True:

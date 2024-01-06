@@ -8,6 +8,7 @@ import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
 import FMCLCore.system.CoreConfigIO as config
+import FMCLCore.system.thread_pool
 from FMCLCore.active.settings_page import new_ms_account as _new_ms_account
 from FMCLCore.active.settings_page import new_offline_account as _new_offline_account
 from FMCLView.i18n import langs
@@ -95,7 +96,8 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             result = _new_ms_account()
             if result:
                 account_list.insert(tk.END, result)
-        threading.Thread(target=a).start()
+
+        FMCLCore.system.thread_pool.pool.submit(a)
 
     def new_offline_account() -> None:
         """

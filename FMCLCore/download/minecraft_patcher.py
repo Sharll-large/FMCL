@@ -14,6 +14,7 @@ import urllib.request
 
 import FMCLCore.system.SystemAndArch
 import FMCLCore.system.UnzipTask
+import FMCLCore.system.thread_pool
 
 
 def download_native(arg: dict) -> None:
@@ -40,34 +41,6 @@ def download_native(arg: dict) -> None:
                 e += 1
                 emsg += repr(exc)
     print(back_msg)
-
-
-def mult_processing_task(tasks: list, function, cores: int) -> None:
-    """
-        领取式多线程 by pxinz
-        :param tasks: 全部任务
-        :param function: 执行函数
-        :param cores: 核数
-        :return: 无
-    """
-    threads = []
-
-    def _run():
-        while threads:
-            if len(tasks) >= 1:
-                task = tasks.pop()
-                function(task)
-            else:
-                break
-
-    for i in range(cores + 1):
-        thread = threading.Thread(target=_run)
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
-
 
 def _checkRules(rules: dict):
     for i in rules:
@@ -206,10 +179,18 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
             "sha1": assets_json[i]["hash"],
             "size": assets_json[i]["size"]
         })
-    if threads:
-        # 多线程
-        mult_processing_task(need_to_be_fixed, download_native, threads)  # 多线程下载依赖
-    else:
-        # 单线程
-        while need_to_be_fixed:
-            download_native(need_to_be_fixed.pop())
+
+    processes = []
+    for i in  need_to_be_fixed:
+        print(i)
+        processes.append(FMCLCore.system.thread_pool.pool.submit(download_native, i))
+
+    # 堵塞主线程，直到所有下载完成
+    flg = True
+    while flg:
+        flg = False
+        for i in processes:
+            if not i.done():
+                flg = True
+
+
