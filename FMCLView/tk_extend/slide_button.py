@@ -12,55 +12,53 @@ class SlideButton(tk.Canvas):
         self.bg = background
         self.fg = foreground
         self.click_func = onclick
+        self.animate = False
         if state == tk.ACTIVE:
-            self.draw(int(width - thick))
+            self.pos = self.target_pos = width - thick
         else:
-            self.draw(0)
+            self.pos = self.target_pos = 0
+        self.draw()
         self.bind("<Button-1>", self.onclick)
 
-    def draw(self, pos=0):
+    def draw(self):
+        """
+            绘制按钮
+            :return: 无
+        """
         self.delete(tk.ALL)
+        # 背景
         self.create_rectangle(0, 0, self.width + 5, self.thick + 5, fill=self.bg)
+        # 外部圆角方块
         self.create_line(self.thick / 2, self.thick / 2, self.width - self.thick / 2, self.thick / 2, capstyle="round",
                          fill=self.fg, width=self.thick)
+        # 内部圆角方块
         self.create_line(self.thick / 2, self.thick / 2, self.width - self.thick / 2, self.thick / 2, capstyle="round",
                          fill=self.bg, width=self.thick - 5)
-        self.create_line(self.thick / 2 + pos, self.thick / 2, self.thick / 2 + pos, self.thick / 2, capstyle="round",
+        # 滑块
+        self.create_line(self.thick / 2 + self.pos, self.thick / 2, self.thick / 2 + self.pos, self.thick / 2,
+                         capstyle="round",
                          fill=self.fg, width=self.thick - 10)
+
+    def _flush(self):
+        if round(self.pos) == self.target_pos:
+            self.pos = self.target_pos
+            self.draw()
+            self.animate = False
+        else:
+            self.pos += (self.target_pos - self.pos) * 0.12
+            self.draw()
+            self.after(20, self._flush)
 
     def onclick(self, _):
         if self.state == tk.NORMAL:
             self.state = tk.ACTIVE
-
-            def _flush(p):
-                return lambda: self.draw(poses[p])
-
-            pos = 0
-            poses = []
-            max_pos = int(self.width - self.thick)
-            while round(pos) != max_pos:
-                poses.append(pos)
-                pos += (max_pos - pos) * 0.12
-            poses.append(max_pos)
-            for i in range(len(poses)):
-                self.after(i * 20, _flush(i))
-            self.draw(max_pos)
-
+            self.target_pos = self.width - self.thick
         else:
             self.state = tk.NORMAL
-
-            def _flush(p):
-                return lambda: self.draw(poses[p])
-
-            pos = int(self.width - self.thick)
-            poses = []
-            max_pos = 0
-            while round(pos) != max_pos:
-                poses.append(pos)
-                pos += (max_pos - pos) * 0.12
-            poses.append(max_pos)
-            for i in range(len(poses)):
-                self.after(i * 20, _flush(i))
-            self.draw(max_pos)
+            self.target_pos = 0
+        self.draw()
+        if not self.animate:
+            self.animate = True
+            self.after(20, self._flush)
         if self.click_func:
             self.click_func(self)
