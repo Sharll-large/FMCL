@@ -1,3 +1,4 @@
+# coding:utf-8
 import os
 import zipapp
 
@@ -37,10 +38,3 @@ if __name__ == '__main__':
 
     print("3 生成Zip-app")
     zipapp.create_archive(".FMCL_Package_Time", "FMCL.pyzw", "/usr/bin/env python3", compressed=True)
-
-#
-# zipapp.create_archive(".", "FMCL.pyzw", "/usr/bin/env python3")
-#
-# try: pass
-# except zipapp.ZipAppError:
-#     print()

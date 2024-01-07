@@ -1,3 +1,4 @@
+# coding:utf-8
 from FMCLView.tk_extend.dialogs import DefaultStyle
 
 

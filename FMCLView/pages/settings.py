@@ -7,12 +7,12 @@ import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
 
-import FMCLCore.system.CoreConfigIO as config
-import FMCLCore.system.thread_pool
+import core.system.config as config
+import core.system.thread_pool
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
-from FMCLCore.active.settings_page import new_ms_account as _new_ms_account
-from FMCLCore.active.settings_page import new_offline_account as _new_offline_account
+from core.active.settings_page import new_ms_account as _new_ms_account
+from core.active.settings_page import new_offline_account as _new_offline_account
 from FMCLView.i18n import langs
 from FMCLView.tk_extend.frame import GUI
 from FMCLView.tk_extend.slide_button import SlideButton
@@ -98,7 +98,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             if result:
                 account_list.insert(tk.END, result)
 
-        FMCLCore.system.thread_pool.pool.submit(a)
+        core.system.thread_pool.pool.submit(a)
 
     def new_offline_account() -> None:
         """

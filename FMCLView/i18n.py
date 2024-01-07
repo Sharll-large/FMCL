@@ -1,6 +1,6 @@
 # coding:utf-8
 # Translate by xlsx2py by pxinz.
-import FMCLCore.system.CoreConfigIO as config
+import core.system.config as config
 
 
 class Lang(object):

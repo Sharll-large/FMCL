@@ -6,12 +6,12 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import FMCLCore.system.CoreConfigIO as config
-import FMCLCore.system.CoreVersionGet as versions
+import core.system.config as config
+import core.system.mc_version as versions
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
-from FMCLCore.active.launche_page import launch_game as _launch_game
-from FMCLCore.auth.ms_account_skin import get_skin_of
+from core.active.launche_page import launch_game as _launch_game
+from core.auth.ms_account_skin import get_skin_of
 # i18n
 from FMCLView.i18n import langs
 # 工具

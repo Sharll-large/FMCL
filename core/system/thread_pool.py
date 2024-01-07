@@ -1,7 +1,8 @@
+# coding:utf-8
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-from FMCLCore.system.CoreConfigIO import config
+from core.system.config import config
 
 pool = ThreadPoolExecutor(max_workers=config.get("threads"))
 

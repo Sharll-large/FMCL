@@ -1,3 +1,4 @@
+# coding:utf-8
 # coding: utf-8
 """
     更新和防篡改
@@ -12,7 +13,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-import FMCLCore.system.CoreConfigIO as config
+import core.system.config as config
 from FMCLView.i18n import langs
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
