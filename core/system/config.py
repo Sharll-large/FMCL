@@ -1,4 +1,7 @@
 # coding:utf-8
+"""
+    设置
+"""
 import json
 import logging
 import os
