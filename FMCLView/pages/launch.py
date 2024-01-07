@@ -12,12 +12,12 @@ import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
 from FMCLCore.active.launche_page import launch_game as _launch_game
 from FMCLCore.auth.ms_account_skin import get_skin_of
-from FMCLView.tk_extend.image_transition import cut, resize
-from FMCLView.tk_extend.tooltip import ToolTip
 # i18n
 from FMCLView.i18n import langs
 # 工具
 from FMCLView.tk_extend.frame import GUI
+from FMCLView.tk_extend.image_transition import cut, resize
+from FMCLView.tk_extend.tooltip import ToolTip
 
 
 def page(root: GUI) -> tk.Frame:
@@ -62,10 +62,9 @@ def page(root: GUI) -> tk.Frame:
             config.change_config_and_safe("current_account", account_id)
 
     def save_choosing_version(*_):
-        version_id=choose_version_comb.current()
+        version_id = choose_version_comb.current()
         if version_id:
             config.change_config_and_safe("current_version", version_id)
-
 
     def show_skin(*_):
         account_id = choose_account_comb.current()

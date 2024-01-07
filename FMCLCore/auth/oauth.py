@@ -17,6 +17,7 @@ default_headers = {"Accept": "*/*",
                                  "Chrome/103.0.0.0 Safari/537.36 "
                    }
 
+
 class o_auth:
     def __init__(self):
         self.device = None
@@ -54,6 +55,8 @@ class o_auth:
             return False
 
     # Microsoft Auth
+
+
 def auth(tokens):
     """
         进行Microsoft登陆
@@ -62,15 +65,15 @@ def auth(tokens):
     """
     account = {"type": "Microsoft", "MS_refresh_token": tokens["refresh_token"]}
 
-        # 刷新token
+    # 刷新token
     data = json.dumps({
-            "Properties": {
-                "AuthMethod": "RPS",
-                "SiteName": "user.auth.xboxlive.com",
-                "RpsTicket": "d="+ tokens["access_token"]
-            },
-            "RelyingParty": "http://auth.xboxlive.com",
-            "TokenType": "JWT"
+        "Properties": {
+            "AuthMethod": "RPS",
+            "SiteName": "user.auth.xboxlive.com",
+            "RpsTicket": "d=" + tokens["access_token"]
+        },
+        "RelyingParty": "http://auth.xboxlive.com",
+        "TokenType": "JWT"
     }).encode()
 
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
@@ -79,29 +82,29 @@ def auth(tokens):
     xbox = json.loads(urllib.request.urlopen(res).read().decode())
 
     data = json.dumps({
-            "Properties": {
-                "SandboxId": "RETAIL",
-                "UserTokens": [
-                    xbox["Token"]
-                ]
-            },
-            "RelyingParty": "rp://api.minecraftservices.com/",
-            "TokenType": "JWT"
+        "Properties": {
+            "SandboxId": "RETAIL",
+            "UserTokens": [
+                xbox["Token"]
+            ]
+        },
+        "RelyingParty": "rp://api.minecraftservices.com/",
+        "TokenType": "JWT"
     }).encode()
 
     res = urllib.request.Request(url="https://xsts.auth.xboxlive.com/xsts/authorize", data=data)
     xsts = json.loads(urllib.request.urlopen(res).read().decode())
 
     data = json.dumps({
-            "identityToken": f"XBL3.0 x=" + xbox["DisplayClaims"]["xui"][0]["uhs"] + ";" + xsts["Token"]
+        "identityToken": f"XBL3.0 x=" + xbox["DisplayClaims"]["xui"][0]["uhs"] + ";" + xsts["Token"]
     }).encode()
     res = urllib.request.Request(url="https://api.minecraftservices.com/authentication/login_with_xbox", data=data,
-                                     headers=default_headers)
+                                 headers=default_headers)
     mc_token = json.loads(urllib.request.urlopen(res).read().decode())
 
     account["access_token"] = mc_token["access_token"]
 
-        # 获取账号名和uuid
+    # 获取账号名和uuid
     default_headers["Authorization"] = "Bearer " + account["access_token"]
     res = urllib.request.Request(url="https://api.minecraftservices.com/minecraft/profile", headers=default_headers)
     del default_headers["Authorization"]
@@ -111,19 +114,19 @@ def auth(tokens):
 
     return account
 
+
 def refresh_token(token: dict):
     refreshing = urllib.request.Request("https://login.microsoftonline.com/consumers/oauth2/v2.0/token",
-                           headers={"Content-Type": "application/x-www-form-urlencoded"},
-                           data=urllib.parse.urlencode({
-                               "client_id": "69324f03-7b0c-48a3-a995-584127fba992",
-                               "scope": "XboxLive.signin offline_access",
-                               "refresh_token": token["MS_refresh_token"],
-                               "grant_type": "refresh_token",
-                           }).encode())
+                                        headers={"Content-Type": "application/x-www-form-urlencoded"},
+                                        data=urllib.parse.urlencode({
+                                            "client_id": "69324f03-7b0c-48a3-a995-584127fba992",
+                                            "scope": "XboxLive.signin offline_access",
+                                            "refresh_token": token["MS_refresh_token"],
+                                            "grant_type": "refresh_token",
+                                        }).encode())
     return auth(json.loads(urllib.request.urlopen(refreshing).read()))
+
 
 oauth = o_auth()
 user_login = oauth.user_login
 refresh = oauth.refresh
-
-

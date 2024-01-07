@@ -2,8 +2,8 @@
 """
     离线登陆
 """
-import uuid
 import base64
+import uuid
 
 
 # Auth(Offline)

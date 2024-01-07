@@ -42,6 +42,7 @@ def download_native(arg: dict) -> None:
                 emsg += repr(exc)
     print(back_msg)
 
+
 def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
@@ -68,6 +69,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
         :param download_source: 下载源
         :return: 无
     """
+
     def convert_url(url: str):  # 若切换了下载源调用此方法转换链接
         for link in down:
             url = url.replace(link, down[link])
@@ -181,7 +183,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
         })
 
     processes = []
-    for i in  need_to_be_fixed:
+    for i in need_to_be_fixed:
         print(i)
         processes.append(FMCLCore.system.thread_pool.pool.submit(download_native, i))
 
@@ -192,5 +194,3 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
         for i in processes:
             if not i.done():
                 flg = True
-
-

@@ -1,7 +1,8 @@
 import json
-import pathlib
 import logging
 import os
+import pathlib
+
 import FMCLCore.system.CoreMakeFolderTask
 
 

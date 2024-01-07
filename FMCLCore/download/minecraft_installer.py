@@ -2,10 +2,11 @@
 """
     Minecraft原版的下载
 """
-import FMCLCore.system.CoreConfigIO as config
 import json
 import os
 import urllib.request
+
+import FMCLCore.system.CoreConfigIO as config
 
 
 class MinecraftInstaller(object):

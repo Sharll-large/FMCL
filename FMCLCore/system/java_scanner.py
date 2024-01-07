@@ -2,7 +2,8 @@
 """
     获取java的版本和位数
 """
-import subprocess, re
+import re
+import subprocess
 from os import PathLike
 
 
@@ -19,5 +20,6 @@ def get_java_version(java_path: PathLike) -> tuple[list[str], int]:
         j_version = j_version[1:]
     j_bits = re.search(r"(\d+.)-Bit", result).group(1)
     return j_version, j_bits
+
 
 print(get_java_version("C:\\Program Files (x86)\\Java\\jdk1.8.0_202\\bin\\java.exe"))

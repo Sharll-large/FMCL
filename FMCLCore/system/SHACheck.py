@@ -3,10 +3,10 @@
     更新和防篡改
 """
 
-import urllib.request
-import urllib.parse
 import hashlib
 import ssl
+import urllib.parse
+import urllib.request
 
 # 计算好的SHA256的URL
 sha_url = "https://raw.githubusercontent.com/AGJ-smart/MyTestRepo/main/verification.txt"
@@ -22,7 +22,7 @@ response = urllib.request.urlopen(sha_url).read().decode("utf-8").rstrip()
 print(response)
 
 # 计算本地FMCL
-sus = "FMCL(1).pyzw" #
+sus = "FMCL(1).pyzw"  #
 with open(sus, 'rb') as f:
     omg = hashlib.new("sha256", f.read()).hexdigest()
 

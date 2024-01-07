@@ -2,20 +2,20 @@
 """
     GUI的Settings部分
 """
-import threading
 import tkinter as tk
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
+
 import FMCLCore.system.CoreConfigIO as config
 import FMCLCore.system.thread_pool
+import FMCLView.pages.parts.head as head_part
+import FMCLView.styles as s
 from FMCLCore.active.settings_page import new_ms_account as _new_ms_account
 from FMCLCore.active.settings_page import new_offline_account as _new_offline_account
 from FMCLView.i18n import langs
-import FMCLView.pages.parts.head as head_part
 from FMCLView.tk_extend.frame import GUI
 from FMCLView.tk_extend.slide_button import SlideButton
-import FMCLView.styles as s
 
 
 def launch_settings(_base: tk.Frame) -> tk.Frame:
@@ -92,6 +92,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             创建Microsoft账号
             :return: 无
         """
+
         def a():
             result = _new_ms_account()
             if result:

@@ -11,5 +11,5 @@ def _get_forge_versions(mcversion: str):
 
 def _get_forge_url(version: str):
     return "https://maven.minecraftforge.net/net/minecraftforge/forge/" + version + \
-           "/forge-" + version + \
-           "-installer.jar"
+        "/forge-" + version + \
+        "-installer.jar"

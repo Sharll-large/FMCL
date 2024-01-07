@@ -2,11 +2,11 @@
 """
     Fabric的下载与安装
 """
-import os
-import urllib.request
 import json
-import subprocess
 import logging
+import os
+import subprocess
+import urllib.request
 
 
 class FabricInstaller(object):

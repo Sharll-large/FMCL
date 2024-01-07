@@ -5,7 +5,7 @@
 # Mod搜索函数
 
 	mod_search(mod_name: str)
-	
+
 很明显此函数调用只需要一个参数: mod_name
 
 此参数要求为str类型的字符串,返回的是一个 JSON格式的字符串

@@ -1,6 +1,6 @@
 # coding:utf-8
-import tkinter as tk
 import logging
+import tkinter as tk
 
 
 # 基于tk的单窗口ui框架

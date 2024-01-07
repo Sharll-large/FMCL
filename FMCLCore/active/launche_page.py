@@ -2,14 +2,15 @@
 """
     和launch页面的交互
 """
-import FMCLCore.system.CoreConfigIO as config
-import FMCLCore.launch.launcher as launcher
-import FMCLCore.download.minecraft_patcher as patcher
-from FMCLView.i18n import langs
-from tkinter import messagebox
 import logging
 import subprocess
 from threading import Thread
+from tkinter import messagebox
+
+import FMCLCore.download.minecraft_patcher as patcher
+import FMCLCore.launch.launcher as launcher
+import FMCLCore.system.CoreConfigIO as config
+from FMCLView.i18n import langs
 
 
 # Launch Game

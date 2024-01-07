@@ -16,17 +16,22 @@ def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and FMCLCore.system.SystemAndArch.system() != i["os"]["name"]: return False
-                elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()): return False
+                if "name" in i["os"] and FMCLCore.system.SystemAndArch.system() != i["os"]["name"]:
+                    return False
+                elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
+                    return False
         elif i["action"] == "disallow":
             if "os" in i:
-                if "name" in i["os"] and FMCLCore.system.SystemAndArch.system() == i["os"]["name"]: return False
-                elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()): return False
+                if "name" in i["os"] and FMCLCore.system.SystemAndArch.system() == i["os"]["name"]:
+                    return False
+                elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()):
+                    return False
     return True
 
-def launch(game_directory: str, version_name: str, account: dict,
-           java_path: str = "java", java_ram: int = 1024, use_jvm_for_performance: bool = False, standalone: bool = False):
 
+def launch(game_directory: str, version_name: str, account: dict,
+           java_path: str = "java", java_ram: int = 1024, use_jvm_for_performance: bool = False,
+           standalone: bool = False):
     cmdlist = []
 
     basic_jvm = [{'rules': [{'action': 'allow', 'os': {'name': 'osx'}}], 'value': ['-XstartOnFirstThread']},
@@ -70,9 +75,11 @@ def launch(game_directory: str, version_name: str, account: dict,
     args = []
     if "arguments" in ver_json:
         for i in ver_json["arguments"]["jvm"]:
-            if type(i) == str: cmdlist.append(i)
+            if type(i) == str:
+                cmdlist.append(i)
             elif _checkRules(i["rules"]):
-                if type(i["value"]) == str: cmdlist.append(i["value"])
+                if type(i["value"]) == str:
+                    cmdlist.append(i["value"])
                 else:
                     for j in i["value"]: cmdlist.append(j)
         for i in ver_json["arguments"]["game"]:
@@ -80,7 +87,8 @@ def launch(game_directory: str, version_name: str, account: dict,
     else:
         args = ver_json["minecraftArguments"].split(" ")
         for i in basic_jvm:
-            if type(i) == str: cmdlist.append(i)
+            if type(i) == str:
+                cmdlist.append(i)
             elif _checkRules(i["rules"]):
                 for j in i["value"]: cmdlist.append(j)
 
@@ -89,17 +97,17 @@ def launch(game_directory: str, version_name: str, account: dict,
 
     cp = ""
 
-    for i in ver_json['libraries']: #遍历libraries数组
+    for i in ver_json['libraries']:  # 遍历libraries数组
         if "name" in i:
-            name = i["name"].split(":")  #<package>:<name>:<version>
+            name = i["name"].split(":")  # <package>:<name>:<version>
             name[0] = name[0].replace(".", os.sep)
-            p, n, v = name[0], name[1], name[2] #分配package, name, version
-            rpath = os.path.join(libpath, p, n, v, n + "-" + v + ".jar") #获取jar path
-            if ("rules" not in i) or _checkRules(i["rules"]): #如果未指定规则或者符合规则，就执行操作
+            p, n, v = name[0], name[1], name[2]  # 分配package, name, version
+            rpath = os.path.join(libpath, p, n, v, n + "-" + v + ".jar")  # 获取jar path
+            if ("rules" not in i) or _checkRules(i["rules"]):  # 如果未指定规则或者符合规则，就执行操作
                 if ("downloads" not in i) or ("classifiers" not in i["downloads"]):
                     cp += os.path.realpath(rpath) + os.pathsep
 
-    cp += jarpath #最终将Minecraft核心传入classpath
+    cp += jarpath  # 最终将Minecraft核心传入classpath
 
     arg = {
         "${mainClass}": ver_json["mainClass"],
@@ -121,11 +129,10 @@ def launch(game_directory: str, version_name: str, account: dict,
         "${auth_player_name}": account["username"],
         "${version_name}": version_name,
         "${game_directory}": game_directory
-    } #这一串东西是字符串替换模板，用于设置正确的jvm/game参数
+    }  # 这一串东西是字符串替换模板，用于设置正确的jvm/game参数
 
-    for i in range(len(cmdlist)): #循环替换字符串模板
+    for i in range(len(cmdlist)):  # 循环替换字符串模板
         for j in arg:
             cmdlist[i] = cmdlist[i].replace(j, arg[j])
 
     return subprocess.list2cmdline(cmdlist), account
-

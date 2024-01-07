@@ -2,16 +2,17 @@
 """
     更新和防篡改
 """
-import json
-import urllib.request
-import urllib.parse
-import urllib.error
 import hashlib
-import FMCLCore.system.CoreConfigIO as config
+import json
 import os
-import tkinter.messagebox
 import sys
 import time
+import tkinter.messagebox
+import urllib.error
+import urllib.parse
+import urllib.request
+
+import FMCLCore.system.CoreConfigIO as config
 from FMCLView.i18n import langs
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "

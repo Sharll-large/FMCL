@@ -3,6 +3,7 @@
     和settings页面的交互
 """
 
+import time
 import traceback
 import webbrowser as wbb
 from tkinter import messagebox
@@ -14,7 +15,7 @@ import FMCLCore.system.CoreConfigIO as config
 import pyperclip
 from FMCLView.i18n import langs
 from FMCLView.tk_extend.dialogs import entry_box
-import time
+
 
 # Create Microsoft Account
 def new_ms_account() -> str | None:
@@ -54,7 +55,7 @@ def new_ms_account() -> str | None:
         except Exception:
             err_msg = traceback.format_exc()
             messagebox.showerror("First Minecraft Launcher",
-                                langs["Settings.Account.Tips.UnknownError"].format(err_msg))
+                                 langs["Settings.Account.Tips.UnknownError"].format(err_msg))
 
 
 # Create offline account

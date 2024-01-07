@@ -20,9 +20,10 @@ import sys
 import tkinter.messagebox
 import traceback
 from os import chdir, path, remove
+
 import FMCLCore.system.CoreConfigIO as config
-import FMCLView.main
 import FMCLCore.system.thread_pool
+import FMCLView.main
 
 __author__ = ["sharll", "AGJ", "pxinz"]
 
@@ -50,13 +51,13 @@ def main(*args) -> None:
         # 热更新
         from threading import Thread
         from update import check
-        Thread(target=check,args=[__file__]).start()
+        Thread(target=check, args=[__file__]).start()
 
     # 开启线程池
 
     FMCLView.main.main()
 
-    FMCLCore.system.thread_pool.pool.shutdown() # 关闭线程池
+    FMCLCore.system.thread_pool.pool.shutdown()  # 关闭线程池
 
     logging.info("FMCL stopped.")
 
