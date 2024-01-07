@@ -57,11 +57,10 @@ class o_auth:
 def auth(tokens):
     """
         进行Microsoft登陆
-        :param use_callback: 使用的是否为回调url
-        :param code: 注册的回调url
+        :param tokens:
         :return:
     """
-    account = {"type": "Microsoft"}
+    account = {"type": "Microsoft", "MS_refresh_token": tokens["refresh_token"]}
 
         # 刷新token
     data = json.dumps({
