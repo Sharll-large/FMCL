@@ -8,6 +8,8 @@ import os
 import subprocess
 import urllib.request
 
+__all__ = ["FabricInstaller", "fabric_installer", "refresh", "get_loader_versions", "install"]
+
 
 class FabricInstaller(object):
     """
@@ -44,9 +46,8 @@ class FabricInstaller(object):
         if mc_version in self.game_versions:
             buf = []
             for i in json.loads(urllib.request.urlopen(
-                    "https://meta.fabricmc.net/v2/versions/loader/" + mc_version).read().decode()):
-                print(i)
-                buf.append(i["loader"]["version"])
+                    "https://meta.fabricmc.net/v2/versions/loader/" + mc_version).read().decode()): \
+                    buf.append(i["loader"]["version"])
             return buf
         else:
             return []
@@ -74,4 +75,7 @@ class FabricInstaller(object):
                         "-loader", fabric_version])
 
 
-installer = FabricInstaller()
+fabric_installer = FabricInstaller()
+refresh = fabric_installer.refresh
+get_loader_versions = fabric_installer.get_loader_versions
+install = fabric_installer.install

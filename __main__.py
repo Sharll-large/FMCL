@@ -22,7 +22,7 @@ import traceback
 from os import chdir, path, remove
 
 import core.system.config as config
-import core.system.thread_pool
+import core.global_objects
 import FMCLView.main
 
 __author__ = ["sharll", "AGJ", "pxinz"]
@@ -57,7 +57,7 @@ def main(*args) -> None:
 
     FMCLView.main.main()
 
-    core.system.thread_pool.pool.shutdown()  # 关闭线程池
+    core.global_objects.thread_pool.pool.shutdown()  # 关闭线程池
 
     logging.info("FMCL stopped.")
 

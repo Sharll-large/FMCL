@@ -1,4 +1,5 @@
 # coding:utf-8
+# TODO: LJS80亲这边建议使用PyCharm, 然后改正代码直到右上角的三个数字变成一个绿勾为止捏 :)))))))))))))))))))))
 from __future__ import print_function
 
 import builtins as __builtin__
