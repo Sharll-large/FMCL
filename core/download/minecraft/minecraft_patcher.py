@@ -13,7 +13,7 @@ import threading
 import urllib.parse
 import urllib.request
 
-import core.system.SystemAndArch
+import core.system.system_scanner
 import core.system.unzip
 import core.system.thread_pool
 
@@ -48,13 +48,13 @@ def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and core.system.SystemAndArch.system() != i["os"]["name"]:
+                if "name" in i["os"] and core.system.system_scanner.system() != i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
                     return False
         elif i["action"] == "disallow":
             if "os" in i:
-                if "name" in i["os"] and core.system.SystemAndArch.system() == i["os"]["name"]:
+                if "name" in i["os"] and core.system.system_scanner.system() == i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()):
                     return False
@@ -97,7 +97,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
 
     version_path = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
-    native_path = os.path.join(version_path, "natives-" + core.system.SystemAndArch.system())
+    native_path = os.path.join(version_path, "natives-" + core.system.system_scanner.system())
     jsonpath = os.path.join(version_path, version_name + ".json")
     jar_path = os.path.join(version_path, version_name + ".jar")
     assets_path = os.path.join(game_directory, "assets")
@@ -153,8 +153,8 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
                         pass
 
                 else:  # 若不是只有artifact键，则认为这是natives，下载并解压
-                    rname = i["natives"][core.system.SystemAndArch.system()].replace("${arch}",
-                                                                                     platform.architecture()[
+                    rname = i["natives"][core.system.system_scanner.system()].replace("${arch}",
+                                                                                      platform.architecture()[
                                                                                              0].replace("bit", ""))
                     if "path" in i["downloads"]["classifiers"][rname]:
                         path = os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"])

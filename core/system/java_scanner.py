@@ -10,8 +10,9 @@ from os import PathLike
 
 from smt.tools.struct import struct
 
-__all__ = ["JavaVersion", "JavaScanner", "java_scanner", "get_java_version"]
+__all__ = ["JavaVersion", "JavaScanner", "java_scanner", "get_java_version", "scan_all"]
 JavaVersion = struct(["path", "version", "bits"])
+POSSIBLE_JAVA = ["Java", "BellSoft", "AdoptOpenJDK", "Zulu", "Microsoft", "Eclipse Foundation", "Semeru"]
 
 
 class JavaScanner(object):
@@ -45,7 +46,6 @@ class JavaScanner(object):
             扫描全部java
             :return: 全部java的路径和java版本对象(包含path, version和bits)
         """
-        # possible = ["Java", "BellSoft", "AdoptOpenJDK", "Zulu", "Microsoft", "Eclipse Foundation", "Semeru"]
         # 环境变量内Java检测
         for i in os.getenv("path").split(";"):
             # path中, 如果文件夹(或/bin文件夹)内包含java.exe, 则说明是java文件夹

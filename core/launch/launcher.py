@@ -9,20 +9,20 @@ import re
 import subprocess
 
 import core.auth.oauth
-import core.system.SystemAndArch
+import core.system.system_scanner
 
 
 def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and core.system.SystemAndArch.system() != i["os"]["name"]:
+                if "name" in i["os"] and core.system.system_scanner.system() != i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
                     return False
         elif i["action"] == "disallow":
             if "os" in i:
-                if "name" in i["os"] and core.system.SystemAndArch.system() == i["os"]["name"]:
+                if "name" in i["os"] and core.system.system_scanner.system() == i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()):
                     return False
@@ -49,7 +49,7 @@ def launch(game_directory: str, version_name: str, account: dict,
 
     verpath = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
-    nativepath = os.path.join(verpath, "natives-" + core.system.SystemAndArch.system())
+    nativepath = os.path.join(verpath, "natives-" + core.system.system_scanner.system())
     jsonpath = os.path.join(verpath, version_name + ".json")
     jarpath = os.path.join(verpath, version_name + ".jar")
     assetspath = os.path.join(game_directory, "assets")

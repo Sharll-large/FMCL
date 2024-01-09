@@ -28,6 +28,10 @@ DEFAULT_CONFIGS = {
 
 
 class Config(object):
+    """
+        用于定获取和更改设置
+    """
+
     def __init__(self, config_path: str = ".first.mcl.json"):
         self.config_path = str(pathlib.Path(config_path).resolve())
         self.configs = {}
