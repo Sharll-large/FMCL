@@ -1,9 +1,10 @@
 # coding:utf-8
 """
-    设置
+    配置
 """
 import json
 import logging
+import atexit
 from pathlib import Path
 from typing import Any
 
@@ -28,7 +29,7 @@ DEFAULT_CONFIGS = {
 
 class Config(object):
     """
-        用于定获取和更改设置
+        用于定获取和更改配置
     """
 
     def __init__(self, config_path: str = ".first.mcl.json"):
@@ -37,7 +38,7 @@ class Config(object):
 
     def read(self) -> dict:
         """
-            从文件中读取设置
+            从文件中读取配置
         """
         with open(self.config_path, "r", encoding="utf-8") as f:
             configs = json.loads(f.read())
@@ -53,7 +54,7 @@ class Config(object):
 
     def write(self, **kwargs):
         """
-            将设置写入文件
+            将配置写入文件
         """
         logging.info("Saved config to file {}.".format(self.config_path))
         for (key, value) in kwargs.items():
@@ -62,7 +63,7 @@ class Config(object):
 
     def change_config(self, name: str, value: Any) -> None:
         """
-            更改设置项
+            更改配置项
         """
         logging.info("Changed config {} from {} to {}.".format(name, (
             self.configs[name] if name in self.configs.keys() else "None"), value))
@@ -70,14 +71,14 @@ class Config(object):
 
     def change_config_and_safe(self, name, value):
         """
-            更改设置项并保存
+            更改配置项并保存
         """
         self.change_config(name, value)
         self.write()
 
     def complete_configs(self) -> None:
         """
-            补全设置
+            补全配置
         """
         for (key, value) in DEFAULT_CONFIGS:
             if key not in self.configs:
@@ -86,11 +87,14 @@ class Config(object):
 
     def get(self, name):
         """
-            获取设置项
+            获取配置项
         """
         return self.configs[name]
 
     def fix_depend(self):
+        """
+            修复配置文件
+        """
         if not Path(self.config_path).is_file():
             self.complete_configs()
             self.write()
@@ -111,6 +115,7 @@ class Config(object):
 config = Config(".first.mcl.json")
 config.fix_depend()
 config.read()
+atexit.register(config.write)
 read = config.read
 write = config.write
 change_config = config.change_config
