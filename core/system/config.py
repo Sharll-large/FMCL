@@ -10,9 +10,25 @@ from typing import Any
 
 import core.system.make_folder
 
+__all__ = ["Config", "config", "read", "write", "change_config", "change_config_and_safe", "get", "fix_depend"]
+DEFAULT_CONFIGS = {
+    ".mc": os.path.abspath(".minecraft"),  # mc文件夹
+    "java": "java",  # java路径
+    "ram": 1024,  # 内存(mb)
+    "threads": 80,  # 下载并发数
+    "language": "English(US)",  # 语言
+    "source": "Default",  # 下载源
+    "alone": False,  # 版本隔离
+    "boost": False,  # 是否使用jvm优化参数
+    "account": [],  # 账号
+    "current_account": None,
+    "current_version": None,
+    "auto_update": False
+}
+
 
 class Config(object):
-    def __init__(self, config_path=".first.mcl.json"):
+    def __init__(self, config_path: str = ".first.mcl.json"):
         self.config_path = str(pathlib.Path(config_path).resolve())
         self.configs = {}
 
@@ -60,21 +76,7 @@ class Config(object):
         """
             补全设置
         """
-        initial_configs = {
-            ".mc": os.path.abspath(".minecraft"),  # mc文件夹
-            "java": "java",  # java路径
-            "ram": 1024,  # 内存(mb)
-            "threads": 80,  # 下载并发数
-            "language": "English(US)",  # 语言
-            "source": "Default",  # 下载源
-            "alone": False,  # 版本隔离
-            "boost": False,  # 是否使用jvm优化参数
-            "account": [],  # 账号
-            "current_account": None,
-            "current_version": None,
-            "auto_update": False
-        }
-        for (key, value) in initial_configs:
+        for (key, value) in DEFAULT_CONFIGS:
             if key not in self.configs:
                 self.configs[key] = value
                 logging.info("Completed item {} with {}".format(key, value))
@@ -107,9 +109,8 @@ config = Config(".first.mcl.json")
 config.fix_depend()
 config.read()
 read = config.read
-change_config = config.change_config
 write = config.write
-write_json = config._write_json
+change_config = config.change_config
 change_config_and_safe = config.change_config_and_safe
 get = config.get
 fix_depend = config.fix_depend
