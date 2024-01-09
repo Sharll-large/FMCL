@@ -18,6 +18,22 @@ from core.system.system_scanner import get_system
 from core.global_objects import thread_pool
 from core.tools import unzip
 
+DOWNLOAD_LINK_REPLACE = {
+    "Default": {},
+    "MCBBS": {
+        "https://resources.download.minecraft.net/": "https://download.mcbbs.net/assets/",
+        "https://libraries.minecraft.net/": "https://download.mcbbs.net/maven/",
+        "https://files.minecraftforge.net/maven/": "https://download.mcbbs.net/maven/",
+        "https://maven.fabricmc.net/": "https://download.mcbbs.net/maven/"
+    },
+    "BMCLAPI": {
+        "https://resources.download.minecraft.net/": "https://bmclapi2.bangbang93.com/assets/",
+        "https://libraries.minecraft.net/": "https://bmclapi2.bangbang93.com/maven/",
+        "https://files.minecraftforge.net/maven/": "https://bmclapi2.bangbang93.com/maven/",
+        "https://maven.fabricmc.net/": "https://bmclapi2.bangbang93.com/maven/"
+    }
+}
+
 
 def download_native(arg: dict) -> None:
     """
@@ -78,22 +94,8 @@ def patch(game_directory: str, version_name: str, download_source: str = "Defaul
 
     game_directory = os.path.realpath(game_directory)
 
-    if download_source == "Default":
-        down = {}
-    elif download_source == "MCBBS":
-        down = {
-            "https://resources.download.minecraft.net/": "https://download.mcbbs.net/assets/",
-            "https://libraries.minecraft.net/": "https://download.mcbbs.net/maven/",
-            "https://files.minecraftforge.net/maven/": "https://download.mcbbs.net/maven/",
-            "https://maven.fabricmc.net/": "https://download.mcbbs.net/maven/"
-        }
-    elif download_source == "BMCLAPI":
-        down = {
-            "https://resources.download.minecraft.net/": "https://bmclapi2.bangbang93.com/assets/",
-            "https://libraries.minecraft.net/": "https://bmclapi2.bangbang93.com/maven/",
-            "https://files.minecraftforge.net/maven/": "https://bmclapi2.bangbang93.com/maven/",
-            "https://maven.fabricmc.net/": "https://bmclapi2.bangbang93.com/maven/"
-        }
+    # 获取下载源的替换连接
+    down = DOWNLOAD_LINK_REPLACE[download_source]
 
     version_path = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
