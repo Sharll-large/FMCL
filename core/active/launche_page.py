@@ -29,13 +29,13 @@ def launch_game(account_id: int, version: str) -> None:
             "java_path": config.get("java"),
             "account": account,
             "java_ram": config.get("ram"),
-            "use_jvm_for_performance": config.get("boost"),
+            "use_better_jvm": config.get("boost"),
             "standalone": config.get("alone"),
         }
         args_2 = {
             "game_directory": config.get(".mc"),
             "version_name": version,
-            "threads": config.get("threads"),
+            # "threads": config.get("threads"),
             "download_source": config.get("source")
         }
         patcher.patch(**args_2)

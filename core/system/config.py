@@ -20,7 +20,7 @@ DEFAULT_CONFIGS = {
     "source": "Default",  # 下载源
     "alone": False,  # 版本隔离
     "boost": False,  # 是否使用jvm优化参数
-    "account": [],  # 账号
+    "accounts": [],  # 账号
     "current_account": None,
     "current_version": None,
     "auto_update": False

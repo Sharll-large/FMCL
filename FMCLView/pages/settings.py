@@ -8,7 +8,7 @@ import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
 
 import core.system.config as config
-import core.system.thread_pool
+from core.global_objects import thread_pool
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
 from core.active.settings_page import new_ms_account as _new_ms_account
@@ -98,7 +98,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             if result:
                 account_list.insert(tk.END, result)
 
-        core.system.thread_pool.pool.submit(a)
+        thread_pool.pool.submit(a)
 
     def new_offline_account() -> None:
         """

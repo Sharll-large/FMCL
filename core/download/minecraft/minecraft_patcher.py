@@ -13,7 +13,8 @@ import threading
 import urllib.parse
 import urllib.request
 
-import core.system.system_scanner
+from core.system.make_folder import make_long_dir
+from core.system.system_scanner import get_system
 from core.global_objects import thread_pool
 from core.tools import unzip
 
@@ -64,25 +65,24 @@ def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and core.system.system_scanner.system() != i["os"]["name"]:
+                if "name" in i["os"] and  get_system() != i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
                     return False
         elif i["action"] == "disallow":
             if "os" in i:
-                if "name" in i["os"] and core.system.system_scanner.system() == i["os"]["name"]:
+                if "name" in i["os"] and get_system() == i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()):
                     return False
     return True
 
 
-def patch(game_directory: str, version_name: str, threads: int = 64, download_source: str = "Default") -> None:
+def patch(game_directory: str, version_name: str, download_source: str = "Default") -> None:
     """
         补全版本
         :param game_directory: 游戏目录
         :param version_name: 版本名称
-        :param threads: 核数
         :param download_source: 下载源
         :return: 无
     """
@@ -99,7 +99,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
 
     version_path = os.path.join(game_directory, "versions", version_name)
     libpath = os.path.join(game_directory, "libraries")
-    native_path = os.path.join(version_path, "natives-" + core.system.system_scanner.system())
+    native_path = os.path.join(version_path, "natives-" + get_system())
     jsonpath = os.path.join(version_path, version_name + ".json")
     jar_path = os.path.join(version_path, version_name + ".jar")
     assets_path = os.path.join(game_directory, "assets")
@@ -117,7 +117,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
             "sha1": ver_json["downloads"]["client"]["sha1"]})
 
     if not os.path.exists(assets_index_path):
-        core.system.make_folder.make_long_dir(os.path.dirname(assets_index_path))
+        make_long_dir(os.path.dirname(assets_index_path))
         download_native({
             "path": assets_index_path,
             "url": convert_url(ver_json["assetIndex"]["url"]),
@@ -155,7 +155,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
                         pass
 
                 else:  # 若不是只有artifact键，则认为这是natives，下载并解压
-                    rname = i["natives"][core.system.system_scanner.system()].replace("${arch}",
+                    rname = i["natives"][get_system()].replace("${arch}",
                                                                                       platform.architecture()[
                                                                                           0].replace("bit", ""))
                     if "path" in i["downloads"]["classifiers"][rname]:
