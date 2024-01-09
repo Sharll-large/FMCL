@@ -4,15 +4,14 @@
 """
 import json
 import logging
-import os
-import pathlib
+from pathlib import Path
 from typing import Any
 
 import core.system.make_folder
 
 __all__ = ["Config", "config", "read", "write", "change_config", "change_config_and_safe", "get", "fix_depend"]
 DEFAULT_CONFIGS = {
-    ".mc": os.path.abspath(".minecraft"),  # mc文件夹
+    ".mc": str(Path(".minecraft").absolute()),  # mc文件夹
     "java": "java",  # java路径
     "ram": 1024,  # 内存(mb)
     "threads": 80,  # 下载并发数
@@ -33,7 +32,7 @@ class Config(object):
     """
 
     def __init__(self, config_path: str = ".first.mcl.json"):
-        self.config_path = str(pathlib.Path(config_path).resolve())
+        self.config_path = str(Path(config_path).resolve())
         self.configs = {}
 
     def read(self) -> dict:
@@ -92,7 +91,7 @@ class Config(object):
         return self.configs[name]
 
     def fix_depend(self):
-        if not pathlib.Path(self.config_path).is_file():
+        if not Path(self.config_path).is_file():
             self.complete_configs()
             self.write()
             logging.info("Config file not found. Create {}.".format(self.config_path))
