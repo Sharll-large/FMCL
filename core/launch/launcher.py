@@ -10,30 +10,51 @@ import subprocess
 
 import core.auth.oauth
 import core.system.system_scanner
+from core.system.system_scanner import get_system
 
 
 def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and core.system.system_scanner.system() != i["os"]["name"]:
+                if "name" in i["os"] and get_system() != i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
                     return False
         elif i["action"] == "disallow":
             if "os" in i:
-                if "name" in i["os"] and core.system.system_scanner.system() == i["os"]["name"]:
+                if "name" in i["os"] and get_system() == i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and re.match(i["os"]["version"], platform.version()):
                     return False
     return True
 
+class NoSuchVersionException(Exception):
+    def __init__(self, info):
+        self.info = info
+
+    def __str__(self):
+        return "Could not find version: {}. Please check if it really exists."
+
 
 def launch(game_directory: str, version_name: str, account: dict,
-           java_path: str = "java", java_ram: int = 1024, use_jvm_for_performance: bool = False,
-           standalone: bool = False):
+           java_path: str = "java", java_ram: int = 1024, use_better_jvm: bool = False,
+           standalone: bool = False) -> list[list[str], dict]:
+    """
+    :param game_directory: .minecraft文件夹路径
+    :param version_name: 启动的版本名
+    :param account: 启动的账号
+    :param java_path: java运行时路径
+    :param java_ram: java虚拟机内存（即分配给游戏的内存）
+    :param use_better_jvm: 使用优化jvm参数
+    :param standalone: 启用版本隔离
+    :return: 启动的命令行，更新后的账号
+    """
+
+    # 初始化空的命令行
     cmdlist = []
 
+    # 若目标版本没有jvm，则使用默认值
     basic_jvm = [{'rules': [{'action': 'allow', 'os': {'name': 'osx'}}], 'value': ['-XstartOnFirstThread']},
                  {'rules': [{'action': 'allow', 'os': {'name': 'windows'}}], 'value': [
                      '-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump']},
@@ -44,26 +65,29 @@ def launch(game_directory: str, version_name: str, account: dict,
 
     game_directory = os.path.realpath(game_directory)
 
+    # 如果是微软账户，就刷新账户
     if "MS_refresh_token" in account:
         account = core.auth.oauth.refresh_token(account)
 
-    verpath = os.path.join(game_directory, "versions", version_name)
-    libpath = os.path.join(game_directory, "libraries")
-    nativepath = os.path.join(verpath, "natives-" + core.system.system_scanner.system())
-    jsonpath = os.path.join(verpath, version_name + ".json")
-    jarpath = os.path.join(verpath, version_name + ".jar")
-    assetspath = os.path.join(game_directory, "assets")
+    verpath = os.path.join(game_directory, "versions", version_name) # 版本路径
+    libpath = os.path.join(game_directory, "libraries") # 依赖库路径
+    nativepath = os.path.join(verpath, "natives-" + get_system()) # 动态链接库路径
+    jsonpath = os.path.join(verpath, version_name + ".json") # version.json路径
+    jarpath = os.path.join(verpath, version_name + ".jar") # version.jar路径
+    assetspath = os.path.join(game_directory, "assets") # 资源索引路径
 
     if standalone: game_directory = verpath
 
-    if not (os.path.exists(game_directory) and os.path.exists(jsonpath) and version_name != ""): return False
+    # 如果版本或者版本json不存在，抛出异常
+    if not (os.path.isdir(game_directory) and os.path.isfile(jsonpath) and version_name):
+        raise NoSuchVersionException(version_name)
 
     ver_json = json.load(open(jsonpath))
 
     cmdlist.append(java_path)
 
     cmdlist.append("-Xmx" + str(java_ram) + "m")
-    if use_jvm_for_performance:
+    if use_better_jvm:
         cmdlist.append("-XX:+UnlockExperimentalVMOptions")
         cmdlist.append("-XX:+UseParallelGC")
         cmdlist.append("-XX:-OmitStackTraceInFastThrow")

@@ -20,7 +20,7 @@ DEFAULT_CONFIGS = {
     "source": "Default",  # 下载源
     "alone": False,  # 版本隔离
     "boost": False,  # 是否使用jvm优化参数
-    "account": [],  # 账号
+    "accounts": [],  # 账号
     "current_account": None,
     "current_version": None,
     "auto_update": False
@@ -80,7 +80,7 @@ class Config(object):
         """
             补全配置
         """
-        for (key, value) in DEFAULT_CONFIGS:
+        for (key, value) in DEFAULT_CONFIGS.items():
             if key not in self.configs:
                 self.configs[key] = value
                 logging.info("Completed item {} with {}".format(key, value))

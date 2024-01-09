@@ -39,15 +39,15 @@ class MinecraftInstaller(object):
             f.write(information)
         self.version_list = json.loads(information)
 
-    def get(self, version_types, refresh=False, download_source: str = "Default"):
+    def get(self, version_types, need_refresh=False, download_source: str = "Default"):
         """
             获取版本列表
             :param version_types: 需要的版本
             :param download_source: 下载源
-            :param refresh: 是否需要刷新
+            :param need_refresh: 是否需要刷新
             :return: 最新正式版, 最新快照版, 版本列表
         """
-        if refresh:
+        if need_refresh:
             self.refresh(download_source)
 
         version_list = []
