@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import pathlib
+from typing import Any
 
 import core.system.make_folder
 
@@ -15,73 +16,89 @@ class Config(object):
         self.config_path = str(pathlib.Path(config_path).resolve())
         self.configs = {}
 
-    def read(self):
+    def read(self) -> dict:
+        """
+            从文件中读取设置
+        """
         with open(self.config_path, "r", encoding="utf-8") as f:
             configs = json.loads(f.read())
         self.configs = configs
         return configs
 
-    def change_config(self, name, value):
-        logging.info("Change config {} from {} to {}.".format(name, (
-            self.configs[name] if name in self.configs.keys() else "None"), value))
-        self.configs[name] = value
-
-    def init_configs(self):
-        self.change_config(".mc", os.path.abspath(".minecraft"))  # mc文件夹
-        self.change_config("java", "java")  # java路径
-        self.change_config("ram", 1024)  # 内存(mb)
-        self.change_config("threads", 80)  # 下载并发数
-        self.change_config("language", "English(US)")  # 语言
-        self.change_config("source", "Default")  # 下载源
-        self.change_config("alone", False)  # 版本隔离
-        self.change_config("boost", False)  # 是否使用jvm优化参数
-        self.change_config("accounts", [])  # 账号
-        self.change_config("current_account", None)
-        self.change_config("current_version", None)
-        self.change_config("auto_update", False)
-
-    def write(self, **kwargs):
-        logging.info("Save config to file {}.".format(self.config_path))
-        for key in kwargs.keys():
-            self.change_config(key, kwargs[key])
-        self.write_json(self.configs)
-
-    def write_json(self, configs: dict):
+    def _write_json(self, configs: dict):
+        """
+            将指定json写入文件
+        """
         with open(self.config_path, "w+") as f:
             f.write(json.dumps(configs))
 
+    def write(self, **kwargs):
+        """
+            将设置写入文件
+        """
+        logging.info("Saved config to file {}.".format(self.config_path))
+        for (key, value) in kwargs.items():
+            self.change_config(key, value)
+        self._write_json(self.configs)
+
+    def change_config(self, name: str, value: Any) -> None:
+        """
+            更改设置项
+        """
+        logging.info("Changed config {} from {} to {}.".format(name, (
+            self.configs[name] if name in self.configs.keys() else "None"), value))
+        self.configs[name] = value
+
     def change_config_and_safe(self, name, value):
+        """
+            更改设置项并保存
+        """
         self.change_config(name, value)
         self.write()
 
+    def complete_configs(self) -> None:
+        """
+            补全设置
+        """
+        initial_configs = {
+            ".mc": os.path.abspath(".minecraft"),  # mc文件夹
+            "java": "java",  # java路径
+            "ram": 1024,  # 内存(mb)
+            "threads": 80,  # 下载并发数
+            "language": "English(US)",  # 语言
+            "source": "Default",  # 下载源
+            "alone": False,  # 版本隔离
+            "boost": False,  # 是否使用jvm优化参数
+            "account": [],  # 账号
+            "current_account": None,
+            "current_version": None,
+            "auto_update": False
+        }
+        for (key, value) in initial_configs:
+            if key not in self.configs:
+                self.configs[key] = value
+                logging.info("Completed item {} with {}".format(key, value))
+
     def get(self, name):
+        """
+            获取设置项
+        """
         return self.configs[name]
 
     def fix_depend(self):
         if not pathlib.Path(self.config_path).is_file():
-            self.init_configs()
+            self.complete_configs()
             self.write()
             logging.info("Config file not found. Create {}.".format(self.config_path))
         else:
             try:
                 self.read()
+                self.complete_configs()
             except json.decoder.JSONDecodeError:
                 logging.info("Config file is broken, fixing.")
-                self.init_configs()
+                self.complete_configs()
                 self.write()
                 logging.info("Successfully fixed config.json.")
-
-            finally:
-                config_json = self.read()
-                std = {".mc": os.path.abspath(".minecraft"), "java": "java", "ram": 1024, "threads": 80,
-                       "language": "English(US)", "source": "Default", "alone": False, "boost": False, "accounts": [],
-                       "current_account": None, "current_version": None, "auto_update": True}
-                for i in std:
-                    if i not in config_json:
-                        logging.info("Missing object: {}".format(i))
-                        self.change_config(i, std[i])
-                self.write()
-                logging.info("Successfully fixed config file.")
 
         core.system.make_folder.make_mc_dir(self.get(".mc"))
 
@@ -92,7 +109,7 @@ config.read()
 read = config.read
 change_config = config.change_config
 write = config.write
-write_json = config.write_json
+write_json = config._write_json
 change_config_and_safe = config.change_config_and_safe
 get = config.get
 fix_depend = config.fix_depend
