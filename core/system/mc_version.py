@@ -1,4 +1,5 @@
 # coding:utf-8
+# TODO: 重构为单例
 import json
 import os
 import urllib.request

@@ -14,8 +14,8 @@ import urllib.parse
 import urllib.request
 
 import core.system.system_scanner
-import core.system.unzip
-import core.system.thread_pool
+from core.global_objects import thread_pool
+from core.tools import unzip
 
 
 def download_native(arg: dict) -> None:
@@ -32,7 +32,7 @@ def download_native(arg: dict) -> None:
                 (("size" not in arg) or (os.path.getsize(arg["path"]) == arg["size"])) and \
                 (("sha1" not in arg) or (hashlib.sha1(open(arg["path"], "rb").read()).hexdigest() == arg["sha1"])):
             if "unzip" in arg:
-                core.system.unzip.unzip(arg["path"], arg["unzip"])
+                unzip(arg["path"], arg["unzip"])
             back_msg += f"Download successfully in {i} try(s) and {e} exception(s): {emsg}"
             break
         else:
@@ -155,7 +155,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
                 else:  # 若不是只有artifact键，则认为这是natives，下载并解压
                     rname = i["natives"][core.system.system_scanner.system()].replace("${arch}",
                                                                                       platform.architecture()[
-                                                                                             0].replace("bit", ""))
+                                                                                          0].replace("bit", ""))
                     if "path" in i["downloads"]["classifiers"][rname]:
                         path = os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"])
                     else:
@@ -186,7 +186,7 @@ def patch(game_directory: str, version_name: str, threads: int = 64, download_so
     processes = []
     for i in need_to_be_fixed:
         print(i)
-        processes.append(core.system.thread_pool.pool.submit(download_native, i))
+        processes.append(thread_pool.submit(download_native, i))
 
     # 堵塞主线程，直到所有下载完成
     flg = True
