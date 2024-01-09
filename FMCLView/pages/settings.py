@@ -98,7 +98,7 @@ def account_settings(_base: tk.Frame) -> tk.Frame:
             if result:
                 account_list.insert(tk.END, result)
 
-        thread_pool.pool.submit(a)
+        thread_pool.submit(a)
 
     def new_offline_account() -> None:
         """
