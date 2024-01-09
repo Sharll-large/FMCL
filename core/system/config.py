@@ -80,7 +80,7 @@ class Config(object):
         """
             补全配置
         """
-        for (key, value) in DEFAULT_CONFIGS:
+        for (key, value) in DEFAULT_CONFIGS.items():
             if key not in self.configs:
                 self.configs[key] = value
                 logging.info("Completed item {} with {}".format(key, value))
