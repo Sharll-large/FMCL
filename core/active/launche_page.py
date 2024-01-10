@@ -9,7 +9,7 @@ from tkinter import messagebox
 
 import core.download.minecraft.minecraft_patcher as patcher
 import core.launch.launcher as launcher
-import core.system.config as config
+import core.local.config as config
 from FMCLView.i18n import langs
 
 

@@ -21,7 +21,7 @@ import tkinter.messagebox
 import traceback
 from os import chdir, path, remove
 
-import core.system.config as config
+import core.local.config as config
 from core.global_objects import thread_pool
 import FMCLView.main
 

@@ -7,7 +7,7 @@ import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
 
-import core.system.config as config
+import core.local.config as config
 from core.global_objects import thread_pool
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s

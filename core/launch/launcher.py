@@ -9,8 +9,8 @@ import re
 import subprocess
 
 import core.auth.oauth
-import core.system.system_scanner
-from core.system.system_scanner import get_system
+import core.local.system_scanner
+from core.local.system_scanner import get_system
 
 
 def _checkRules(rules: dict):

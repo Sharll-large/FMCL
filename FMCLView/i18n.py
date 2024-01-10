@@ -1,6 +1,6 @@
 # coding:utf-8
 # Translate by xlsx2py by pxinz.
-import core.system.config as config
+import core.local.config as config
 
 
 class Lang(object):

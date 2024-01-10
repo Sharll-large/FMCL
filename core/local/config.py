@@ -8,7 +8,7 @@ import atexit
 from pathlib import Path
 from typing import Any
 
-import core.system.make_folder
+from core.tools import make_mc_dir
 
 __all__ = ["Config", "config", "read", "write", "change_config", "change_config_and_safe", "get", "fix_depend"]
 DEFAULT_CONFIGS = {
@@ -109,7 +109,7 @@ class Config(object):
                 self.write()
                 logging.info("Successfully fixed config.json.")
 
-        core.system.make_folder.make_mc_dir(self.get(".mc"))
+        make_mc_dir(self.get(".mc"))
 
 
 config = Config(".first.mcl.json")

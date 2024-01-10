@@ -8,7 +8,7 @@ import os
 import urllib.parse
 import urllib.request
 
-import core.system.config as config
+import core.local.config as config
 
 
 def get_skin_of(name: str, uuid: str, refresh: bool = False) -> bytes | None:

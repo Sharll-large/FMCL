@@ -11,7 +11,7 @@ from urllib.error import URLError, HTTPError, ContentTooShortError
 
 import core.auth.oauth as oa
 import core.auth.offline_auth as of_auth
-import core.system.config as config
+import core.local.config as config
 import pyperclip
 from FMCLView.i18n import langs
 from FMCLView.tk_extend.dialogs import entry_box

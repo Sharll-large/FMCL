@@ -66,7 +66,7 @@ from ctypes import c_size_t, sizeof, c_wchar_p, get_errno, c_wchar
 HAS_DISPLAY = os.getenv("DISPLAY", False)
 
 EXCEPT_MSG = """
-    Pyperclip could not find a copy/paste mechanism for your system.
+    Pyperclip could not find a copy/paste mechanism for your local.
     For more information, please visit https://pyperclip.readthedocs.io/en/latest/index.html#not-implemented-error """
 
 PY2 = sys.version_info[0] == 2
@@ -531,7 +531,7 @@ def determine_clipboard():
     global Foundation, AppKit, gtk, qtpy, PyQt4, PyQt5
 
     # Setup for the CYGWIN platform:
-    if 'cygwin' in platform.system().lower():  # Cygwin has a variety of values returned by platform.system(), such as 'CYGWIN_NT-6.1'
+    if 'cygwin' in platform.system().lower():  # Cygwin has a variety of values returned by platform.local(), such as 'CYGWIN_NT-6.1'
         # FIXME: pyperclip currently does not support Cygwin,
         # see https://github.com/asweigart/pyperclip/issues/55
         if os.path.exists('/dev/clipboard'):
@@ -605,7 +605,7 @@ def determine_clipboard():
 def set_clipboard(clipboard):
     '''
     Explicitly sets the clipboard mechanism. The "clipboard mechanism" is how
-    the copy() and paste() functions interact with the operating system to
+    the copy() and paste() functions interact with the operating local to
     implement the copy/paste feature. The clipboard parameter must be one of:
         - pbcopy
         - pbobjc (default on Mac OS X)

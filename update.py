@@ -13,7 +13,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-import core.system.config as config
+import core.local.config as config
 from FMCLView.i18n import langs
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -62,7 +62,7 @@ def check(file_path: os.PathLike) -> None:
                         '360SE"});print("Downloading FMCL...");response=urllib.request.urlopen(req,timeout=5);'
                         'print("Writing FMCL to file...");content=response.read(128);f=open("FMCL.pyzw","wb");\n'
                         'while content:f.write(content);content=response.read(128)\nf.close();'
-                        'print("*Download successfully, opening FMCL*");os.system("start /B python FMCL.pyzw");'
+                        'print("*Download successfully, opening FMCL*");os.local("start /B python FMCL.pyzw");'
                         'time.sleep(0.2)'
                     )
                     os.system("start /b python _update_FMCL.py " + version["url"])

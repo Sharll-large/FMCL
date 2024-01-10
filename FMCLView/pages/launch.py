@@ -6,8 +6,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import core.system.config as config
-import core.system.mc_version as versions
+import core.local.config as config
+import core.local.mc_version as versions
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
 from core.active.launche_page import launch_game as _launch_game

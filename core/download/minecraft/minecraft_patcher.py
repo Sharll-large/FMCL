@@ -13,8 +13,8 @@ import threading
 import urllib.parse
 import urllib.request
 
-from core.system.make_folder import make_long_dir
-from core.system.system_scanner import get_system
+from core.tools import make_dir_to
+from core.local.system_scanner import get_system
 from core.global_objects import thread_pool
 from core.tools import unzip
 
@@ -117,7 +117,7 @@ def patch(game_directory: str, version_name: str, download_source: str = "Defaul
             "sha1": ver_json["downloads"]["client"]["sha1"]})
 
     if not os.path.exists(assets_index_path):
-        make_long_dir(os.path.dirname(assets_index_path))
+        make_dir_to(os.path.dirname(assets_index_path))
         download_native({
             "path": assets_index_path,
             "url": convert_url(ver_json["assetIndex"]["url"]),

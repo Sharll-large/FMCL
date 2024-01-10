@@ -6,7 +6,7 @@ import json
 import os
 import urllib.request
 
-import core.system.config as config
+import core.local.config as config
 
 
 class MinecraftInstaller(object):
