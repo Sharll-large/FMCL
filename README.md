@@ -14,8 +14,8 @@ Target: To create a new minecraft launcher developing period for python develope
 > |-------------|---------|-------|-------|
 > | x86_64      | ✔       | ❔     | ❔     |
 > | x86         | ❔      | ❔     | ❔     |
-> | ARM64(RasPi)| 📌      | 📌     | 📌     |
-> | ARM32       | ❌      | ❌     | ❌     |
+> | ARM64       | 📌      | 📌     | 📌     |
+> | The others  | ❌      | ❌     | ❌     |
 >
 > ✔ - Full support (verified)
 > 
