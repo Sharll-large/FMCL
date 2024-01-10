@@ -6,18 +6,18 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-import core.local.config as config
-import core.local.mc_version as versions
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
-from core.active.launche_page import launch_game as _launch_game
-from core.auth.ms_account_skin import get_skin_of
+import core.local.config as config
+import core.local.mc_version as versions
 # i18n
 from FMCLView.i18n import langs
 # 工具
 from FMCLView.tk_extend.frame import GUI
 from FMCLView.tk_extend.image_transition import cut, resize
 from FMCLView.tk_extend.tooltip import ToolTip
+from core.active.launche_page import launch_game as _launch_game
+from core.auth.ms_account_skin import get_skin_of
 
 
 def page(root: GUI) -> tk.Frame:

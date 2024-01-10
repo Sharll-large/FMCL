@@ -2,11 +2,11 @@
 """
     获取java的版本和位数
 """
-import re
 import os
+import re
 import subprocess
-from pathlib import Path
 from os import PathLike
+from pathlib import Path
 
 from smt.tools.struct import struct
 

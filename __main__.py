@@ -21,9 +21,9 @@ import tkinter.messagebox
 import traceback
 from os import chdir, path, remove
 
+import FMCLView.main
 import core.local.config as config
 from core.global_objects import thread_pool
-import FMCLView.main
 
 __author__ = ["sharll", "AGJ", "pxinz"]
 

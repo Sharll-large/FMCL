@@ -7,15 +7,15 @@ import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
 import tkinter.ttk as ttk
 
-import core.local.config as config
-from core.global_objects import thread_pool
 import FMCLView.pages.parts.head as head_part
 import FMCLView.styles as s
-from core.active.settings_page import new_ms_account as _new_ms_account
-from core.active.settings_page import new_offline_account as _new_offline_account
+import core.local.config as config
 from FMCLView.i18n import langs
 from FMCLView.tk_extend.frame import GUI
 from FMCLView.tk_extend.slide_button import SlideButton
+from core.active.settings_page import new_ms_account as _new_ms_account
+from core.active.settings_page import new_offline_account as _new_offline_account
+from core.global_objects import thread_pool
 
 
 def launch_settings(_base: tk.Frame) -> tk.Frame:

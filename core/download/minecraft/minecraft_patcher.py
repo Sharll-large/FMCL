@@ -13,9 +13,9 @@ import threading
 import urllib.parse
 import urllib.request
 
-from core.tools import make_dir_to
-from core.local.system_scanner import get_system
 from core.global_objects import thread_pool
+from core.local.system_scanner import get_system
+from core.tools import make_dir_to
 from core.tools import unzip
 
 DOWNLOAD_LINK_REPLACE = {
@@ -65,7 +65,7 @@ def _checkRules(rules: dict):
     for i in rules:
         if i["action"] == "allow":
             if "os" in i:
-                if "name" in i["os"] and  get_system() != i["os"]["name"]:
+                if "name" in i["os"] and get_system() != i["os"]["name"]:
                     return False
                 elif "version" in i["os"] and not re.match(i["os"]["version"], platform.version()):
                     return False
@@ -156,8 +156,8 @@ def patch(game_directory: str, version_name: str, download_source: str = "Defaul
 
                 else:  # 若不是只有artifact键，则认为这是natives，下载并解压
                     rname = i["natives"][get_system()].replace("${arch}",
-                                                                                      platform.architecture()[
-                                                                                          0].replace("bit", ""))
+                                                               platform.architecture()[
+                                                                   0].replace("bit", ""))
                     if "path" in i["downloads"]["classifiers"][rname]:
                         path = os.path.join(libpath, i["downloads"]["classifiers"][rname]["path"])
                     else:

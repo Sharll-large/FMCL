@@ -29,6 +29,7 @@ def _checkRules(rules: dict):
                     return False
     return True
 
+
 class NoSuchVersionException(Exception):
     def __init__(self, info):
         self.info = info
@@ -69,12 +70,12 @@ def launch(game_directory: str, version_name: str, account: dict,
     if "MS_refresh_token" in account:
         account = core.auth.oauth.refresh_token(account)
 
-    verpath = os.path.join(game_directory, "versions", version_name) # 版本路径
-    libpath = os.path.join(game_directory, "libraries") # 依赖库路径
-    nativepath = os.path.join(verpath, "natives-" + get_system()) # 动态链接库路径
-    jsonpath = os.path.join(verpath, version_name + ".json") # version.json路径
-    jarpath = os.path.join(verpath, version_name + ".jar") # version.jar路径
-    assetspath = os.path.join(game_directory, "assets") # 资源索引路径
+    verpath = os.path.join(game_directory, "versions", version_name)  # 版本路径
+    libpath = os.path.join(game_directory, "libraries")  # 依赖库路径
+    nativepath = os.path.join(verpath, "natives-" + get_system())  # 动态链接库路径
+    jsonpath = os.path.join(verpath, version_name + ".json")  # version.json路径
+    jarpath = os.path.join(verpath, version_name + ".jar")  # version.jar路径
+    assetspath = os.path.join(game_directory, "assets")  # 资源索引路径
 
     if standalone: game_directory = verpath
 

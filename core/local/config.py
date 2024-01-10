@@ -2,9 +2,9 @@
 """
     配置
 """
+import atexit
 import json
 import logging
-import atexit
 from pathlib import Path
 from typing import Any
 

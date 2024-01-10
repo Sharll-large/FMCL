@@ -1,4 +1,6 @@
 # 测试时生成的文件
+.FMCL_Package_Time
+.pyzw
 .first.mcl.json
 .minecraft
 # IDE文件

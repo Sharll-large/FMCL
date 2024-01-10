@@ -6,7 +6,6 @@
 # TODO: 给! 老! 子! 重! 构! 这! 个!!!!!!!!!!!
 import hashlib
 import ssl
-import urllib.parse
 import urllib.request
 
 # 计算好的SHA256的URL
