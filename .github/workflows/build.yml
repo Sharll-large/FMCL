@@ -4,10 +4,7 @@
 name: Build FMCL
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,23 +20,24 @@ jobs:
           spec: 'src/__main__.py'
           upload_exe_with_name: 'FMCL-win'
           options: -F, --name "My App", --windowed, 
-  pyinstaller-build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Executable
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.10'
-          spec: 'src/__main__.py'
-          upload_exe_with_name: 'FMCL-linux'
-          options: -F, --name "My App", --windowed, 
-  pyinstaller-build-macos:
-    runs-on: macos-latest
-    steps:
-      - name: Create Executable
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.10'
-          spec: 'src/__main__.py'
-          upload_exe_with_name: 'FMCL-macos'
-          options: -F, --name "My App", --windowed, 
+
+  # pyinstaller-build-linux:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Create Executable
+  #       uses: sayyid5416/pyinstaller@v1
+  #       with:
+  #         python_ver: '3.10'
+  #         spec: 'src/__main__.py'
+  #         upload_exe_with_name: 'FMCL-linux'
+  #         options: -F, --name "My App", --windowed, 
+  # pyinstaller-build-macos:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Create Executable
+  #       uses: sayyid5416/pyinstaller@v1
+  #       with:
+  #         python_ver: '3.10'
+  #         spec: 'src/__main__.py'
+  #         upload_exe_with_name: 'FMCL-macos'
+  #         options: -F, --name "My App", --windowed, 
