@@ -13,12 +13,11 @@ jobs:
   pyinstaller-build-windows:
     runs-on: windows-latest
     steps:
-      - run: cd src
       - name: Create Executable
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.10'
-          spec: '__main__.py'
+          spec: 'src/__main__.py'
           upload_exe_with_name: 'FMCL-win'
           options: -F
 
