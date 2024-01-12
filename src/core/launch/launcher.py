@@ -9,7 +9,6 @@ import re
 import subprocess
 
 import core.auth.oauth
-import core.local.system_scanner
 from core.local.system_scanner import get_system
 
 

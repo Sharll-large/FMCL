@@ -5,7 +5,7 @@
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
-from core.local.config import config
+from local.config import config
 
 __all__ = ["thread_pool"]
 # 线程池

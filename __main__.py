@@ -21,9 +21,9 @@ import tkinter.messagebox
 import traceback
 from os import chdir, path, remove
 
-import FMCLView.main
-import core.local.config as config
-from core.global_objects import thread_pool
+import main
+import local.config as config
+from global_objects import thread_pool
 
 __author__ = ["sharll", "AGJ", "pxinz"]
 
@@ -55,7 +55,7 @@ def main(*args) -> None:
 
     # 开启线程池
 
-    FMCLView.main.main()
+    main.main()
 
     thread_pool.shutdown()  # 关闭线程池
 

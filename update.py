@@ -13,8 +13,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-import core.local.config as config
-from FMCLView.i18n import langs
+import local.config as config
+from i18n import langs
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
                          "Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
