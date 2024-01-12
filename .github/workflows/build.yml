@@ -19,7 +19,7 @@ jobs:
           python_ver: '3.10'
           spec: 'src/__main__.py'
           upload_exe_with_name: 'FMCL-win'
-          options: -F
+          # options: -F
 
   # pyinstaller-build-linux:
   #   runs-on: ubuntu-latest
