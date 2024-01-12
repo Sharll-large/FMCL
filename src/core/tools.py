@@ -32,7 +32,7 @@ def make_dir_to(path: os.PathLike | str):
     parts = Path(path).parts
     path = Path()
     for i in parts:
-        parts /= i
+        path /= i
         make_dir(path)
 
 

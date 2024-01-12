@@ -2,10 +2,10 @@
 """
     启动GUI
 """
-import styles as styles
-from pages import settings, launch
-from tk_extend import dialogs
-from tk_extend.frame import GUI
+import FMCLView.styles as styles
+from FMCLView.pages import settings, launch
+from FMCLView.tk_extend import dialogs
+from FMCLView.tk_extend.frame import GUI
 
 
 def main() -> None:
