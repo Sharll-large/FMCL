@@ -4,7 +4,7 @@
     启动FMCL
 """
 import logging
-import os.path
+#import os.path
 # ----------
 # Authors:
 # 底层: sharll, AGJ
@@ -19,11 +19,10 @@ import os.path
 import sys
 import tkinter.messagebox
 import traceback
-from os import chdir, path, remove
+from os import chdir, path
 
 import FMCLView.main
 import ssl
-import core.local.config as config
 from core.global_objects import thread_pool
 
 __author__ = ["sharll", "AGJ", "pxinz"]
