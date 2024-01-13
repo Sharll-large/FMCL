@@ -41,7 +41,9 @@ computer that installed Python3(.10).
 You can also download the source.
 
 ```bash  
-git clone https://github.com/Sharll-large/FMCLcd FMCL__main__.py  
+git clone https://github.com/Sharll-large/FMCL
+cd FMCL
+__main__.py  
 ```
 
 ## Depencies
