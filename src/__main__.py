@@ -22,6 +22,7 @@ import traceback
 from os import chdir, path, remove
 
 import FMCLView.main
+import ssl
 import core.local.config as config
 from core.global_objects import thread_pool
 
@@ -45,15 +46,11 @@ def main(*args) -> None:
     )
     # 运行
     logging.info("FMCL started.")
-    if os.path.isfile("_update_FMCL.py"):
-        remove("_update_FMCL.py")
-    if config.get("auto_update"):
-        # 热更新
-        from threading import Thread
-        from update import check
-        Thread(target=check, args=[__file__]).start()
 
     # 开启线程池
+
+    # 更改ssl规则
+    ssl._create_default_https_context = ssl._create_unverified_context
 
     FMCLView.main.main()
 
