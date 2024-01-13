@@ -13,17 +13,15 @@ jobs:
   pyinstaller-build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-  
-      - name: Package Application
-        uses: JackMcKew/pyinstaller-action-windows@main
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          path: src
-  
-      - uses: actions/upload-artifact@v2
-        with:
-          name: FMCL-windows
-          path: src/dist/windows
+          python-version: '3.10'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install pyinstaller
+      - run: pyinstaller -F src/__main__.py
+      
+      
 
   # pyinstaller-build-linux:
   #   runs-on: ubuntu-latest
