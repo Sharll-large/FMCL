@@ -206,22 +206,22 @@ def lang_settings(_base: tk.Frame) -> tk.Frame:
     return base
 
 
-def FMCL_settings(_base: tk.Frame) -> tk.Frame:
-    """
-        启动器设置页面
-        :param _base: 父框架
-        :return: 启动器设置Frame
-    """
-    base = tk.Frame(_base, width=340, background="#E3F3EE")
-    # 设置项目的名称
-    tk.Label(base, text=langs["Settings.Launcher.GUI.AutoUpdate"], font=("微软雅黑 Light", 10),
-             **s.label()).grid(column=0, row=0, padx=(0, 10), pady=(0, 5))
-    # 切换自动更新
-    SlideButton(base, width=50, state=(tk.ACTIVE if config.get("auto_update") else tk.NORMAL),
-                onclick=lambda b: config.change_config_and_safe("auto_update", b.state == tk.ACTIVE)).grid(
-        column=1, row=0, pady=(0, 5), sticky="w")
-
-    return base
+# def FMCL_settings(_base: tk.Frame) -> tk.Frame:
+#     """
+#         启动器设置页面
+#         :param _base: 父框架
+#         :return: 启动器设置Frame
+#     """
+#     base = tk.Frame(_base, width=340, background="#E3F3EE")
+#     # 设置项目的名称
+#     tk.Label(base, text=langs["Settings.Launcher.GUI.AutoUpdate"], font=("微软雅黑 Light", 10),
+#              **s.label()).grid(column=0, row=0, padx=(0, 10), pady=(0, 5))
+#     # 切换自动更新
+#     SlideButton(base, width=50, state=(tk.ACTIVE if config.get("auto_update") else tk.NORMAL),
+#                 onclick=lambda b: config.change_config_and_safe("auto_update", b.state == tk.ACTIVE)).grid(
+#         column=1, row=0, pady=(0, 5), sticky="w")
+#
+#     return base
 
 
 def page(root: GUI) -> tk.Frame:
@@ -232,7 +232,7 @@ def page(root: GUI) -> tk.Frame:
     # 内容
     content_part = tk.Frame(base, width=640, height=200, background="#E3F3EE")
     pages = [launch_settings(content_part), account_settings(content_part), download_settings(content_part),
-             lang_settings(content_part), FMCL_settings(content_part)]
+             lang_settings(content_part)]
     # 换页
     now_page_id = tk.IntVar(value=-1)
 
@@ -254,7 +254,7 @@ def page(root: GUI) -> tk.Frame:
     first_menu.insert(tk.END, langs["Settings.Menu.Account"] + "  ")
     first_menu.insert(tk.END, langs["Settings.Menu.Download"] + "  ")
     first_menu.insert(tk.END, langs["Settings.Menu.Lang"] + "  ")
-    first_menu.insert(tk.END, langs["Settings.Menu.Launcher"] + "  ")
+    # first_menu.insert(tk.END, langs["Settings.Menu.Launcher"] + "  ")
 
     first_menu.select_set(0)
     first_menu.bind("<<ListboxSelect>>", show_page)
