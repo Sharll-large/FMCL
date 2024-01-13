@@ -13,13 +13,17 @@ jobs:
   pyinstaller-build-windows:
     runs-on: windows-latest
     steps:
-      - name: Create Executable
-        uses: sayyid5416/pyinstaller@v1
+      - uses: actions/checkout@v2
+  
+      - name: Package Application
+        uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          python_ver: '3.10'
-          spec: 'src/__main__.py'
-          upload_exe_with_name: 'FMCL-win'
-          # options: -F
+          path: src
+  
+      - uses: actions/upload-artifact@v2
+        with:
+          name: FMCL-windows
+          path: src/dist/windows
 
   # pyinstaller-build-linux:
   #   runs-on: ubuntu-latest
