@@ -13,7 +13,7 @@ jobs:
   build:
    strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
    runs-on: ${{ matrix.os }}
 
@@ -32,7 +32,7 @@ jobs:
          nuitka-version: main
          script-name: src/__main__.py
          enable-plugins: tk-inter
-
+         standalone: true
          onefile: true
 
       - name: Upload Artifacts
