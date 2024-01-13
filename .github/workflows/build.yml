@@ -20,7 +20,10 @@ jobs:
           # cache: 'pip' # caching pip dependencies
       - run: pip install pyinstaller
       - run: pyinstaller -F src/__main__.py
-      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FMCL-windows
+          path: dist/__main__.exe
       
 
   # pyinstaller-build-linux:
