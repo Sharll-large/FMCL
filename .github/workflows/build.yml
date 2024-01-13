@@ -10,39 +10,38 @@ permissions:
   contents: read
 
 jobs:
-  pyinstaller-build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-          # cache: 'pip' # caching pip dependencies
-      - run: pip install pyinstaller
-      - run: pyinstaller -F src/__main__.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: FMCL-windows
-          path: dist/__main__.exe
-      
+  build:
+   strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
-  # pyinstaller-build-linux:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Create Executable
-  #       uses: sayyid5416/pyinstaller@v1
-  #       with:
-  #         python_ver: '3.10'
-  #         spec: 'src/__main__.py'
-  #         upload_exe_with_name: 'FMCL-linux'
-  #         options: -F, --name "My App", --windowed, 
-  # pyinstaller-build-macos:
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Create Executable
-  #       uses: sayyid5416/pyinstaller@v1
-  #       with:
-  #         python_ver: '3.10'
-  #         spec: 'src/__main__.py'
-  #         upload_exe_with_name: 'FMCL-macos'
-  #         options: -F, --name "My App", --windowed, 
+   runs-on: ${{ matrix.os }}
+
+   steps:
+      - name: Check-out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+         python-version: '3.10'
+         cache: 'pip'
+
+      - name: Build Executable with Nuitka
+        uses: Nuitka/Nuitka-Action@main
+        with:
+         nuitka-version: main
+         script-name: src/__main__.py
+         # many more Nuitka options available, see action doc, but it's best
+         # to use nuitka-project: options in your code, so e.g. you can make
+         # a difference for macOS and create an app bundle there.
+         onefile: true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+           name: ${{ runner.os }} Build
+           path: | # match what's created for the 3 OSes
+              build/*.exe
+              build/*.bin
+              build/*.app/**/*
