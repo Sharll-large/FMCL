@@ -23,7 +23,7 @@ Symbols:
 > 📌 - Plan to do  
 > ❌ - Won't support
 
-`Tip: All x86 machines may be given up someday.`
+`Tip: All x86_32 machines may be given up someday.`
 
 ## Making Minecraft launcher, you can do it too!
 
