@@ -22,8 +22,7 @@ DEFAULT_CONFIGS = {
     "boost": False,  # 是否使用jvm优化参数
     "accounts": [],  # 账号
     "current_account": None,
-    "current_version": None,
-    "auto_update": False
+    "current_version": None
 }
 
 

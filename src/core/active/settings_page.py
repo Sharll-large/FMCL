@@ -4,6 +4,7 @@
 """
 
 import time
+import tkinter.messagebox
 import traceback
 import webbrowser as wbb
 from tkinter import messagebox
@@ -12,7 +13,6 @@ from urllib.error import URLError, HTTPError, ContentTooShortError
 import core.auth.oauth as oa
 import core.auth.offline_auth as of_auth
 import core.local.config as config
-import pyperclip
 from FMCLView.i18n import langs
 from FMCLView.tk_extend.dialogs import entry_box
 
@@ -32,7 +32,7 @@ def new_ms_account() -> str | None:
             wbb.open(things[0] + "?otc=" + things[1])
         else:
             wbb.open(things[0])
-            pyperclip.copy(things[1])
+            tkinter.messagebox.showinfo("Device code", things[1])
 
         start = time.time()
         while True:
