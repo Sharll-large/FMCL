@@ -6,7 +6,8 @@
 ## 简介
 
 这是一个使用[Python3(.10)](https://github.com/python/cpython/tree/3.10)编写的《我的世界》启动器  
-我们的目标是为Python开发者开辟启动器开发的道路。
+我们的目标是为Python开发者开辟启动器开发的道路。  
+❗ 注意：使用MIT证书开源并不意味着你可以随意使用它，我们希望FMCL.core能使社区涌现更多优秀的的Minecraft启动器，而不是让盗窃代码的家伙更加猖狂。[如果你不遵守这条规矩，我送你一张图片](https://img.kookapp.cn/emojis/1724546174006090/YnaPP9iK2m05u05o.png)
 
 ## 支持的平台
 
