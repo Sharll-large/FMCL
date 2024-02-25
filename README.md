@@ -6,7 +6,8 @@
 ## Description
 
 A Minecraft(JE) launcher written by [Python3(.10)](https://github.com/python/cpython/tree/3.10).  
-Our target: To create a new minecraft launcher developing period for python developers.
+Our target: To create a new minecraft launcher developing period for python developers.  
+❗ Notice: Using an MIT license for open source does not mean you can use it freely. We hope FMCL.core can help the community produce more excellent Minecraft launchers, rather than allowing the "code thieves" to become more rampant. [If you don't follow this rule, here's a meme for you.](https://img.kookapp.cn/emojis/1724546174006090/YnaPP9iK2m05u05o.png)
 
 ## Supported Platforms
 
